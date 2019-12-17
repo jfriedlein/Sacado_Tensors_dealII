@@ -1,5 +1,5 @@
 # Trilinos-Sacado-Testing
-Testing capabilities of Sacado in combination with e. g. tensors
+Testing capabilities of Sacado mainly in combination with tensors
 
 aim: compute e. g. Tangent
 
