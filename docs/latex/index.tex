@@ -1,0 +1,601 @@
+Example usage of Sacado for tensor calculus\begin{DoxyAuthor}{Author}
+jfriedlein
+\end{DoxyAuthor}
+\hypertarget{index_intro}{}\section{Introduction}\label{index_intro}
+The way we see and use Sacado here is as follows\+: ~\newline
+If you usually compute the following equation ~\newline
+ \[ c = a + b \] for instance with data types double as ~\newline
+ \[ 1.0 + 1.0 \rightarrow 2.0 \] your results is just a double number $ c $ that contains the value $ 2 $. ~\newline
+ Using Sacado, on the other hand, the variable $ c $ is now of, for example, data type
+\begin{DoxyCode}
+Sacado::Fad::DFad<double> 
+\end{DoxyCode}
+. As a result, $ c $ now contains not just the number $ 2 $, but also all the derivatives of $ c $ with respect to the previously defined degrees of freedom (set via command $\ast$.diff($\ast$)). ~\newline
+The following figure tries to visualize this\+:  \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]redo this figure\end{DoxyRefDesc}
+
+
+If you right away want to use Sacado, then you might skip the first examples and jump to Ex3B. There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from Ex2 and Ex3 in just a view lines of code.
+
+Some resources/links\+: ~\newline
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000002}{Todo}]link the Sacado and D\+II pages\end{DoxyRefDesc}
+
+
+The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood. The code is neither elegant nor efficient, but it works. A more user-\/friendly version is available (check-\/out X\+XX) ~\newline
+\begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000003}{Todo}]add the link to the wrapper\end{DoxyRefDesc}
+
+
+\begin{DoxyNote}{Note}
+This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified. Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
+\end{DoxyNote}
+\hypertarget{index_code}{}\section{The commented program}\label{index_code}
+
+\begin{DoxyCode}
+\textcolor{comment}{/*}
+\textcolor{comment}{ * Author: jfriedlein, 2019}
+\textcolor{comment}{ *      dsoldner, 2019}
+\textcolor{comment}{ */}
+\end{DoxyCode}
+ \hypertarget{index_includes}{}\section{Include Files}\label{index_includes}
+The data type Symmetric\+Tensor and some related operations, such as trace, symmetrize, deviator, ... for tensor calculus 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <deal.II/base/symmetric\_tensor.h>}
+\end{DoxyCode}
+ C++ headers (some basics, standard stuff) 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <iostream>}
+\textcolor{preprocessor}{#include <fstream>}
+\textcolor{preprocessor}{#include <cmath>}
+\end{DoxyCode}
+ Sacado (from Trilinos, data types, operations, ...) 
+\begin{DoxyCode}
+\textcolor{preprocessor}{#include <Sacado.hpp>}
+ 
+\textcolor{preprocessor}{#include "\hyperlink{Sacado__Wrapper_8h}{Sacado\_Wrapper.h}"}
+\end{DoxyCode}
+ Those headers are related to data types and autodiff, but don\textquotesingle{}t seem to be needed 
+\begin{DoxyCode}
+\textcolor{comment}{//#  include <deal.II/base/numbers.h>}
+\textcolor{comment}{//#  include <deal.II/differentiation/ad/ad\_number\_traits.h>}
+\textcolor{comment}{//#  include <deal.II/differentiation/ad/sacado\_number\_types.h>}
+\end{DoxyCode}
+ According to the basics of deal.\+ii-\/programming (see dealii.\+org and \href{https://www.dealii.org/current/doxygen/deal.II/step_1.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+1.\+html} for a start) 
+\begin{DoxyCode}
+\textcolor{keyword}{using namespace }\hyperlink{namespacedealii}{dealii};
+\end{DoxyCode}
+ Defining a data type for the Sacado variables (here we simply used the standard types from the deal.\+ii step-\/33 tutorial\textquotesingle{}s introduction) 
+\begin{DoxyCode}
+\textcolor{keyword}{using} \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} = Sacado::Fad::DFad<double>;   \textcolor{comment}{// this data type now represents a double, but
+       also contains the derivative of this variable with respect to the defined dofs (set via command *.diff(*))}
+\end{DoxyCode}
+ \hypertarget{index_Ex1}{}\section{1. example\+: simple scalar equation}\label{index_Ex1}
+
+\begin{DoxyEnumerate}
+\item example\+: simple scalar equation from deal.\+ii-\/tutorial step-\/33 (see the introduction there to get a first impression, \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html}) \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000004}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
+
+\end{DoxyEnumerate}
+
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ()
+\{
+    std::cout << \textcolor{stringliteral}{"Scalar Test:"} << std::endl;
+\end{DoxyCode}
+ define the variables used in the computation (inputs\+: a, b; output\+: c; auxiliaries\+: $\ast$) as the Sacado-\/data type 
+\begin{DoxyCode}
+\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,c;
+\end{DoxyCode}
+ initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed. Compare\+: y=x² -\/$>$ (dy/dx)(@x=1) = 2. We can only compute the derivative numerically at a certain point. 
+\begin{DoxyCode}
+ a = 1;
+ b = 2;
+
+a.diff(0,2);  \textcolor{comment}{// Set a to be dof 0, in a 2-dof system.}
+b.diff(1,2);  \textcolor{comment}{// Set b to be dof 1, in a 2-dof system.}
+\end{DoxyCode}
+ Our equation here is very simply. But you can use nested equations and many standard mathematical operations, such as sqrt, pow, sin, ... 
+\begin{DoxyCode}
+c = 2*a + std::cos(a*b);
+\textcolor{keywordtype}{double} *derivs = &c.fastAccessDx(0); \textcolor{comment}{// Access the derivatives of}
+\end{DoxyCode}
+ Output the derivatives of c with respect to the two above defined degrees of freedom (dof) 
+\begin{DoxyCode}
+    std::cout << \textcolor{stringliteral}{"Derivatives at the point ("} << a << \textcolor{stringliteral}{","} << b << \textcolor{stringliteral}{")"} << std::endl;
+    std::cout << \textcolor{stringliteral}{"dc/da = "} << derivs[0] << \textcolor{stringliteral}{", dc/db="} << derivs[1] << std::endl;
+\}
+\end{DoxyCode}
+ \hypertarget{index_Ex2}{}\section{2. example\+: Preparation for the use of Sacado with tensors}\label{index_Ex2}
+Here we want to introduce tensors for the first time. Hence, we limit ourselves to a trivial equation relating the strain tensor {\itshape eps} with dim x dim components with the stress tensor {\itshape sigma}. Both here used tensors are symmetric, hence we use the Symmetric\+Tensor class and have to keep some details in mind (see below factor 0.\+5 related to Voigt-\/\+Notation). 
+\begin{DoxyCode}
+\textcolor{comment}{/*}
+\textcolor{comment}{ * 2. example: use of tensors}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ()
+\{
+    std::cout << \textcolor{stringliteral}{"Tensor Test 2:"} << std::endl;
+\end{DoxyCode}
+ First we set the dimension {\itshape dim\+:} 2\+D-\/$>$dim=2; 3\+D-\/$>$dim=3 ~\newline
+ This defines the \char`\"{}size\char`\"{} of the tensors and the number of dofs. Ex2 only works in 3D, whereas the following Ex3 is set up dimension-\/independent. 
+\begin{DoxyCode}
+\textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim = 3;
+\end{DoxyCode}
+ Declare our input, auxiliary and output variables as Symmetric\+Tensors consisting of fad\+\_\+doubles (instead of the standard Symmetric\+Tensor out of doubles) 
+\begin{DoxyCode}
+SymmetricTensor<2,dim, fad\_double> sigma, eps;
+\end{DoxyCode}
+ Init the strain tensor (the point at which the derivative shall be computed) 
+\begin{DoxyCode}
+eps[0][0] = 1;
+eps[1][1] = 2;
+eps[2][2] = 3;
+eps[0][1] = 4;
+eps[0][2] = 5;
+eps[1][2] = 6;
+\end{DoxyCode}
+ Now we declare the dofs. The derivative to a tensor requires all components, therefore we set the components of the strain tensor here one by one as the dofs. Because our tensors are symmetric, we only need 6 components in 3D instead of 9 for a full second order tensor 
+\begin{DoxyCode}
+eps[0][0].diff(0,6);
+eps[1][1].diff(1,6);
+eps[2][2].diff(2,6);
+eps[0][1].diff(3,6);
+eps[0][2].diff(4,6);
+eps[1][2].diff(5,6);
+\end{DoxyCode}
+ The equation describing the stresses (here just a simple test case) 
+\begin{DoxyCode}
+sigma = eps;
+\end{DoxyCode}
+ Let\textquotesingle{}s output the computed stress tensor. 
+\begin{DoxyCode}
+std::cout << sigma << std::endl;
+\end{DoxyCode}
+ The resulting values of {\itshape sigma} are fairly boring, due to our simple equation. It is the additional output generated by this, that is interesting here\+: ~\newline
+output\+: ~\newline
+1 \mbox{[} 1 0 0 0 0 0 \mbox{]} 4 \mbox{[} 0 0 0 1 0 0 \mbox{]} 5 \mbox{[} 0 0 0 0 1 0 \mbox{]} 4 \mbox{[} 0 0 0 1 0 0 \mbox{]} 2 \mbox{[} 0 1 0 0 0 0 \mbox{]} 6 \mbox{[} 0 0 0 0 0 1 \mbox{]} 5 \mbox{[} 0 0 0 0 1 0 \mbox{]} 6 \mbox{[} 0 0 0 0 0 1 \mbox{]} 3 \mbox{[} 0 0 1 0 0 0 \mbox{]} ~\newline
+The numbers 1, 4, 5, 4, ... are the entries in the stress tensor {\itshape sigma}. In square brackets we see the derivatives of sigma with respect to all the dofs set previously given in the order we defined them above. Meaning\+: The first entry in the square brackets corresponds to the 0-\/th dof set by 
+\begin{DoxyCode}
+eps[0][0].diff(0,6); 
+\end{DoxyCode}
+ referring to the component (0,0) in the strain tensor {\itshape eps}.
+
+Computing the derivatives for certain components of the resulting tangent modulus\+: ~\newline
+We now access these lists of derivatives (output above in square brackets) for one component of the stress tensor {\itshape sigma} at a time. 
+\begin{DoxyCode}
+\{
+\end{DoxyCode}
+ Access the derivatives corresponding to the component (0,0) of the stress tensor {\itshape sigma} 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} *derivs = &sigma[0][0].fastAccessDx(0);
+\end{DoxyCode}
+ The following output will show us the same derivatives that we already saw above, just formatted differently ~\newline
+output\+: d\+\_\+sigma\mbox{[}0\mbox{]}\mbox{[}0\mbox{]}/d\+\_\+eps = 1 , 0 , 0 , 0 , 0 , 0 , 
+\begin{DoxyCode}
+    std::cout << \textcolor{stringliteral}{"d\_sigma[0][0]/d\_eps = "};
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<6; ++i)
+        std::cout << derivs[i] << \textcolor{stringliteral}{" , "};
+    std::cout << std::endl;
+\}
+\{
+\end{DoxyCode}
+ Access the derivatives corresponding to the component (1,2) of the stress tensor {\itshape sigma} 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} *derivs = &sigma[1][2].fastAccessDx(0);
+\end{DoxyCode}
+ output\+: d\+\_\+sigma\mbox{[}1\mbox{]}\mbox{[}2\mbox{]}/d\+\_\+eps = 0 , 0 , 0 , 0 , 0 , 1 , 
+\begin{DoxyCode}
+        std::cout << \textcolor{stringliteral}{"d\_sigma[1][2]/d\_eps = "};
+        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<6; ++i)
+            std::cout << derivs[i] << \textcolor{stringliteral}{" , "};
+        std::cout << std::endl;
+    \}
+\}
+\end{DoxyCode}
+ \hypertarget{index_Ex3}{}\section{3. example\+: Using a slightly more complicated stress equation}\label{index_Ex3}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ()
+\{
+    std::cout << \textcolor{stringliteral}{"Tensor Test 3:"} << std::endl;
+ 
+    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim = 3;
+\end{DoxyCode}
+ Here we also define some constant, for instance the bulk modulus {\itshape kappa} and the second Lamè parameter {\itshape mu}. We now also define one of our constants as fad\+\_\+double. By doing this we can use the normal multiplication (see below). 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} kappa\_param = 5;
+\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} kappa (kappa\_param);
+\end{DoxyCode}
+ The second constant remains as a double just to show the difference. 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} mu = 2;
+
+SymmetricTensor<2,dim, fad\_double> sigma, eps;
+\end{DoxyCode}
+ To simplify the access to the dofs we define a map that relate the components of our strain tensor to the dof-\/nbr 
+\begin{DoxyCode}
+std::map<unsigned int,std::pair<unsigned int,unsigned int>> std\_map\_indicies;
+\end{DoxyCode}
+ The point at which the derivative shall be computed\+: ~\newline
+As mentioned previously, we will implement this example for 2D and 3D, hence we once have to set up a strain tensor and the derivatives for 3D with 6 independent components ... 
+\begin{DoxyCode}
+\textcolor{keywordflow}{if}(dim==3)
+\{
+    eps[0][0] = 1;
+    eps[1][1] = 2;
+    eps[2][2] = 3;
+
+    eps[0][1] = 4;
+    eps[0][2] = 5;
+    eps[1][2] = 6;
+
+
+    eps[0][0].diff(0,6);
+    eps[0][1].diff(1,6);
+    eps[0][2].diff(2,6);
+    eps[1][1].diff(3,6);
+    eps[1][2].diff(4,6);
+    eps[2][2].diff(5,6);
+\end{DoxyCode}
+ By using the map and the following pairs, we have to set up the relation between strain components and dofs only once and can use the map to access the entries of the list later, without possibly mixing up indices and creating errors 
+\begin{DoxyCode}
+    std::pair<unsigned int, unsigned int> tmp\_pair;
+    tmp\_pair.first=0; tmp\_pair.second=0;
+    std\_map\_indicies[0] = tmp\_pair;
+
+    tmp\_pair.first=0; tmp\_pair.second=1;
+    std\_map\_indicies[1] = tmp\_pair;
+
+    tmp\_pair.first=0; tmp\_pair.second=2;
+    std\_map\_indicies[2] = tmp\_pair;
+
+    tmp\_pair.first=1; tmp\_pair.second=1;
+    std\_map\_indicies[3] = tmp\_pair;
+
+    tmp\_pair.first=1; tmp\_pair.second=2;
+    std\_map\_indicies[4] = tmp\_pair;
+
+    tmp\_pair.first=2; tmp\_pair.second=2;
+    std\_map\_indicies[5] = tmp\_pair;
+\}
+\end{DoxyCode}
+ ... and once for 2D with just 3 independent components. 
+\begin{DoxyCode}
+\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(dim==2)
+\{
+    eps[0][0] = 1;
+    eps[1][1] = 2;
+
+    eps[0][1] = 4;
+
+
+    eps[0][0].diff(0,3);
+    eps[0][1].diff(1,3);
+    eps[1][1].diff(2,3);
+
+    std::pair<unsigned int, unsigned int> tmp\_pair;
+    tmp\_pair.first=0; tmp\_pair.second=0;
+    std\_map\_indicies[0] = tmp\_pair;
+
+    tmp\_pair.first=0; tmp\_pair.second=1;
+    std\_map\_indicies[1] = tmp\_pair;
+
+    tmp\_pair.first=1; tmp\_pair.second=1;
+    std\_map\_indicies[2] = tmp\_pair;        
+\}
+\textcolor{keywordflow}{else}
+\{
+    \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"only dim==2 or dim==3 allowed"});
+\}
+\end{DoxyCode}
+ Instead of calling the $\ast$.diff($\ast$) on the components one-\/by-\/one we could also use the following for-\/loop, so we also use the map to set the dofs 
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<((dim==2)?3:6); ++x )
+\{
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=std\_map\_indicies[x].first;
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=std\_map\_indicies[x].second;
+    eps[i][j].diff(x,((dim==2)?3:6));
+\}
+\end{DoxyCode}
+
+
+For our slightly more complicated stress equation we need the unit and deviatoric tensors. We can simply define them by writing the values of the already existing deal.\+ii functions into newly defined Symmetric\+Tensors build from fad\+\_\+doubles. 
+\begin{DoxyCode}
+SymmetricTensor<2,dim, fad\_double> stdTensor\_I (( unit\_symmetric\_tensor<dim,fad\_double>()) );
+SymmetricTensor<4,dim, fad\_double> stdTensor\_Idev ( (deviator\_tensor<dim,fad\_double>()) );
+\end{DoxyCode}
+ With everything set and defined, we can compute our stress {\itshape sigma} according to\+: \[ \sigma = \kappa \cdot trace(\varepsilon) \cdot \boldsymbol{I} + 2 \cdot \mu \cdot \varepsilon^{dev} \] Here you can see that we can directly multiply the constant and the tensors when kappa is also declared as fad\+\_\+double 
+\begin{DoxyCode}
+sigma = kappa * (trace(eps) *  stdTensor\_I);
+\end{DoxyCode}
+ We didn\textquotesingle{}t do the same for mu to once again emphasize the difference between constants as double and as fad\+\_\+double. ~\newline
+The remaining code uses a normal double constant. 
+\begin{DoxyCode}
+SymmetricTensor<2,dim,fad\_double> tmp = deviator<dim,fad\_double>(symmetrize<dim,fad\_double>(eps)); tmp*=(mu
+      *2);
+sigma +=  tmp;
+\end{DoxyCode}
+ The fairly cumbersome computation is caused by the way the operators are set up for tensors out of fad\+\_\+doubles.
+
+
+\begin{DoxyCode}
+std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
+\end{DoxyCode}
+ Now we want to actually build our tangent modulus called {\itshape C\+\_\+\+Sacado} that contains all the derivatives and relates the stress tensor with the strain tensor. ~\newline
+The fourth-\/order tensor {\itshape C\+\_\+\+Sacado} is our final goal, we don\textquotesingle{}t have to compute anything that is related to Sacado with this tensor, so we can finally return to our standard Symmetric\+Tensor out of doubles. The latter is necessary to use the tangent in the actual FE code. 
+\begin{DoxyCode}
+SymmetricTensor<4,dim> C\_Sacado;
+\end{DoxyCode}
+ As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we sum over the components i and j of the stress tensor. 
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+    \{
+        \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access the derivatives of the (i,j)-th component
+       of \(\backslash\)a sigma}
+\end{DoxyCode}
+ To visually ensure that every stress component has in fact all 6 derivatives for 3D or 3 for 2D, we output the size\+: 
+\begin{DoxyCode}
+std::cout<<\textcolor{stringliteral}{"size: "}<<sigma[i][j].size()<<std::endl;
+\end{DoxyCode}
+ We loop over all the dofs. To be able to use this independent of the chosen dimension {\itshape dim}, we use a ternary operator to decide whether we have to loop over 6 derivatives or just 3. 
+\begin{DoxyCode}
+    \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<((dim==2)?3:6);++x)
+    \{
+        \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
+        \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
+
+        \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+        \{
+            C\_Sacado[i][j][k][l] = 0.5*derivs[x];
+            C\_Sacado[i][j][l][k] = 0.5*derivs[x];
+        \}
+        \textcolor{keywordflow}{else}
+            C\_Sacado[i][j][k][l] = derivs[x];
+    \}            
+
+\}
+\end{DoxyCode}
+ After resembling the fourth-\/order tensor, we now have got our tangent saved in {\itshape C\+\_\+\+Sacado} ready to be used
+
+To ensure that Sacado works properly, we can compute the analytical tangent for comparison 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} kappa\_d = 5;
+\textcolor{keywordtype}{double} mu\_d = 2;
+\end{DoxyCode}
+ Our stress equation in this example is still simple enough to derive the tangent analytically by hand\+: \[ \overset{4}{C_{analy}} = \kappa \cdot \boldsymbol{I} \otimes \boldsymbol{I} + 2 \cdot \mu \cdot \overset{4}{I^{dev}} \] 
+\begin{DoxyCode}
+SymmetricTensor<4,dim> C\_analy = kappa\_d * outer\_product(unit\_symmetric\_tensor<dim>(), 
+      unit\_symmetric\_tensor<dim>()) + 2* mu\_d * deviator\_tensor<dim>();
+\end{DoxyCode}
+ We again define our strain tensor {\itshape eps\+\_\+d} ($\ast$\+\_\+d for standard double in contrast to fad\+\_\+double) 
+\begin{DoxyCode}
+SymmetricTensor<2,dim> eps\_d;
+
+\textcolor{keywordflow}{if}(dim==3)
+\{
+    eps\_d[0][0] = 1;
+    eps\_d[1][1] = 2;
+    eps\_d[2][2] = 3;
+
+    eps\_d[0][1] = 4;
+    eps\_d[0][2] = 5;
+    eps\_d[2][1] = 6;
+
+\}
+\textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(dim==2)
+\{
+    eps\_d[0][0] = 1;
+    eps\_d[1][1] = 2;
+
+    eps\_d[1][0] = 4;
+
+\}
+\textcolor{keywordflow}{else}
+\{
+    \textcolor{keywordflow}{throw} std::runtime\_error(\textcolor{stringliteral}{"only dim==2 or dim==3 allowed"});
+\}
+\end{DoxyCode}
+ \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000005}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
+
+
+To output the stress tensor we first have to compute it. We do this here via \[ \sigma = \overset{4}{C_{analy}} : \varepsilon \] The output exactly matched the result obtained with Sacado. \begin{DoxyNote}{Note}
+Checking the Sacado stress tensor against an analytically computed or otherwise determined stress tensor is absolutely no way to check whether the tangent computed via Sacado is correct. When we compute the stress tensor with Sacado and for example mix up a + and -\/ sign, this might not matter at all if the number that is added or subtracted is small. However, for the tangent this nasty sign can be very critical. Just keep in mind\+: the tangent has 81 components and the stress tensor just 9, so how does one want to verify 81 variables by comparing 9?
+\end{DoxyNote}
+
+\begin{DoxyCode}
+std::cout << \textcolor{stringliteral}{"sigma\_analy: "} << (C\_analy*eps\_d) << std::endl;
+\end{DoxyCode}
+ That\textquotesingle{}s the reason we compare all the entries in the Sacado and the analytical tensor one by one 
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
+        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
+            \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
+                std::cout << \textcolor{stringliteral}{"C\_analy["}<<i<<\textcolor{stringliteral}{"]["}<<j<<\textcolor{stringliteral}{"]["}<<k<<\textcolor{stringliteral}{"]["}<<l<<\textcolor{stringliteral}{"] = "} << C\_analy[i][j][k][l] << \textcolor{stringliteral}{"
+       vs C\_Sacado: "} << C\_Sacado[i][j][k][l] << std::endl;
+\end{DoxyCode}
+ To simplify the comparison we compute a scalar error as the sum of the absolute differences of each component 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
+\textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
+        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
+            \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
+                error\_Sacado\_vs\_analy += std::fabs(C\_Sacado[i][j][k][l] - C\_analy[i][j][k][l]);
+\end{DoxyCode}
+ As desired\+: The numerical error is zero (0 in double precision) and the tensor components are equal 
+\begin{DoxyCode}
+    std::cout << \textcolor{stringliteral}{"numerical error: "} << error\_Sacado\_vs\_analy << std::endl;
+\}
+\end{DoxyCode}
+ \hypertarget{index_Ex3B}{}\section{3\+B. Example\+: Using the wrapper for Ex3}\label{index_Ex3B}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ()
+\{
+    std::cout << \textcolor{stringliteral}{"Tensor Test 3B:"} << std::endl;
+    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+\end{DoxyCode}
+ The following declarations are usually input arguments. So you receive the strain tensor and the constants out of doubles. 
+\begin{DoxyCode}
+SymmetricTensor<2,dim> eps\_d;
+eps\_d[0][0] = 1;
+eps\_d[1][1] = 2;
+eps\_d[2][2] = 3;
+
+eps\_d[0][1] = 4;
+eps\_d[0][2] = 5;
+eps\_d[1][2] = 6;
+
+\textcolor{keywordtype}{double} kappa = 5;
+\textcolor{keywordtype}{double} mu = 2;
+\end{DoxyCode}
+ Now we start working with Sacado\+: ~\newline
+When we use the index notation to compute e.\+g. our stress we do not need to declare our constants (here kappa, mu) as fad\+\_\+double.
+
+We declare our strain tensor as the special data type \hyperlink{classSacado__Wrapper_1_1SymTensor}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor} from the file \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{} where this data type was derived from the Symmetric\+Tensor$<$2,dim,fad\+\_\+double$>$. 
+\begin{DoxyCode}
+\hyperlink{classSacado__Wrapper_1_1SymTensor}{Sacado\_Wrapper::SymTensor<dim>} eps;
+\end{DoxyCode}
+ Next we initialize our Sacado strain tensor with the values of the inputed double strain tensor\+: 
+\begin{DoxyCode}
+eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_acbad579d5ead9e96ff46aa15d9b5aef4}{init}(eps\_d);
+\end{DoxyCode}
+ We define all the entries in the symmetric tensor {\itshape eps} as the dofs. So we can later derive any variable with respect to the strain tensor {\itshape eps}. 
+\begin{DoxyCode}
+eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ae5e13d654682e392f39dc0991bdd95a2}{set\_dofs}();
+\end{DoxyCode}
+ Now we declare our output and auxiliary variables as Sacado-\/\+Tensors. 
+\begin{DoxyCode}
+SymmetricTensor<2,dim,fad\_double> sigma;
+
+SymmetricTensor<2,dim, fad\_double> stdTensor\_I (( unit\_symmetric\_tensor<dim,fad\_double>()) );
+\end{DoxyCode}
+ Our stress equation is now computed in index notation to simplfiy the use of the constants and especially the use of the {\itshape deviator}. 
+\begin{DoxyCode}
+\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+  \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+      sigma[i][j] = kappa * trace(eps) *  stdTensor\_I[i][j] + 2. * mu * deviator(eps)[i][j];
+\end{DoxyCode}
+ Finally we declare our desired tangent as the fourth order tensor {\itshape C\+\_\+\+Sacado} and compute the tangent via the command {\itshape get\+\_\+tangent}. 
+\begin{DoxyCode}
+SymmetricTensor<4,dim> C\_Sacado;
+eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ab97427c3b5cab279e58607cf431ab262}{get\_tangent}(C\_Sacado, sigma);
+\end{DoxyCode}
+ We could again compare the herein computed tangent with the analytical tangent from Ex2, but as before the results are fairly boring, because Sacado hits the analytical tangent exactly --- no surprise for such simple equations.
+
+And that\textquotesingle{}s it. By using the Sacado\+\_\+wrapper we can achieve everything from Ex2 (besides the equations) with just four lines of code namely\+:
+\begin{DoxyItemize}
+\item eps.\+init(eps\+\_\+d); // To initialize the Sacado strain tensor
+\item eps.\+set\+\_\+dofs(); // To declare the components of eps as the dofs
+\item eps.\+get\+\_\+tangent($\ast$); // To get the tangent 
+\begin{DoxyCode}
+\}
+\end{DoxyCode}
+ 
+\end{DoxyItemize}\hypertarget{index_Ex4}{}\section{4. Example\+: Computing derivatives with respect to a tensor and a scalar}\label{index_Ex4}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4} ()
+\{
+    std::cout << \textcolor{stringliteral}{"Tensor Test 4:"} << std::endl;
+    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+\end{DoxyCode}
+ The following declarations are usually input arguments. So you receive the strain tensor  eps\+\_\+d, the damage variable {\itshape phi} and the constants {\itshape kappa} and {\itshape mu} out of doubles. 
+\begin{DoxyCode}
+SymmetricTensor<2,dim> eps\_d;
+eps\_d[0][0] = 1;
+eps\_d[1][1] = 2;
+eps\_d[2][2] = 3;
+
+eps\_d[0][1] = 4;
+eps\_d[0][2] = 5;
+eps\_d[1][2] = 6;
+
+\textcolor{keywordtype}{double} phi = 0.3;
+
+\textcolor{keywordtype}{double} kappa = 5;
+\textcolor{keywordtype}{double} mu = 2;
+\end{DoxyCode}
+ We set up our strain tensor as in Ex3B. 
+\begin{DoxyCode}
+\hyperlink{classSacado__Wrapper_1_1SymTensor}{Sacado\_Wrapper::SymTensor<dim>} eps;
+eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_acbad579d5ead9e96ff46aa15d9b5aef4}{init}(eps\_d);
+eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ae5e13d654682e392f39dc0991bdd95a2}{set\_dofs}();
+\end{DoxyCode}
+ In order to also compute derivatives with respect to the scalar {\itshape phi}, we add this scalar to our list of derivatives\+: \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000006}{Todo}]C\+O\+N\+T\+I\+N\+UE H\+E\+RE\end{DoxyRefDesc}
+
+
+
+\begin{DoxyCode}
+\}
+\end{DoxyCode}
+ \hypertarget{index_Ex5}{}\section{5. Example\+: Using a vector-\/valued equation}\label{index_Ex5}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5} ()
+\{
+    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+    std::cout << \textcolor{stringliteral}{"Tensor Test 5:"} << std::endl;
+    Tensor<1,dim,fad\_double> c;
+    \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b;
+    \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n\_dofs=2;
+    a = 1; b = 2;   \textcolor{comment}{// at the point (a,b) = (1,2)}
+    a.diff(0,2);  \textcolor{comment}{// Set a to be dof 0, in a 2-dof system.}
+    b.diff(1,2);  \textcolor{comment}{// Set b to be dof 1, in a 2-dof system.}
+\end{DoxyCode}
+ c is now a vector with three components 
+\begin{DoxyCode}
+c[0] = 2*a+3*b;
+c[1] = 4*a+5*b;
+c[2] = 6*a+7*b;
+\end{DoxyCode}
+ Access to the derivatives works as before. 
+\begin{DoxyCode}
+    \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0;i<dim;++i)
+    \{
+        \textcolor{keyword}{const} \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} &derivs = c[i]; \textcolor{comment}{// Access derivatives}
+        \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0;j<n\_dofs;++j)
+        \{
+            std::cout << \textcolor{stringliteral}{"Derivatives at the point ("} << a << \textcolor{stringliteral}{","} << b << \textcolor{stringliteral}{") for "}
+            <<i<<\textcolor{stringliteral}{"th component wrt "}<<j<<\textcolor{stringliteral}{"th direction "}<< std::endl;
+            std::cout << \textcolor{stringliteral}{"dc\_i/dxj = "} << derivs.fastAccessDx(j) << std::endl;            
+        \}
+    \}
+\}
+ 
+ 
+\textcolor{comment}{/*}
+\textcolor{comment}{ * The main function just calls all the examples and puts some space between the outputs.}
+\textcolor{comment}{ */}
+\textcolor{keywordtype}{int} \hyperlink{Sacado__example_8cc_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\{
+    \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4}();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5}();
+ 
+\}
+\end{DoxyCode}
+\hypertarget{index_END}{}\section{The End}\label{index_END}
