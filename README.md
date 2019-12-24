@@ -9,7 +9,7 @@ as a fourth order tensor on the material point level (quadrature point) based on
 
 You can use Sacado to compute the derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 
-The Doxygen documentation for the code can be found in the documentation.zip. Just download this zip-file unpack it and open the index.html in the folder /html in your webbrowser.
+The Doxygen documentation for the code can be found in the here https://jfriedlein.github.io/Sacado-Testing/html/index.html. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)
 
 ToDo:
 - Wrapper
