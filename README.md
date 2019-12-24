@@ -15,3 +15,4 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 
 ## ToDo:
 - reference the Wrapper
+- enable LaTeX equations in the documentation hosted via GitHub
