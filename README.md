@@ -22,9 +22,9 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 ## How to start
 - First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above.
 - If you're interested in the details and want to get a look under the hood of the Sacado_Wrapper, then please consider the examples 1, 2 and 3
-- If you right away want to use the Sacado_Wrapper, then consider the examples 3b and 4. Follow the instructions to use the Wrapper in your own code.
+- If you right away want to use the Sacado_Wrapper, then consider the examples 3b and 4. Follow the instructions on how to get the Wrapper into your own code.
 
-## Instructions on how to use the Sacado_Wrapper
+## Instructions on how to "install" the Sacado_Wrapper
 1. Download the file "Sacado_Wrapper.h" and place it into your working directory, e.g. where your main code such as Sacado_examples.cc is.
 2. Include the .h file with your other headers in your code via '#include "Sacado_Wrapper.h"'.
 3. Copy one of the examples into your code for testing.
