@@ -1,12 +1,12 @@
 # Testing Trilinos::Sacado mainly with tensors
-Testing capabilities of Sacado mainly in combination with tensors
+Testing capabilities of Sacado mainly in combination with tensors and providing a Wrapper to ease the use of Sacado in conjunction with tensors.
 
 ## The Aim
 The aim is to compute e. g. the tangent
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combinatin with a scalar variable, such as the scalar damage phi(eps) (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) (see feature list).
  
 You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 
