@@ -28,12 +28,16 @@ The following figure tries to visualize this:
 If you right away want to use Sacado, then you might skip the first examples and jump to Ex3B.
 There we show how to use the "Sacado_Wrapper" that does everything from Ex2 and Ex3 in just a view lines of code.
 
+Furthermore, if you, for instance, compute problems with two-fields (e.g. displacement and scalar damage) and you need
+tangents with respect to both a tensor (e.g. strain tensor) and a scalar (e.g. damage variable), you can use the Sacado_Wrapper as shown in Ex4.
+
 Some resources/links: \n
 @todo link the Sacado and DII pages
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood.
-The code is neither elegant nor efficient, but it works. A more user-friendly version is available (check-out XXX) \n
-@todo add the link to the wrapper
+The code is neither elegant nor efficient, but it works. A more user-friendly version is provided by means of the "Sacado_Wrapper". \n
+@todo add list of files and an overview
+@todo explain how to use the Wrapper (download the file Sacado_Wrapper.h, #include, ...)
 
 @note This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified.
 Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
@@ -66,6 +70,7 @@ Sacado (from Trilinos, data types, operations, ...)
 #include <Sacado.hpp>
  
 #include "Sacado_Wrapper.h"
+ 
  
 \endcode
 Those headers are related to data types and autodiff, but don't seem to be needed
@@ -131,7 +136,7 @@ have to keep some details in mind (see below factor 0.5 related to Voigt-Notatio
  */
 void sacado_test_2 ()
 {
-	std::cout << "Tensor Test 2:" << std::endl;
+	std::cout << "Test 2:" << std::endl;
  
 \endcode
 First we set the dimension \a dim: 2D->dim=2; 3D->dim=3 \n This defines the "size" of the tensors and the number of dofs. Ex2 only works in 3D, whereas the following Ex3 is set up dimension-independent.
@@ -220,7 +225,7 @@ output: d_sigma[1][2]/d_eps = 0 , 0 , 0 , 0 , 0 , 1 ,
 \code
 void sacado_test_3 ()
 {
-	std::cout << "Tensor Test 3:" << std::endl;
+	std::cout << "Test 3:" << std::endl;
  
 	const unsigned int dim = 3;
  
@@ -487,7 +492,7 @@ As desired: The numerical error is zero (0 in double precision) and the tensor c
 \code
 void sacado_test_3B ()
 {
-	std::cout << "Tensor Test 3B:" << std::endl;
+	std::cout << "Test 3B:" << std::endl;
     const unsigned int dim=3;
  
 \endcode
@@ -567,7 +572,7 @@ with just four lines of code namely:
 \code
 void sacado_test_4 ()
 {
-	std::cout << "Tensor Test 4:" << std::endl;
+	std::cout << "Test 4:" << std::endl;
 	const unsigned int dim=3;
  
 \endcode
@@ -583,25 +588,123 @@ the damage variable \a phi and the constants \a kappa and \a mu out of doubles.
 	eps_d[0][2] = 5;
 	eps_d[1][2] = 6;
  
-	double phi = 0.3;
- 
-	double kappa = 5;
-	double mu = 2;
+	double phi_d = 0.3;
  
 \endcode
+We don't need these constants in the current example.
+double kappa = 5;
+double mu = 2;
+ 
+ 
 We set up our strain tensor as in Ex3B.
 \code
-	Sacado_Wrapper::SymTensor<dim> eps;
-	eps.init(eps_d);
-	eps.set_dofs();
+	 Sacado_Wrapper::SymTensor<dim> eps;
+	 Sacado_Wrapper::SW_double<dim> phi;
  
 \endcode
-In order to also compute derivatives with respect to the scalar \a phi, we add this scalar to our list
-of derivatives:
-@todo CONTINUE HERE
+Initialize the strain tensor and the damage variable
+\code
+	 eps.init(eps_d);
+	 phi.init(phi_d);
  
+\endcode
+Set the dofs, where the argument sets the total nbr of dofs (3 or 6 for the sym. tensor and 1 for the double)
+\code
+//	  eps.set_dofs(eps.n_independent_components+1/*an additional dof for phi*/);
+\endcode
+
+In order to also compute derivatives with respect to the scalar \a phi, we add this scalar to our list
+of derivatives. Because we have already defined 3 or 6 dofs our additional dof will be placed at the end
+of this list. We set this up with the member variable start_index ...
+\code
+//	  phi.start_index=eps.n_independent_components;
+\endcode
+and again using the input argument representing the total number of dofs
+\code
+//	  phi.set_dofs(eps.n_independent_components+1);
+ 
+\endcode
+All of the above 3 lines of code are automatically done by the DoFs_summary class. So, to
+set our dofs we just create an instance and call set_dofs with our variables containing the desired dofs.
+\code
+	 Sacado_Wrapper::DoFs_summary<dim> DoFs_summary;
+	 DoFs_summary.set_dofs(eps, phi);
+ 
+ 
+\endcode
+Compute the stress tensor and damage variable \a d (here we just use some arbitrary equations for testing): \n
+Let us first declare our output (and auxiliary) variables as Sacado data types.
+\code
+	  SymmetricTensor<2,dim,fad_double> sigma;
+	  fad_double d;
+\endcode
+@todo It would be nice to use the data types from the Sacado_Wrapper for all the Sacado variables. But
+somehow the operators (multiply*, ...) seem to cause conflicts again.
+ 
+The actual computation in the following scope uses the exact same equation as your normal computation e. g. via the data type double.
+Hence, you could either directly compute your stress, etc. via the Sacado variables or you define
+template functions that contain your equations and are either called templated with double or fad_double.
+When using the first option, please consider the computation time that is generally higher for a computation
+with fad_double than with normal doubles (own experience in a special case: slower by factor 30).
+The second option with templates does not suffer these issues.
+\code
+	  {
+	  for ( unsigned int i=0; i<dim; ++i)
+	 	for ( unsigned int j=0; j<dim; ++j )
+	 		sigma[i][j] = phi * eps[i][j];
+\endcode
+ToDo: strangely when phi is a fad_double then the multiplication phi * eps works directly without
+having to use the index notation
+\code
+	  std::cout << "sigma=" << sigma << std::endl;
+ 
+	  d = phi*phi + 25 + trace(eps);
+	  std::cout << "d=" << d << std::endl;
+	  }
+ 
+ 
+\endcode
+Get the tangents
+d_sigma / d_eps: SymmetricTensor with respect to SymmetricTensor
+\code
+	  SymmetricTensor<4,dim> C_Sacado;
+	  eps.get_tangent(C_Sacado, sigma);
+	  std::cout << "C_Sacado=" << C_Sacado << std::endl;
+ 
+\endcode
+d_d / d_eps: double with respect to SymmetricTensor
+\code
+	  SymmetricTensor<2,dim> d_d_d_eps;
+	  eps.get_tangent(d_d_d_eps, d);
+	  std::cout << "d_d_d_eps=" << d_d_d_eps << std::endl;
+ 
+\endcode
+d_sigma / d_phi: SymmetricTensor with respect to double
+\code
+	  SymmetricTensor<2,dim> d_sigma_d_phi;
+	  phi.get_tangent(d_sigma_d_phi, sigma);
+ 	  std::cout << "d_sigma_d_phi=" << d_sigma_d_phi << std::endl;
+	  std::cout << "sigma = d_sigma_d_phi * phi = " << d_sigma_d_phi * phi_d << std::endl;
+ 
+\endcode
+d_d / d_phi: double with respect to double
+\code
+	  double d_d_d_phi;
+	  phi.get_tangent(d_d_d_phi, d);
+ 	  std::cout << "d_d_d_phi=" << d_d_d_phi << std::endl;
+ 
+ 
+\endcode
+And that's it. By using the Sacado_wrapper we can compute derivatives with respect to
+a tensor and a scalar at the same time (besides the equations)
+in essence with just the following lines of code namely:
+- eps.init(eps_d); phi.init(phi_d);   // To initialize the Sacado strain tensor and scalar damage variable
+- DoFs_summary.set_dofs(eps, phi);    // To declare the components of eps and phi as the dofs
+- eps.get_tangent(*); // To get tangents with respect to eps
+- phi.get_tangent(*); // To get tangents with respect to phi
 \code
 }
+ 
  
  
 \endcode
@@ -610,7 +713,7 @@ of derivatives:
 void sacado_test_5 ()
 {
     const unsigned int dim=3;
-	std::cout << "Tensor Test 5:" << std::endl;
+	std::cout << "Test 5:" << std::endl;
     Tensor<1,dim,fad_double> c;
 	fad_double a,b;
     unsigned int n_dofs=2;
@@ -666,11 +769,12 @@ int main ()
     std::cout << std::endl;
  
     sacado_test_5();
- 
 }
 \endcode
 
 @section END The End
+
+Hosted via GitHub according to https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/
 
 @}
 */
