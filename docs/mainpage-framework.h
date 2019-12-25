@@ -28,12 +28,16 @@ The following figure tries to visualize this:
 If you right away want to use Sacado, then you might skip the first examples and jump to Ex3B.
 There we show how to use the "Sacado_Wrapper" that does everything from Ex2 and Ex3 in just a view lines of code.
 
+Furthermore, if you, for instance, compute problems with two-fields (e.g. displacement and scalar damage) and you need
+tangents with respect to both a tensor (e.g. strain tensor) and a scalar (e.g. damage variable), you can use the Sacado_Wrapper as shown in Ex4.
+
 Some resources/links: \n
 @todo link the Sacado and DII pages
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood.
-The code is neither elegant nor efficient, but it works. A more user-friendly version is available (check-out XXX) \n
-@todo add the link to the wrapper
+The code is neither elegant nor efficient, but it works. A more user-friendly version is provided by means of the "Sacado_Wrapper". \n
+@todo add list of files and an overview
+@todo explain how to use the Wrapper (download the file Sacado_Wrapper.h, #include, ...)
 
 @note This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified.
 Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
@@ -45,6 +49,8 @@ Any comments, criticism, corrections, feedback, improvements, ... are very well 
 \endcode
 
 @section END The End
+
+Hosted via GitHub according to https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/
 
 @}
 */
