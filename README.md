@@ -1,7 +1,7 @@
-# Trilinos-Sacado-Testing
+# Testing Trilinos::Sacado mainly with tensors
 Testing capabilities of Sacado mainly in combination with tensors
 
-## The aim
+## The Aim
 The aim is to compute e. g. the tangent
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
