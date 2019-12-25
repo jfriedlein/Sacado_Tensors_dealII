@@ -8,7 +8,7 @@ The aim is to compute e. g. the tangent
 
 as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation only.
 
-You can use Sacado to compute the derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 
 ## The Documentation
 The Doxygen documentation for the code can be found here https://jfriedlein.github.io/Sacado-Testing/html/index.html. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)
