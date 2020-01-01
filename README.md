@@ -6,7 +6,7 @@ The aim is to compute e. g. the tangent
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma=sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi=phi(eps) and compute second derivatives (see feature list).
  
 The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 https://www.dealii.org/current/doxygen/deal.II/step_33.html with already implemented deal.ii-functionality. 
 
@@ -32,13 +32,13 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 
 - Compute derivatives of equations with respect to a single scalar.
 
-<a href="https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?{D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}" title="{D} = \frac{\partial{\alpha}}{\partial{\phi }}" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\Psi}}{\partial{\varphi&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?{D}&space;=&space;\frac{\partial{\Psi}}{\partial{\varphi&space;}}" title="{D} = \frac{\partial{\Psi}}{\partial{\varphi }}" /></a>
  ; 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\phi&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\phi&space;}}" title="\boldsymbol{A} = \frac{\partial\boldsymbol{\sigma}}{\partial{\phi }}" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\varphi&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\varphi&space;}}" title="\boldsymbol{A} = \frac{\partial\boldsymbol{\sigma}}{\partial{\varphi }}" /></a>
 
 - Compute tangents from equations with respect to a single SymmetricTensor<2,dim>. (Example 3B)
 
- <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&space;=&space;\frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{B}&space;=&space;\frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon&space;}}" title="\boldsymbol{B} = \frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon }}" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&space;=&space;\frac{\partial{\Psi}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{B}&space;=&space;\frac{\partial{\Psi}}{\partial\boldsymbol{\varepsilon&space;}}" title="\boldsymbol{B} = \frac{\partial{\Psi}}{\partial\boldsymbol{\varepsilon }}" /></a>
  ; 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
 
@@ -69,11 +69,13 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 
 ## ToDo:
 - find a more suitable name
-- enable LaTeX equations (currently with mathJax) in the documentation hosted via GitHub
+- enable LaTeX equations in the documentation hosted via GitHub
 - Rework the design and structure of the Wrapper
 - implement more data types (e.g. Vector, nonsym tensor) and compatibility with more combinations (e.g. vector-vector, vector-double).
 - add some text that: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.
+- add a note in example 2 to avoid scaring people with the numerous repetitive lines of code
+- don't "sum over i and j" but "loop"
 - add note on the efficiency/computation time
 
 ## Test cases:
-- ...
+- compute tangent of eps with respect to eps
