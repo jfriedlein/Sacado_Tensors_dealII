@@ -16,7 +16,7 @@ The following figure tries to visualize this\+:  \begin{DoxyRefDesc}{Todo}
 
 add another less general figure with c, a and b and explain what is meant by point p 
 
-explain how to use the Wrapper (download the file \hyperlink{Sacado__Wrapper_8h}{Sacado\+\_\+\+Wrapper.\+h}, \#include, ...) 
+explain how to use the Wrapper (download the file \hyperlink{Sacado__Wrapper_8h}{Sacado\+\_\+\+Wrapper.\+h}, \hyperlink{CMakeCache_8txt_a986ccfc90e04633694fe6cff5472be19}{include}, ...) 
 
 Check if factor 0.\+5 is also necessary for d\+\_\+sigma / d\+\_\+phi\end{DoxyRefDesc}
 
@@ -38,7 +38,7 @@ One can access the double value of $ c_{fad} $ with the Sacado command $\ast$.va
  The arguments of {\itshape dx}, namely 0 and 1 are the numbers corresponding to the dof that belong to {\itshape a} and {\itshape b}. More details on how to set this up and use it, are given in example Ex1.
 
 Some resources/links\+: ~\newline
-\begin{DoxyRefDesc}{Todo}
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...). \begin{DoxyRefDesc}{Todo}
 \item[\hyperlink{todo__todo000002}{Todo}]link the Sacado and D\+II pages\end{DoxyRefDesc}
 
 
@@ -48,7 +48,7 @@ The here shown examples shall solely show how Sacado can be applied and give som
 
 
 \begin{DoxyNote}{Note}
-This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified. Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
+This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified. Any comments, criticism, corrections, feedback, improvements, ... are appreciated and very well welcomed.
 \end{DoxyNote}
 \hypertarget{index_code}{}\section{The commented program}\label{index_code}
 
@@ -106,7 +106,7 @@ The data type Symmetric\+Tensor and some related operations, such as trace, symm
 \end{DoxyCode}
  define the variables used in the computation (inputs\+: a, b; output\+: c; auxiliaries\+: $\ast$) as the Sacado-\/data type 
 \begin{DoxyCode}
-\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,c;
+\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,\hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
 \end{DoxyCode}
  initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed. Compare\+: y=x² -\/$>$ (dy/dx)(@x=1) = 2. We can only compute the derivative numerically at a certain point. 
 \begin{DoxyCode}
@@ -641,7 +641,7 @@ std::cout << \textcolor{stringliteral}{"d\_d\_d\_phi="} << d\_d\_d\_phi << std::
 \{
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
     std::cout << \textcolor{stringliteral}{"Test 5:"} << std::endl;
-    Tensor<1,dim,fad\_double> c;
+    Tensor<1,dim,fad\_double> \hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
     \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b;
     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n\_dofs=2;
     a = 1; b = 2;   \textcolor{comment}{// at the point (a,b) = (1,2)}
@@ -668,32 +668,39 @@ c[2] = 6*a+7*b;
     \}
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex6}{}\section{6. Example\+: First and second derivatives}\label{index_Ex6}
-M\+O\+D\+I\+F\+I\+ED F\+R\+OM \href{https://github.com/trilinos/Trilinos/blob/master/packages/sacado/example/dfad_dfad_example.cpp}{\tt https\+://github.\+com/trilinos/\+Trilinos/blob/master/packages/sacado/example/dfad\+\_\+dfad\+\_\+example.\+cpp} 
+ \hypertarget{index_Ex6}{}\section{6. Example\+: First and second derivatives -\/ Scalar equation}\label{index_Ex6}
+The here shown example was copied from \href{https://github.com/trilinos/Trilinos/blob/master/packages/sacado/example/dfad_dfad_example.cpp}{\tt https\+://github.\+com/trilinos/\+Trilinos/blob/master/packages/sacado/example/dfad\+\_\+dfad\+\_\+example.\+cpp} and modified to get a first impression on how we can work with first and second derivatives 
 \begin{DoxyCode}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a27450ab52a9d4250e3f5a5f2a3f8f317}{sacado\_test\_6} ()
- 
 \{
     std::cout << \textcolor{stringliteral}{"Test 6:"} << std::endl;
 \end{DoxyCode}
- define the variables used in the computation (inputs\+: a, b; output\+: c; auxiliaries\+: $\ast$) as the Sacado-\/data type 
+ Define the variables used in the computation (inputs\+: a, b; output\+: c; auxiliaries\+: $\ast$) as doubles 
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} a=1;
 \textcolor{keywordtype}{double} b=2;
 \end{DoxyCode}
- Number of independent variables 
+ Number of independent variables (scalar a and b) 
 \begin{DoxyCode}
- \textcolor{keywordtype}{int} num\_dofs = 2;
+\textcolor{keywordtype}{int} num\_dofs = 2;
+\end{DoxyCode}
+ Define another data type containing even more Sacado data types \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000007}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
 
+\begin{DoxyCode}
 \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
 Sacado::Fad::DFad<DFadType> afad(num\_dofs, 0, a);
 Sacado::Fad::DFad<DFadType> bfad(num\_dofs, 1, b);
 Sacado::Fad::DFad<DFadType> cfad;
-
+\end{DoxyCode}
+ Output the variables\+: We se that the values of {\itshape a} and {\itshape b} are set but the derivatives have not yet been fully declared 
+\begin{DoxyCode}
 std::cout << \textcolor{stringliteral}{"afad="} << afad << std::endl;
 std::cout << \textcolor{stringliteral}{"bfad="} << bfad << std::endl;
 std::cout << \textcolor{stringliteral}{"cfad="} << cfad << std::endl;
-
+\end{DoxyCode}
+ Now we set the \char`\"{}inner\char`\"{} derivatives. 
+\begin{DoxyCode}
 afad.val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(num\_dofs, 0, a); \textcolor{comment}{// set afad.val() as the first dof and init it with the
        double a}
 bfad.val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(num\_dofs, 1, b);
@@ -701,112 +708,46 @@ bfad.val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{f
  Compute function and derivative with AD 
 \begin{DoxyCode}
 cfad = 2*afad + std::cos(afad*bfad);
-
-   std::cout << \textcolor{stringliteral}{"afad="} << afad << std::endl;
-   std::cout << \textcolor{stringliteral}{"bfad="} << bfad << std::endl;
-   std::cout << \textcolor{stringliteral}{"cfad="} << cfad << std::endl;
+\end{DoxyCode}
+ After this, we output the variables again and see that some additional derivatives have been declared. Furthermore, {\itshape cfad} is filled with the values and derivatives 
+\begin{DoxyCode}
+std::cout << \textcolor{stringliteral}{"afad="} << afad << std::endl;
+std::cout << \textcolor{stringliteral}{"bfad="} << bfad << std::endl;
+std::cout << \textcolor{stringliteral}{"cfad="} << cfad << std::endl;
 \end{DoxyCode}
  Extract value and derivatives 
 \begin{DoxyCode}
-    \textcolor{keywordtype}{double} c\_ad = cfad.val().val();       \textcolor{comment}{// r}
-    \textcolor{keywordtype}{double} dcda\_ad = cfad.dx(0).val();    \textcolor{comment}{// dr/da}
-    \textcolor{keywordtype}{double} dcdb\_ad = cfad.dx(1).val();    \textcolor{comment}{// dr/db}
-    \textcolor{keywordtype}{double} d2cda2\_ad = cfad.dx(0).dx(0);  \textcolor{comment}{// d^2r/da^2}
-    \textcolor{keywordtype}{double} d2cdadb\_ad = cfad.dx(0).dx(1); \textcolor{comment}{// d^2r/dadb}
-    \textcolor{keywordtype}{double} d2cdbda\_ad = cfad.dx(1).dx(0); \textcolor{comment}{// d^2r/dbda}
-    \textcolor{keywordtype}{double} d2cdb2\_ad = cfad.dx(1).dx(1);  \textcolor{comment}{// d^2/db^2}
- 
- 
-    std::cout << \textcolor{stringliteral}{"cfad="} << cfad << std::endl;
-    std::cout << \textcolor{stringliteral}{"c\_ad="} << c\_ad << std::endl;
- 
-    std::cout << \textcolor{stringliteral}{"Derivatives at the point ("} << a << \textcolor{stringliteral}{","} << b << \textcolor{stringliteral}{")"} << std::endl;
-    std::cout << \textcolor{stringliteral}{"dc/da = "} << dcda\_ad << \textcolor{stringliteral}{", dc/db="} << dcdb\_ad << std::endl;
-    std::cout << \textcolor{stringliteral}{"d²c/da² = "} << d2cda2\_ad << \textcolor{stringliteral}{", d²c/db²="} << d2cdb2\_ad << std::endl;
-    std::cout << \textcolor{stringliteral}{"d²c/dadb = "} << d2cdadb\_ad << \textcolor{stringliteral}{", d²c/dbda="} << d2cdbda\_ad << std::endl;
+\textcolor{keywordtype}{double} c\_ad = cfad.val().val();       \textcolor{comment}{// r}
+\textcolor{keywordtype}{double} dcda\_ad = cfad.dx(0).val();    \textcolor{comment}{// dr/da}
+\textcolor{keywordtype}{double} dcdb\_ad = cfad.dx(1).val();    \textcolor{comment}{// dr/db}
+\textcolor{keywordtype}{double} d2cda2\_ad = cfad.dx(0).dx(0);  \textcolor{comment}{// d^2r/da^2}
+\textcolor{keywordtype}{double} d2cdadb\_ad = cfad.dx(0).dx(1); \textcolor{comment}{// d^2r/dadb}
+\textcolor{keywordtype}{double} d2cdbda\_ad = cfad.dx(1).dx(0); \textcolor{comment}{// d^2r/dbda}
+\textcolor{keywordtype}{double} d2cdb2\_ad = cfad.dx(1).dx(1);  \textcolor{comment}{// d^2/db^2}
+\end{DoxyCode}
+ Now we can print the actual double value of c and some of the derivatives\+: 
+\begin{DoxyCode}
+     std::cout << \textcolor{stringliteral}{"c\_ad="} << c\_ad << std::endl;
+     std::cout << \textcolor{stringliteral}{"Derivatives at the point ("} << a << \textcolor{stringliteral}{","} << b << \textcolor{stringliteral}{")"} << std::endl;
+     std::cout << \textcolor{stringliteral}{"dc/da = "} << dcda\_ad << \textcolor{stringliteral}{", dc/db="} << dcdb\_ad << std::endl;
+     std::cout << \textcolor{stringliteral}{"d²c/da² = "} << d2cda2\_ad << \textcolor{stringliteral}{", d²c/db²="} << d2cdb2\_ad << std::endl;
+     std::cout << \textcolor{stringliteral}{"d²c/dadb = "} << d2cdadb\_ad << \textcolor{stringliteral}{", d²c/dbda="} << d2cdbda\_ad << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex7}{}\section{7. Example\+: First and second derivatives}\label{index_Ex7}
+ \hypertarget{index_Ex7}{}\section{7. Example\+: First and second derivatives -\/ Using tensor (\+The full story)}\label{index_Ex7}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a0b694459e5e15c1578d97e637faba8de}{sacado\_test\_7} ()
- 
 \{
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
  
     std::cout << \textcolor{stringliteral}{"Test 7:"} << std::endl;
- 
-     SymmetricTensor<2,dim, double> eps;
- 
-     eps[0][0] = 1.;
-     eps[1][1] = 2.;
-     eps[2][2] = 3.;
- 
-     eps[0][1] = 4.;
-     eps[0][2] = 5.;
-     eps[1][2] = 6.;
-\end{DoxyCode}
- Number of independent variables 
-\begin{DoxyCode}
- \textcolor{keywordtype}{int} nbr\_dofs = 6;
-
-\textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
- SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps\_fad;
-
-
-(eps\_fad[0][0]).diff( 0, nbr\_dofs); \textcolor{comment}{// set up the "inner" derivatives}
-(eps\_fad[0][0]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 0, eps[0][0]); \textcolor{comment}{// set up the "outer" derivatives}
-
-(eps\_fad[1][1]).diff( 1, nbr\_dofs);
-(eps\_fad[1][1]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 1, eps[1][1]); \textcolor{comment}{// set up the "outer" derivatives}
-
-(eps\_fad[2][2]).diff( 2, nbr\_dofs);
-(eps\_fad[2][2]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 2, eps[2][2]); \textcolor{comment}{// set up the "outer" derivatives}
-
-(eps\_fad[0][1]).diff( 3, nbr\_dofs);
-(eps\_fad[0][1]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 3, eps[0][1]); \textcolor{comment}{// set up the "outer" derivatives}
-
-(eps\_fad[0][2]).diff( 4, nbr\_dofs);
-(eps\_fad[0][2]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 4, eps[0][2]); \textcolor{comment}{// set up the "outer" derivatives}
-
-(eps\_fad[1][2]).diff( 5, nbr\_dofs);
-(eps\_fad[1][2]).val() = \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_dofs, 5, eps[1][2]); \textcolor{comment}{// set up the "outer" derivatives}
-
-std::cout << eps\_fad << std::endl;
-
- SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma;
-\end{DoxyCode}
- Compute function and derivative with AD 
-\begin{DoxyCode}
-    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-            sigma[i][j] = 25 * trace(eps\_fad)*trace(eps\_fad) + eps\_fad[i][j];
- 
-    std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
- 
-    \textcolor{keywordtype}{double} d\_sigma00\_d\_eps00 = sigma[0][0].dx(0).val();
-    \textcolor{keywordtype}{double} d2\_sigma00\_d\_eps00\_2 = sigma[0][0].dx(0).dx(0);
-    \textcolor{comment}{//double d2\_sigma00\_d\_eps11\_2 = sigma[0][0].dx(0).dx(1);}
- 
-    std::cout << \textcolor{stringliteral}{"d\_sigma00\_d\_eps00 = "} << d\_sigma00\_d\_eps00 << \textcolor{stringliteral}{", d2\_sigma00\_d\_eps00\_2 = "} << 
-      d2\_sigma00\_d\_eps00\_2 << std::endl;
-\}
-\end{DoxyCode}
- \hypertarget{index_Ex8}{}\section{8. Example\+: First and second derivatives -\/ The full story}\label{index_Ex8}
-
-\begin{DoxyCode}
-\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8} ()
-\{
-    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
- 
-    std::cout << \textcolor{stringliteral}{"Test 8:"} << std::endl;
 \end{DoxyCode}
  Defining the inputs (material parameters, strain tensor) 
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} lambda=1;
 \textcolor{keywordtype}{double} mu=2;
 SymmetricTensor<2,dim, double> eps;
-\textcolor{keywordtype}{double} phi=0.3;
 
 eps[0][0] = 1.;
 eps[1][1] = 2.;
@@ -816,7 +757,11 @@ eps[0][1] = 4.;
 eps[0][2] = 5.;
 eps[1][2] = 6.;
 \end{DoxyCode}
- Setup of the map relating the indices 
+ Here we skip the one-\/field example and right away show the equations for a two-\/field problem with {\itshape eps} and {\itshape phi}. 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} phi=0.3;
+\end{DoxyCode}
+ Setup of the map relating the indices (as before) 
 \begin{DoxyCode}
 std::map<unsigned int,std::pair<unsigned int,unsigned int>> std\_map\_indicies;
 
@@ -839,7 +784,7 @@ std\_map\_indicies[4] = tmp\_pair;
 tmp\_pair.first=2; tmp\_pair.second=2;
 std\_map\_indicies[5] = tmp\_pair;
 \end{DoxyCode}
- Number of independent variables 
+ Number of independent variables (6 for the tensor and 1 for the scalar phi) 
 \begin{DoxyCode}
 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_dofs = 6+1;
 \end{DoxyCode}
@@ -981,15 +926,15 @@ std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_ene
     std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex9}{}\section{9. Example\+: First and second derivatives -\/ Using the Wrapper}\label{index_Ex9}
+ \hypertarget{index_Ex8}{}\section{8. Example\+: First and second derivatives -\/ Using the Wrapper}\label{index_Ex8}
 
 \begin{DoxyCode}
-\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9} ()
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8} ()
  
 \{
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
  
-    std::cout << \textcolor{stringliteral}{"Test 9:"} << std::endl;
+    std::cout << \textcolor{stringliteral}{"Test 8:"} << std::endl;
 \end{DoxyCode}
  Defining the inputs (material parameters, strain tensor) 
 \begin{DoxyCode}
@@ -1151,10 +1096,6 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
     std::cout << std::endl;
  
     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
- 
-    std::cout << std::endl;
- 
-    \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9}();
 \}
 \end{DoxyCode}
 \hypertarget{index_END}{}\section{The End}\label{index_END}

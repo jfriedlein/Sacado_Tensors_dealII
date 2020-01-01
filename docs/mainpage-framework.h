@@ -50,6 +50,7 @@ The arguments of \a dx, namely 0 and 1 are the numbers corresponding to the dof 
 and use it, are given in example Ex1.
 
 Some resources/links: \n
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 @todo link the Sacado and DII pages
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood.
@@ -59,7 +60,7 @@ The code is neither elegant nor efficient, but it works. A more user-friendly ve
 @todo Check if factor 0.5 is also necessary for d_sigma / d_phi
 
 @note This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified.
-Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
+Any comments, criticism, corrections, feedback, improvements, ... are appreciated and very well welcomed.
 
 @section code The commented program
 

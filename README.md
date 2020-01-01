@@ -8,12 +8,28 @@ The aim is to compute e. g. the tangent
 
 as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).
  
-You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 https://www.dealii.org/current/doxygen/deal.II/step_33.html with already implemented deal.ii-functionality. 
 
 ## The Documentation
 The Doxygen documentation for the code can be found here https://jfriedlein.github.io/Sacado-Testing/html/index.html. It shows a few examples and describes how to use the Sacado_Wrapper.
 
 ## Current features of the Sacado_Wrapper
+### Legend:
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{\varepsilon}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{\varepsilon}" title="\boldsymbol{\varepsilon}" /></a> (2nd order symmetric tensor, here: strain tensor)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\varphi" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\varphi" title="\varphi" /></a> (scalar, here: global damage variable)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\Psi&space;=&space;\Psi(\boldsymbol{\varepsilon},\varphi)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\Psi&space;=&space;\Psi(\boldsymbol{\varepsilon},\varphi)" title="\Psi = \Psi(\boldsymbol{\varepsilon},\varphi)" /></a> (scalar, here: free energy)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}" title="\overset{4}{C}" /></a> (4th order sym. tensor, here: consistent tangent moduli)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;E,&space;F}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A,&space;B,&space;E,&space;F}" title="\boldsymbol{A, B, E, F}" /></a> (2nd order sym. tensors)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=D,&space;G" target="_blank"><img src="https://latex.codecogs.com/gif.latex?D,&space;G" title="D, G" /></a> (scalar derivatives)
+
+### Features:
+
 - Compute derivatives of equations with respect to a single scalar.
 
 <a href="https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?{D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}" title="{D} = \frac{\partial{\alpha}}{\partial{\phi }}" /></a>

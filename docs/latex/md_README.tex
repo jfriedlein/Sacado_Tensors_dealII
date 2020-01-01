@@ -1,4 +1,4 @@
-Testing capabilities of Sacado mainly in combination with tensors and providing a Wrapper to ease the use of Sacado in conjunction with tensors.
+Examples and functions to compute derivatives of tensor-\/valued equations with Sacado
 
 \subsection*{The Aim}
 
@@ -6,15 +6,31 @@ The aim is to compute e. g. the tangent
 
 \href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-\/equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-\/equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).
 
-You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.\+ii tutorial 33 \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html} with already implemented deal.\+ii-\/functionality.
 
 \subsection*{The Documentation}
 
-The Doxygen documentation for the code can be found here \href{https://jfriedlein.github.io/Sacado-Testing/html/index.html}{\tt https\+://jfriedlein.\+github.\+io/\+Sacado-\/\+Testing/html/index.\+html}. It shows a few examples and describes how to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)
+The Doxygen documentation for the code can be found here \href{https://jfriedlein.github.io/Sacado-Testing/html/index.html}{\tt https\+://jfriedlein.\+github.\+io/\+Sacado-\/\+Testing/html/index.\+html}. It shows a few examples and describes how to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}.
 
 \subsection*{Current features of the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}}
+
+\subsubsection*{Legend\+:}
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{\varepsilon}}{\tt } (2nd order symmetric tensor, here\+: strain tensor)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\varphi}{\tt } (scalar, here\+: global damage variable)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\Psi&space;=&space;\Psi(\boldsymbol{\varepsilon},\varphi)}{\tt } (scalar, here\+: free energy)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}}{\tt } (4th order sym. tensor, here\+: consistent tangent moduli)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;E,&space;F}}{\tt } (2nd order sym. tensors)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=D,&space;G}{\tt } (scalar derivatives)
+
+\subsubsection*{Features\+:}
 
 
 \begin{DoxyItemize}
@@ -33,6 +49,13 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 
 \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}}{\tt }
 
+
+\begin{DoxyItemize}
+\item Compute second derivatives of equations with respect to a single Symmetric\+Tensor$<$2,dim$>$ and a single scalar. (Example 7, 8)
+\end{DoxyItemize}
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}^2}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{E}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}&space;\partial\varphi&space;}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{F}&space;=&space;\frac{\partial^2\Psi}{\partial\varphi&space;\partial\boldsymbol{\varepsilon&space;}&space;}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=G&space;=&space;\frac{\partial^2\Psi}{\partial\varphi^2&space;}}{\tt }
+
 \subsection*{How to start}
 
 
@@ -47,7 +70,7 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 
 \begin{DoxyEnumerate}
 \item Download the file \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{} and place it into your working directory, e.\+g. where your main code such as Sacado\+\_\+examples.\+cc is.
-\item Include the .h file with your other headers in your code via \textquotesingle{}\#include \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{}\textquotesingle{}.
+\item Include the .h file with your other headers in your code via \textquotesingle{}\hyperlink{CMakeCache_8txt_a986ccfc90e04633694fe6cff5472be19}{include} \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{}\textquotesingle{}.
 \item Copy one of the examples into your code for testing.
 \item Compile, run and play around with the code.
 \end{DoxyEnumerate}

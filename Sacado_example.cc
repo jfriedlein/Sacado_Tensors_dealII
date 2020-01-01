@@ -794,13 +794,13 @@ void sacado_test_7 ()
 
 
 
-// @section Ex9 9. Example: First and second derivatives - Using the Wrapper
-void sacado_test_9 ()
+// @section Ex8 8. Example: First and second derivatives - Using the Wrapper
+void sacado_test_8 ()
 
 {
     const unsigned int dim=3;
 
-	std::cout << "Test 9:" << std::endl;
+	std::cout << "Test 8:" << std::endl;
 
 	// Defining the inputs (material parameters, strain tensor)
 	 double lambda=1;
@@ -947,8 +947,4 @@ int main ()
     std::cout << std::endl;
 
     sacado_test_8();
-
-    std::cout << std::endl;
-
-    sacado_test_9();
 }

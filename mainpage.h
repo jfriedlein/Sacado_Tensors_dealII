@@ -50,6 +50,7 @@ The arguments of \a dx, namely 0 and 1 are the numbers corresponding to the dof 
 and use it, are given in example Ex1.
 
 Some resources/links: \n
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 @todo link the Sacado and DII pages
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood.
@@ -59,7 +60,7 @@ The code is neither elegant nor efficient, but it works. A more user-friendly ve
 @todo Check if factor 0.5 is also necessary for d_sigma / d_phi
 
 @note This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified.
-Any comments, criticism, corrections, feedback, improvements, ... are very well welcomed.
+Any comments, criticism, corrections, feedback, improvements, ... are appreciated and very well welcomed.
 
 @section code The commented program
 
@@ -772,33 +773,43 @@ Access to the derivatives works as before.
  
  
 \endcode
-@section Ex6 6. Example: First and second derivatives
-MODIFIED FROM https://github.com/trilinos/Trilinos/blob/master/packages/sacado/example/dfad_dfad_example.cpp
+@section Ex6 6. Example: First and second derivatives - Scalar equation
+The here shown example was copied from https://github.com/trilinos/Trilinos/blob/master/packages/sacado/example/dfad_dfad_example.cpp
+and modified to get a first impression on how we can work with first and second derivatives
 \code
 void sacado_test_6 ()
- 
 {
 	std::cout << "Test 6:" << std::endl;
 \endcode
-define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as the Sacado-data type
+Define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as doubles
 \code
 	 double a=1;
 	 double b=2;
  
 \endcode
-Number of independent variables
+Number of independent variables (scalar a and b)
 \code
 	 int num_dofs = 2;
  
-	typedef Sacado::Fad::DFad<double> DFadType;
-	Sacado::Fad::DFad<DFadType> afad(num_dofs, 0, a);
-	Sacado::Fad::DFad<DFadType> bfad(num_dofs, 1, b);
-	Sacado::Fad::DFad<DFadType> cfad;
+\endcode
+Define another data type containing even more Sacado data types
+@todo try to merge the fad_double data type with this templated data type
+\code
+	 typedef Sacado::Fad::DFad<double> DFadType;
+	 Sacado::Fad::DFad<DFadType> afad(num_dofs, 0, a);
+	 Sacado::Fad::DFad<DFadType> bfad(num_dofs, 1, b);
+	 Sacado::Fad::DFad<DFadType> cfad;
  
-	std::cout << "afad=" << afad << std::endl;
-	std::cout << "bfad=" << bfad << std::endl;
-	std::cout << "cfad=" << cfad << std::endl;
+\endcode
+Output the variables: We se that the values of \a a and \a b are set but the derivatives have not yet been fully declared
+\code
+	 std::cout << "afad=" << afad << std::endl;
+	 std::cout << "bfad=" << bfad << std::endl;
+	 std::cout << "cfad=" << cfad << std::endl;
  
+\endcode
+Now we set the "inner" derivatives.
+\code
 	afad.val() = fad_double(num_dofs, 0, a); // set afad.val() as the first dof and init it with the double a
 	bfad.val() = fad_double(num_dofs, 1, b);
  
@@ -807,113 +818,44 @@ Compute function and derivative with AD
 \code
 	 cfad = 2*afad + std::cos(afad*bfad);
  
-		std::cout << "afad=" << afad << std::endl;
-		std::cout << "bfad=" << bfad << std::endl;
-		std::cout << "cfad=" << cfad << std::endl;
+\endcode
+After this, we output the variables again and see that some additional derivatives have been declared. Furthermore,
+\a cfad is filled with the values and derivatives
+\code
+	 std::cout << "afad=" << afad << std::endl;
+	 std::cout << "bfad=" << bfad << std::endl;
+	 std::cout << "cfad=" << cfad << std::endl;
  
 \endcode
 Extract value and derivatives
 \code
-	double c_ad = cfad.val().val();       // r
-	double dcda_ad = cfad.dx(0).val();    // dr/da
-	double dcdb_ad = cfad.dx(1).val();    // dr/db
-	double d2cda2_ad = cfad.dx(0).dx(0);  // d^2r/da^2
-	double d2cdadb_ad = cfad.dx(0).dx(1); // d^2r/dadb
-	double d2cdbda_ad = cfad.dx(1).dx(0); // d^2r/dbda
-	double d2cdb2_ad = cfad.dx(1).dx(1);  // d^2/db^2
+	 double c_ad = cfad.val().val();       // r
+	 double dcda_ad = cfad.dx(0).val();    // dr/da
+	 double dcdb_ad = cfad.dx(1).val();    // dr/db
+	 double d2cda2_ad = cfad.dx(0).dx(0);  // d^2r/da^2
+	 double d2cdadb_ad = cfad.dx(0).dx(1); // d^2r/dadb
+	 double d2cdbda_ad = cfad.dx(1).dx(0); // d^2r/dbda
+	 double d2cdb2_ad = cfad.dx(1).dx(1);  // d^2/db^2
  
- 
-	std::cout << "cfad=" << cfad << std::endl;
-	std::cout << "c_ad=" << c_ad << std::endl;
- 
-	std::cout << "Derivatives at the point (" << a << "," << b << ")" << std::endl;
-	std::cout << "dc/da = " << dcda_ad << ", dc/db=" << dcdb_ad << std::endl;
-	std::cout << "d²c/da² = " << d2cda2_ad << ", d²c/db²=" << d2cdb2_ad << std::endl;
-	std::cout << "d²c/dadb = " << d2cdadb_ad << ", d²c/dbda=" << d2cdbda_ad << std::endl;
+\endcode
+Now we can print the actual double value of c and some of the derivatives:
+\code
+	 std::cout << "c_ad=" << c_ad << std::endl;
+	 std::cout << "Derivatives at the point (" << a << "," << b << ")" << std::endl;
+	 std::cout << "dc/da = " << dcda_ad << ", dc/db=" << dcdb_ad << std::endl;
+	 std::cout << "d²c/da² = " << d2cda2_ad << ", d²c/db²=" << d2cdb2_ad << std::endl;
+	 std::cout << "d²c/dadb = " << d2cdadb_ad << ", d²c/dbda=" << d2cdbda_ad << std::endl;
 }
  
  
- 
 \endcode
-@section Ex7 7. Example: First and second derivatives
+@section Ex7 7. Example: First and second derivatives - Using tensor (The full story)
 \code
 void sacado_test_7 ()
- 
 {
     const unsigned int dim=3;
  
 	std::cout << "Test 7:" << std::endl;
- 
-	 SymmetricTensor<2,dim, double> eps;
- 
-	 eps[0][0] = 1.;
-	 eps[1][1] = 2.;
-	 eps[2][2] = 3.;
- 
-	 eps[0][1] = 4.;
-	 eps[0][2] = 5.;
-	 eps[1][2] = 6.;
- 
- 
- 
-\endcode
-Number of independent variables
-\code
-	 int nbr_dofs = 6;
- 
-	typedef Sacado::Fad::DFad<double> DFadType;
-	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad;
- 
- 
-	(eps_fad[0][0]).diff( 0, nbr_dofs);	// set up the "inner" derivatives
-	(eps_fad[0][0]).val() = fad_double(nbr_dofs, 0, eps[0][0]); // set up the "outer" derivatives
- 
-	(eps_fad[1][1]).diff( 1, nbr_dofs);
-	(eps_fad[1][1]).val() = fad_double(nbr_dofs, 1, eps[1][1]); // set up the "outer" derivatives
- 
-	(eps_fad[2][2]).diff( 2, nbr_dofs);
-	(eps_fad[2][2]).val() = fad_double(nbr_dofs, 2, eps[2][2]); // set up the "outer" derivatives
- 
-	(eps_fad[0][1]).diff( 3, nbr_dofs);
-	(eps_fad[0][1]).val() = fad_double(nbr_dofs, 3, eps[0][1]); // set up the "outer" derivatives
- 
-	(eps_fad[0][2]).diff( 4, nbr_dofs);
-	(eps_fad[0][2]).val() = fad_double(nbr_dofs, 4, eps[0][2]); // set up the "outer" derivatives
- 
-	(eps_fad[1][2]).diff( 5, nbr_dofs);
-	(eps_fad[1][2]).val() = fad_double(nbr_dofs, 5, eps[1][2]); // set up the "outer" derivatives
- 
-	std::cout << eps_fad << std::endl;
- 
-	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma;
- 
- 
-\endcode
-Compute function and derivative with AD
-\code
-	for ( unsigned int i=0; i<dim; ++i)
-		for ( unsigned int j=0; j<dim; ++j )
-			sigma[i][j] = 25 * trace(eps_fad)*trace(eps_fad) + eps_fad[i][j];
- 
-	std::cout << "sigma=" << sigma << std::endl;
- 
-	double d_sigma00_d_eps00 = sigma[0][0].dx(0).val();
-	double d2_sigma00_d_eps00_2 = sigma[0][0].dx(0).dx(0);
-	//double d2_sigma00_d_eps11_2 = sigma[0][0].dx(0).dx(1);
- 
-	std::cout << "d_sigma00_d_eps00 = " << d_sigma00_d_eps00 << ", d2_sigma00_d_eps00_2 = " << d2_sigma00_d_eps00_2 << std::endl;
-}
- 
- 
- 
-\endcode
-@section Ex8 8. Example: First and second derivatives - The full story
-\code
-void sacado_test_8 ()
-{
-    const unsigned int dim=3;
- 
-	std::cout << "Test 8:" << std::endl;
  
 \endcode
 Defining the inputs (material parameters, strain tensor)
@@ -921,7 +863,6 @@ Defining the inputs (material parameters, strain tensor)
 	 double lambda=1;
 	 double mu=2;
 	 SymmetricTensor<2,dim, double> eps;
-	 double phi=0.3;
  
 	 eps[0][0] = 1.;
 	 eps[1][1] = 2.;
@@ -932,7 +873,13 @@ Defining the inputs (material parameters, strain tensor)
 	 eps[1][2] = 6.;
  
 \endcode
-Setup of the map relating the indices
+Here we skip the one-field example and right away show the equations for a two-field problem
+with \a eps and \a phi.
+\code
+	 double phi=0.3;
+ 
+\endcode
+Setup of the map relating the indices (as before)
 \code
 	 std::map<unsigned int,std::pair<unsigned int,unsigned int>> std_map_indicies;
  
@@ -956,7 +903,7 @@ Setup of the map relating the indices
 	 std_map_indicies[5] = tmp_pair;
  
 \endcode
-Number of independent variables
+Number of independent variables (6 for the tensor and 1 for the scalar phi)
 \code
 	 const unsigned int nbr_dofs = 6+1;
  
@@ -1111,14 +1058,14 @@ Analytical tangent
  
  
 \endcode
-@section Ex9 9. Example: First and second derivatives - Using the Wrapper
+@section Ex8 8. Example: First and second derivatives - Using the Wrapper
 \code
-void sacado_test_9 ()
+void sacado_test_8 ()
  
 {
     const unsigned int dim=3;
  
-	std::cout << "Test 9:" << std::endl;
+	std::cout << "Test 8:" << std::endl;
  
 \endcode
 Defining the inputs (material parameters, strain tensor)
@@ -1297,10 +1244,6 @@ int main ()
     std::cout << std::endl;
  
     sacado_test_8();
- 
-    std::cout << std::endl;
- 
-    sacado_test_9();
 }
 \endcode
 

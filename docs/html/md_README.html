@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>Trilinos::Sacado example: Testing Trilinos::Sacado mainly with tensors</title>
+<title>Trilinos::Sacado example: Trilinos::Sacado: Computing derivatives incorporating tensors</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -83,18 +83,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Testing Trilinos::Sacado mainly with tensors </div>  </div>
+<div class="title">Trilinos::Sacado: Computing derivatives incorporating tensors </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Testing capabilities of Sacado mainly in combination with tensors and providing a Wrapper to ease the use of Sacado in conjunction with tensors.</p>
+<div class="textblock"><p>Examples and functions to compute derivatives of tensor-valued equations with Sacado</p>
 <h2>The Aim</h2>
 <p>The aim is to compute e. g. the tangent</p>
 <p><a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a></p>
-<p>as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) (see feature list).</p>
-<p>You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).</p>
+<p>as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).</p>
+<p>The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 <a href="https://www.dealii.org/current/doxygen/deal.II/step_33.html">https://www.dealii.org/current/doxygen/deal.II/step_33.html</a> with already implemented deal.ii-functionality.</p>
 <h2>The Documentation</h2>
-<p>The Doxygen documentation for the code can be found here <a href="https://jfriedlein.github.io/Sacado-Testing/html/index.html">https://jfriedlein.github.io/Sacado-Testing/html/index.html</a>. It shows a few examples and describes how to use the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)</p>
+<p>The Doxygen documentation for the code can be found here <a href="https://jfriedlein.github.io/Sacado-Testing/html/index.html">https://jfriedlein.github.io/Sacado-Testing/html/index.html</a>. It shows a few examples and describes how to use the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>.</p>
 <h2>Current features of the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a></h2>
+<h3>Legend:</h3>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{\varepsilon}" target="_blank"></a> (2nd order symmetric tensor, here: strain tensor)</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\varphi" target="_blank"></a> (scalar, here: global damage variable)</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\Psi&amp;space;=&amp;space;\Psi(\boldsymbol{\varepsilon},\varphi)" target="_blank"></a> (scalar, here: free energy)</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}" target="_blank"></a> (4th order sym. tensor, here: consistent tangent moduli)</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&amp;space;B,&amp;space;E,&amp;space;F}" target="_blank"></a> (2nd order sym. tensors)</p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=D,&amp;space;G" target="_blank"></a> (scalar derivatives)</p>
+<h3>Features:</h3>
 <ul>
 <li>Compute derivatives of equations with respect to a single scalar.</li>
 </ul>
@@ -106,6 +114,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Compute tangents from equations with respect to a single SymmetricTensor&lt;2,dim&gt; and a single scalar. (Example 4)</li>
 </ul>
 <p><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&amp;space;B,&amp;space;}&amp;space;\overset{4}{C}&amp;space;\textrm{&amp;space;and&amp;space;}&amp;space;$D$&amp;space;\textrm{&amp;space;at&amp;space;the&amp;space;same&amp;space;time}" target="_blank"></a></p>
+<ul>
+<li>Compute second derivatives of equations with respect to a single SymmetricTensor&lt;2,dim&gt; and a single scalar. (Example 7, 8)</li>
+</ul>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&amp;space;=&amp;space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&amp;space;}^2}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{E}&amp;space;=&amp;space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&amp;space;}&amp;space;\partial\varphi&amp;space;}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{F}&amp;space;=&amp;space;\frac{\partial^2\Psi}{\partial\varphi&amp;space;\partial\boldsymbol{\varepsilon&amp;space;}&amp;space;}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=G&amp;space;=&amp;space;\frac{\partial^2\Psi}{\partial\varphi^2&amp;space;}" target="_blank"></a></p>
 <h2>How to start</h2>
 <ul>
 <li>First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above and the list of current features.</li>
@@ -115,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>Instructions on how to "install" the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a></h2>
 <ol type="1">
 <li>Download the file "Sacado_Wrapper.h" and place it into your working directory, e.g. where your main code such as Sacado_examples.cc is.</li>
-<li>Include the .h file with your other headers in your code via '#include "Sacado_Wrapper.h"'.</li>
+<li>Include the .h file with your other headers in your code via '<a class="el" href="CMakeCache_8txt.html#a986ccfc90e04633694fe6cff5472be19">include</a> "Sacado_Wrapper.h"'.</li>
 <li>Copy one of the examples into your code for testing.</li>
 <li>Compile, run and play around with the code.</li>
 </ol>
