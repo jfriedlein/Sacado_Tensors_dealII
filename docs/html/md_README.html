@@ -90,7 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>The Aim</h2>
 <p>The aim is to compute e. g. the tangent</p>
 <p><a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a></p>
-<p>as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).</p>
+<p>as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma=sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi=phi(eps) and compute second derivatives (see feature list).</p>
 <p>The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 <a href="https://www.dealii.org/current/doxygen/deal.II/step_33.html">https://www.dealii.org/current/doxygen/deal.II/step_33.html</a> with already implemented deal.ii-functionality.</p>
 <h2>The Documentation</h2>
 <p>The Doxygen documentation for the code can be found here <a href="https://jfriedlein.github.io/Sacado-Testing/html/index.html">https://jfriedlein.github.io/Sacado-Testing/html/index.html</a>. It shows a few examples and describes how to use the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>.</p>
@@ -106,11 +106,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ul>
 <li>Compute derivatives of equations with respect to a single scalar.</li>
 </ul>
-<p><a href="https://www.codecogs.com/eqnedit.php?latex={D}&amp;space;=&amp;space;\frac{\partial{\alpha}}{\partial{\phi&amp;space;}}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial{\phi&amp;space;}}" target="_blank"></a></p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex={D}&amp;space;=&amp;space;\frac{\partial{\Psi}}{\partial{\varphi&amp;space;}}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial{\varphi&amp;space;}}" target="_blank"></a></p>
 <ul>
-<li><p class="startli">Compute tangents from equations with respect to a single SymmetricTensor&lt;2,dim&gt;. (Example 3B)</p>
-<p class="startli"><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&amp;space;=&amp;space;\frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a></p>
-</li>
+<li>Compute tangents from equations with respect to a single SymmetricTensor&lt;2,dim&gt;. (Example 3B)</li>
+</ul>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&amp;space;=&amp;space;\frac{\partial{\Psi}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a> ; <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&amp;space;=&amp;space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&amp;space;}}" target="_blank"></a></p>
+<ul>
 <li>Compute tangents from equations with respect to a single SymmetricTensor&lt;2,dim&gt; and a single scalar. (Example 4)</li>
 </ul>
 <p><a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&amp;space;B,&amp;space;}&amp;space;\overset{4}{C}&amp;space;\textrm{&amp;space;and&amp;space;}&amp;space;$D$&amp;space;\textrm{&amp;space;at&amp;space;the&amp;space;same&amp;space;time}" target="_blank"></a></p>
@@ -121,8 +122,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>How to start</h2>
 <ul>
 <li>First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above and the list of current features.</li>
-<li>If you're interested in the details and want to get a look under the hood of the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>, then please consider the examples 1, 2 and 3</li>
-<li>If you right away want to use the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>, then consider the examples 3b and 4 and follow the instructions on how to get the Wrapper into your own code.</li>
+<li>If you're interested in the details and want to get a look under the hood of the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>, then please consider the examples 1, 2, 3, 6 and 7</li>
+<li>If you right away want to use the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a>, then consider the examples 3b, 4 and 8 and follow the instructions on how to get the Wrapper into your own code.</li>
 </ul>
 <h2>Instructions on how to "install" the <a class="el" href="namespaceSacado__Wrapper.html">Sacado_Wrapper</a></h2>
 <ol type="1">
@@ -134,7 +135,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h2>ToDo:</h2>
 <ul>
 <li>find a more suitable name</li>
-<li>enable LaTeX equations (currently with mathJax) in the documentation hosted via GitHub</li>
+<li>enable LaTeX equations in the documentation hosted via GitHub</li>
 <li>Rework the design and structure of the Wrapper</li>
 <li>implement more data types (e.g. Vector, nonsym tensor) and compatibility with more combinations (e.g. vector-vector, vector-double).</li>
 <li>add some text that: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.</li>
@@ -142,7 +143,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <h2>Test cases:</h2>
 <ul>
-<li>... </li>
+<li>.. </li>
 </ul>
 </div></div><!-- contents -->
 <!-- start footer part -->

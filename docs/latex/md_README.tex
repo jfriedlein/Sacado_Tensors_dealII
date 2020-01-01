@@ -6,7 +6,7 @@ The aim is to compute e. g. the tangent
 
 \href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-\/equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-\/equation sigma=sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi=phi(eps) and compute second derivatives (see feature list).
 
 The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.\+ii tutorial 33 \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html} with already implemented deal.\+ii-\/functionality.
 
@@ -37,13 +37,17 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 \item Compute derivatives of equations with respect to a single scalar.
 \end{DoxyItemize}
 
-\href{https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\phi&space;}}}{\tt }
+\href{https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\Psi}}{\partial{\varphi&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\varphi&space;}}}{\tt }
 
 
 \begin{DoxyItemize}
 \item Compute tangents from equations with respect to a single Symmetric\+Tensor$<$2,dim$>$. (Example 3B)
+\end{DoxyItemize}
 
-\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&space;=&space;\frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
+\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&space;=&space;\frac{\partial{\Psi}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
+
+
+\begin{DoxyItemize}
 \item Compute tangents from equations with respect to a single Symmetric\+Tensor$<$2,dim$>$ and a single scalar. (Example 4)
 \end{DoxyItemize}
 
@@ -61,8 +65,8 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 
 \begin{DoxyItemize}
 \item First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above and the list of current features.
-\item If you\textquotesingle{}re interested in the details and want to get a look under the hood of the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then please consider the examples 1, 2 and 3
-\item If you right away want to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then consider the examples 3b and 4 and follow the instructions on how to get the Wrapper into your own code.
+\item If you\textquotesingle{}re interested in the details and want to get a look under the hood of the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then please consider the examples 1, 2, 3, 6 and 7
+\item If you right away want to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then consider the examples 3b, 4 and 8 and follow the instructions on how to get the Wrapper into your own code.
 \end{DoxyItemize}
 
 \subsection*{Instructions on how to \char`\"{}install\char`\"{} the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}}
@@ -80,7 +84,7 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 
 \begin{DoxyItemize}
 \item find a more suitable name
-\item enable La\+TeX equations (currently with math\+Jax) in the documentation hosted via Git\+Hub
+\item enable La\+TeX equations in the documentation hosted via Git\+Hub
 \item Rework the design and structure of the Wrapper
 \item implement more data types (e.\+g. Vector, nonsym tensor) and compatibility with more combinations (e.\+g. vector-\/vector, vector-\/double).
 \item add some text that\+: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.
@@ -91,5 +95,5 @@ The Doxygen documentation for the code can be found here \href{https://jfriedlei
 
 
 \begin{DoxyItemize}
-\item ... 
+\item .. 
 \end{DoxyItemize}

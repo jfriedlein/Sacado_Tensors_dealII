@@ -850,7 +850,7 @@ Now we can print the actual double value of c and some of the derivatives:
  
  
 \endcode
-@section Ex7 7. Example: First and second derivatives - Using tensor (The full story)
+@section Ex7 7. Example: First and second derivatives - Using tensors (The full story)
 \code
 void sacado_test_7 ()
 {

@@ -614,7 +614,7 @@ void sacado_test_6 ()
 }
 
 
-// @section Ex7 7. Example: First and second derivatives - Using tensor (The full story)
+// @section Ex7 7. Example: First and second derivatives - Using tensors (The full story)
 void sacado_test_7 ()
 {
     const unsigned int dim=3;
