@@ -91,7 +91,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Sacado_Wrapper.h File Reference</div>  </div>
 </div><!--header-->
@@ -121,7 +122,11 @@ This graph shows which files directly or indirectly include this file:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSacado__Wrapper_1_1SymTensor.html">Sacado_Wrapper::SymTensor&lt; dim &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSacado__Wrapper_1_1SymTensor2.html">Sacado_Wrapper::SymTensor2&lt; dim &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSacado__Wrapper_1_1SW__double.html">Sacado_Wrapper::SW_double&lt; dim &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSacado__Wrapper_1_1SW__double2.html">Sacado_Wrapper::SW_double2&lt; dim &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSacado__Wrapper_1_1DoFs__summary.html">Sacado_Wrapper::DoFs_summary&lt; dim &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -135,8 +140,28 @@ Namespaces</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:a868b94676739e612d9c95940e70892a9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sacado__Wrapper_8h.html#a868b94676739e612d9c95940e70892a9">fad_double</a> = Sacado::Fad::DFad&lt; double &gt;</td></tr>
 <tr class="separator:a868b94676739e612d9c95940e70892a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e0893207b87dad05c66a34baac8ed2e"><td class="memItemLeft" align="right" valign="top">typedef Sacado::Fad::DFad&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Sacado__Wrapper_8h.html#a7e0893207b87dad05c66a34baac8ed2e">DFadType</a></td></tr>
+<tr class="separator:a7e0893207b87dad05c66a34baac8ed2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:abe25ecefccdd45897ebc69797e1051ea"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:abe25ecefccdd45897ebc69797e1051ea"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Sacado__Wrapper_8h.html#abe25ecefccdd45897ebc69797e1051ea">get_index_map</a> (std::map&lt; unsigned int, std::pair&lt; unsigned int, unsigned int &gt;&gt; &amp;std_map_indicies)</td></tr>
+<tr class="separator:abe25ecefccdd45897ebc69797e1051ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
+<a class="anchor" id="a7e0893207b87dad05c66a34baac8ed2e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Sacado::Fad::DFad&lt;double&gt; <a class="el" href="Sacado__Wrapper_8h.html#a7e0893207b87dad05c66a34baac8ed2e">DFadType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a class="anchor" id="a868b94676739e612d9c95940e70892a9"></a>
 <div class="memitem">
 <div class="memproto">
@@ -147,6 +172,25 @@ Typedefs</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="abe25ecefccdd45897ebc69797e1051ea"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void get_index_map </td>
+          <td>(</td>
+          <td class="paramtype">std::map&lt; unsigned int, std::pair&lt; unsigned int, unsigned int &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>std_map_indicies</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    std::pair&lt;unsigned int, unsigned int&gt; tmp_pair;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">switch</span> ( dim )</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">case</span> 2:</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        tmp_pair.first=0; tmp_pair.second=0;</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        std_map_indicies[0] = tmp_pair;</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        tmp_pair.first=0; tmp_pair.second=1;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        std_map_indicies[1] = tmp_pair;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        tmp_pair.first=1; tmp_pair.second=1;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        std_map_indicies[2] = tmp_pair;</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">case</span> 3:</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        tmp_pair.first=0; tmp_pair.second=0;</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std_map_indicies[0] = tmp_pair;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div><div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        tmp_pair.first=0; tmp_pair.second=1;</div><div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        std_map_indicies[1] = tmp_pair;</div><div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div><div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        tmp_pair.first=0; tmp_pair.second=2;</div><div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        std_map_indicies[2] = tmp_pair;</div><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        tmp_pair.first=1; tmp_pair.second=1;</div><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        std_map_indicies[3] = tmp_pair;</div><div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        tmp_pair.first=1; tmp_pair.second=2;</div><div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        std_map_indicies[4] = tmp_pair;</div><div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div><div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        tmp_pair.first=2; tmp_pair.second=2;</div><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        std_map_indicies[5] = tmp_pair;</div><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">break</span>;</div><div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div><div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->
