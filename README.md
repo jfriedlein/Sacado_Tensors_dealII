@@ -69,13 +69,11 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 
 ## ToDo:
 - find a more suitable name
-- enable LaTeX equations in the documentation hosted via GitHub
+- enable LaTeX equations (currently with mathJax) in the documentation hosted via GitHub
 - Rework the design and structure of the Wrapper
 - implement more data types (e.g. Vector, nonsym tensor) and compatibility with more combinations (e.g. vector-vector, vector-double).
 - add some text that: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.
-- add a note in example 2 to avoid scaring people with the numerous repetitive lines of code
-- don't "sum over i and j" but "loop"
 - add note on the efficiency/computation time
 
 ## Test cases:
-- compute tangent of eps with respect to eps
+- ...

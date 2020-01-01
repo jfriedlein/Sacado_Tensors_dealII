@@ -149,7 +149,8 @@ Output the derivatives of c with respect to the two above defined degrees of fre
 @section Ex2 2. example: Preparation for the use of Sacado with tensors
 Here we want to introduce tensors for the first time. Hence, we limit ourselves to a trivial equation relating the strain tensor \a eps
 with dim x dim components with the stress tensor \a sigma. Both here used tensors are symmetric, hence we use the SymmetricTensor class and
-have to keep some details in mind (see below factor 0.5 related to Voigt-Notation).
+have to keep some details in mind (see below factor 0.5 related to Voigt-Notation). Don't be scared by the enormous number of repetitive
+lines of code, everything shown in this example and the following will be handled by the Sacado_Wrapper with roughly four lines of code.
 \code
 /*
  * 2. example: use of tensors
@@ -392,7 +393,7 @@ the tangent in the actual FE code.
 	SymmetricTensor<4,dim> C_Sacado;
  
 \endcode
-As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we sum over the
+As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we loop over the
 components i and j of the stress tensor.
 \code
 	for ( unsigned int i=0; i<dim; ++i)

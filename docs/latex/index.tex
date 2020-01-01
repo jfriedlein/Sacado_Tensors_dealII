@@ -128,7 +128,7 @@ c = 2*a + std::cos(a*b);
 \}
 \end{DoxyCode}
  \hypertarget{index_Ex2}{}\section{2. example\+: Preparation for the use of Sacado with tensors}\label{index_Ex2}
-Here we want to introduce tensors for the first time. Hence, we limit ourselves to a trivial equation relating the strain tensor {\itshape eps} with dim x dim components with the stress tensor {\itshape sigma}. Both here used tensors are symmetric, hence we use the Symmetric\+Tensor class and have to keep some details in mind (see below factor 0.\+5 related to Voigt-\/\+Notation). 
+Here we want to introduce tensors for the first time. Hence, we limit ourselves to a trivial equation relating the strain tensor {\itshape eps} with dim x dim components with the stress tensor {\itshape sigma}. Both here used tensors are symmetric, hence we use the Symmetric\+Tensor class and have to keep some details in mind (see below factor 0.\+5 related to Voigt-\/\+Notation). Don\textquotesingle{}t be scared by the enormous number of repetitive lines of code, everything shown in this example and the following will be handled by the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} with roughly four lines of code. 
 \begin{DoxyCode}
 \textcolor{comment}{/*}
 \textcolor{comment}{ * 2. example: use of tensors}
@@ -347,7 +347,7 @@ The fourth-\/order tensor {\itshape C\+\_\+\+Sacado} is our final goal, we don\t
 \begin{DoxyCode}
 SymmetricTensor<4,dim> C\_Sacado;
 \end{DoxyCode}
- As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we sum over the components i and j of the stress tensor. 
+ As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we loop over the components i and j of the stress tensor. 
 \begin{DoxyCode}
 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
