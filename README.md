@@ -1,17 +1,17 @@
-# Testing Trilinos::Sacado mainly with tensors
-Testing capabilities of Sacado mainly in combination with tensors and providing a Wrapper to ease the use of Sacado in conjunction with tensors.
+# Trilinos::Sacado: Computing derivatives incorporating tensors
+Examples and functions to compute derivatives of tensor-valued equations with Sacado
 
 ## The Aim
 The aim is to compute e. g. the tangent
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) and compute second derivatives (see feature list).
  
 You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
 
 ## The Documentation
-The Doxygen documentation for the code can be found here https://jfriedlein.github.io/Sacado-Testing/html/index.html. It shows a few examples and describes how to use the Sacado_Wrapper. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)
+The Doxygen documentation for the code can be found here https://jfriedlein.github.io/Sacado-Testing/html/index.html. It shows a few examples and describes how to use the Sacado_Wrapper.
 
 ## Current features of the Sacado_Wrapper
 - Compute derivatives of equations with respect to a single scalar.
@@ -29,6 +29,16 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 - Compute tangents from equations with respect to a single SymmetricTensor<2,dim> and a single scalar. (Example 4)
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}" title="\boldsymbol{A, B, } \overset{4}{C} \textrm{ and } $D$ \textrm{ at the same time}" /></a>
+
+- Compute second derivatives of equations with respect to a single SymmetricTensor<2,dim> and a single scalar. (Example 7, 8)
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}^2}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}^2}" title="\overset{4}{C} = \frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon }^2}" /></a>
+;
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{E}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}&space;\partial\varphi&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{E}&space;=&space;\frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon&space;}&space;\partial\varphi&space;}" title="\boldsymbol{E} = \frac{\partial^2\Psi}{\partial\boldsymbol{\varepsilon } \partial\varphi }" /></a>
+;
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{F}&space;=&space;\frac{\partial^2\Psi}{\partial\varphi&space;\partial\boldsymbol{\varepsilon&space;}&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{F}&space;=&space;\frac{\partial^2\Psi}{\partial\varphi&space;\partial\boldsymbol{\varepsilon&space;}&space;}" title="\boldsymbol{F} = \frac{\partial^2\Psi}{\partial\varphi \partial\boldsymbol{\varepsilon } }" /></a>
+;
+<a href="https://www.codecogs.com/eqnedit.php?latex=G&space;=&space;\frac{\partial^2\Psi}{\partial\varphi^2&space;}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?G&space;=&space;\frac{\partial^2\Psi}{\partial\varphi^2&space;}" title="G = \frac{\partial^2\Psi}{\partial\varphi^2 }" /></a>
 
 ## How to start
 - First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above and the list of current features.
