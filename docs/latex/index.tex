@@ -792,11 +792,10 @@ std::cout << eps\_fad << std::endl;
       d2\_sigma00\_d\_eps00\_2 << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex8}{}\section{8. Example\+: First and second derivatives}\label{index_Ex8}
+ \hypertarget{index_Ex8}{}\section{8. Example\+: First and second derivatives -\/ The full story}\label{index_Ex8}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8} ()
- 
 \{
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
  
@@ -982,7 +981,7 @@ std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_ene
     std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex9}{}\section{9. Example\+: First and second derivatives}\label{index_Ex9}
+ \hypertarget{index_Ex9}{}\section{9. Example\+: First and second derivatives -\/ Using the Wrapper}\label{index_Ex9}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9} ()
@@ -991,90 +990,6 @@ std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_ene
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
  
     std::cout << \textcolor{stringliteral}{"Test 9:"} << std::endl;
-\end{DoxyCode}
- Defining the inputs (material parameters, strain tensor) 
-\begin{DoxyCode}
-\textcolor{keywordtype}{double} lambda=1;
-\textcolor{keywordtype}{double} mu=2;
-SymmetricTensor<2,dim, double> eps;
-
-eps[0][0] = 1.;
-eps[1][1] = 2.;
-eps[2][2] = 3.;
-
-eps[0][1] = 4.;
-eps[0][2] = 5.;
-eps[1][2] = 6.;
-\end{DoxyCode}
- Declaring the special data types containing all derivatives 
-\begin{DoxyCode}
-\textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
-
-\hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\_Wrapper::SymTensor2<dim>} eps\_fad;
-eps\_fad.\hyperlink{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}{init\_set\_dofs}(eps);
-std::cout << \textcolor{stringliteral}{"eps\_fad="} << eps\_fad << std::endl;
-\end{DoxyCode}
- Compute eps² = eps\+\_\+ij $\ast$ eps\+\_\+jk in index notation 
-\begin{DoxyCode}
-SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps\_fad\_squared;
-\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-   \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k )
-       \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-           \textcolor{keywordflow}{if} ( i>=k )
-               eps\_fad\_squared[i][k] += eps\_fad[i][j] * eps\_fad[j][k];
-\end{DoxyCode}
- Compute the strain energy density 
-\begin{DoxyCode}
-\textcolor{comment}{//   Sacado\_Wrapper::SW\_double2<dim> energy;}
-     Sacado::Fad::DFad<DFadType> energy;
-     energy = lambda/2. * trace(eps\_fad)*trace(eps\_fad) + mu * trace(eps\_fad\_squared);
-\end{DoxyCode}
- The energy is outputted to give some insight into the storage of the values and derivatives. 
-\begin{DoxyCode}
-std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
-\end{DoxyCode}
- Compute sigma as \{ \}\{ \{\}\} 
-\begin{DoxyCode}
-SymmetricTensor<2,dim> sigma\_Sac;
-eps\_fad.get\_tangent(sigma\_Sac, energy);
-std::cout << \textcolor{stringliteral}{"sigma\_Sacado="} << sigma\_Sac << std::endl;
-\end{DoxyCode}
- Analytical stress tensor\+: 
-\begin{DoxyCode}
-SymmetricTensor<2,dim> sigma;
-sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
-std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
-\end{DoxyCode}
- Sacado-\/\+Tangent as \{$^\wedge$2 \}\{ \{\}$^\wedge$2\} 
-\begin{DoxyCode}
-SymmetricTensor<4,dim> C\_Sac;
-eps\_fad.get\_curvature(C\_Sac, energy);
-\end{DoxyCode}
- Analytical tangent 
-\begin{DoxyCode}
-     SymmetricTensor<4,dim> C\_analy;
-     C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetric\_tensor<dim>()) + 2. * mu
-       * identity\_tensor<dim>();
- 
-    \textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
-    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
-            \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
-                \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
-                    error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
- 
-    std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
-\}
-\end{DoxyCode}
- \hypertarget{index_Ex10}{}\section{10. Example\+: First and second derivatives}\label{index_Ex10}
-
-\begin{DoxyCode}
-\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}{sacado\_test\_10} ()
- 
-\{
-    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
- 
-    std::cout << \textcolor{stringliteral}{"Test 10:"} << std::endl;
 \end{DoxyCode}
  Defining the inputs (material parameters, strain tensor) 
 \begin{DoxyCode}
@@ -1125,12 +1040,15 @@ Sacado::Fad::DFad<DFadType> energy;
 energy = lambda/2. * trace(eps\_fad)*trace(eps\_fad) + mu * trace(eps\_fad\_squared) + 25 * phi\_fad * trace(
       eps\_fad);
 \end{DoxyCode}
- The energy is outputted to give some insight into the storage of the values and derivatives. ~\newline
-energy=399 \mbox{[} 17.\+5 32 40 21.\+5 48 25.\+5 150 \mbox{]} \mbox{[} 17.\+5 \mbox{[} 5 0 0 1 0 1 25 \mbox{]} 32 \mbox{[} 0 8 0 0 0 0 0 \mbox{]} 40 \mbox{[} 0 0 8 0 0 0 0 \mbox{]} 21.\+5 \mbox{[} 1 0 0 5 0 1 25 \mbox{]} 48 \mbox{[} 0 0 0 0 8 0 0 \mbox{]} 25.\+5 \mbox{[} 1 0 0 1 0 5 25 \mbox{]} 150 \mbox{[} 25 0 0 25 0 25 0 \mbox{]} \mbox{]}
-
+ The energy is outputted (formatted by hand) to give some insight into the storage of the values and derivatives. ~\newline
+energy=399 \mbox{[} 17.\+5 32 40 21.\+5 48 25.\+5 150 \mbox{]} ~\newline
+ \mbox{[} 17.\+5 \mbox{[} 5 0 0 1 0 1 25 \mbox{]} 32 \mbox{[} 0 8 0 0 0 0 0 \mbox{]} 40 \mbox{[} 0 0 8 0 0 0 0 \mbox{]} ~\newline
+ 21.\+5 \mbox{[} 1 0 0 5 0 1 25 \mbox{]} 48 \mbox{[} 0 0 0 0 8 0 0 \mbox{]} 25.\+5 \mbox{[} 1 0 0 1 0 5 25 \mbox{]} ~\newline
 
 \begin{DoxyCode}
-std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
+\textcolor{comment}{//              150 [ 25 0 0 25 0 25 0 ] ]}
+
+ std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
 \end{DoxyCode}
  Compute sigma as \[ \boldsymbol{\sigma} = \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \] 
 \begin{DoxyCode}
@@ -1237,10 +1155,6 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
     std::cout << std::endl;
  
     \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9}();
- 
-    std::cout << std::endl;
- 
-    \hyperlink{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}{sacado\_test\_10}();
 \}
 \end{DoxyCode}
 \hypertarget{index_END}{}\section{The End}\label{index_END}

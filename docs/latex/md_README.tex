@@ -1,0 +1,74 @@
+Testing capabilities of Sacado mainly in combination with tensors and providing a Wrapper to ease the use of Sacado in conjunction with tensors.
+
+\subsection*{The Aim}
+
+The aim is to compute e. g. the tangent
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
+
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-\/equation sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi(eps) (see feature list).
+
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+
+\subsection*{The Documentation}
+
+The Doxygen documentation for the code can be found here \href{https://jfriedlein.github.io/Sacado-Testing/html/index.html}{\tt https\+://jfriedlein.\+github.\+io/\+Sacado-\/\+Testing/html/index.\+html}. It shows a few examples and describes how to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}. (Please ignore the folder /documentation and take a closer look at the folder /docs, if you are interested in the details.)
+
+\subsection*{Current features of the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}}
+
+
+\begin{DoxyItemize}
+\item Compute derivatives of equations with respect to a single scalar.
+\end{DoxyItemize}
+
+\href{https://www.codecogs.com/eqnedit.php?latex={D}&space;=&space;\frac{\partial{\alpha}}{\partial{\phi&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial{\phi&space;}}}{\tt }
+
+
+\begin{DoxyItemize}
+\item Compute tangents from equations with respect to a single Symmetric\+Tensor$<$2,dim$>$. (Example 3B)
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{B}&space;=&space;\frac{\partial{\phi}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt } ; \href{https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}}{\tt }
+\item Compute tangents from equations with respect to a single Symmetric\+Tensor$<$2,dim$>$ and a single scalar. (Example 4)
+\end{DoxyItemize}
+
+\href{https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}}{\tt }
+
+\subsection*{How to start}
+
+
+\begin{DoxyItemize}
+\item First you should check whether the herin described concepts and examples fit your needs. The easiest way to do this is by looking at the Doxygen documentation linked above and the list of current features.
+\item If you\textquotesingle{}re interested in the details and want to get a look under the hood of the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then please consider the examples 1, 2 and 3
+\item If you right away want to use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}, then consider the examples 3b and 4 and follow the instructions on how to get the Wrapper into your own code.
+\end{DoxyItemize}
+
+\subsection*{Instructions on how to \char`\"{}install\char`\"{} the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper}}
+
+
+\begin{DoxyEnumerate}
+\item Download the file \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{} and place it into your working directory, e.\+g. where your main code such as Sacado\+\_\+examples.\+cc is.
+\item Include the .h file with your other headers in your code via \textquotesingle{}\#include \char`\"{}\+Sacado\+\_\+\+Wrapper.\+h\char`\"{}\textquotesingle{}.
+\item Copy one of the examples into your code for testing.
+\item Compile, run and play around with the code.
+\end{DoxyEnumerate}
+
+\subsection*{To\+Do\+:}
+
+
+\begin{DoxyItemize}
+\item find a more suitable name
+\item enable La\+TeX equations in the documentation hosted via Git\+Hub
+\item Rework the design and structure of the Wrapper
+\item implement more data types (e.\+g. Vector, nonsym tensor) and compatibility with more combinations (e.\+g. vector-\/vector, vector-\/double).
+\item add some text that\+: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.
+\item add a note in example 2 to avoid scaring people with the numerous repetitive lines of code
+\item don\textquotesingle{}t \char`\"{}sum over i and j\char`\"{} but \char`\"{}loop\char`\"{}
+\item add note on the efficiency/computation time
+\end{DoxyItemize}
+
+\subsection*{Test cases\+:}
+
+
+\begin{DoxyItemize}
+\item compute tangent of eps with respect to eps 
+\end{DoxyItemize}

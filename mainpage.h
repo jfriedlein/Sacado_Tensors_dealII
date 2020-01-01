@@ -907,10 +907,9 @@ Compute function and derivative with AD
  
  
 \endcode
-@section Ex8 8. Example: First and second derivatives
+@section Ex8 8. Example: First and second derivatives - The full story
 \code
 void sacado_test_8 ()
- 
 {
     const unsigned int dim=3;
  
@@ -1112,7 +1111,7 @@ Analytical tangent
  
  
 \endcode
-@section Ex9 9. Example: First and second derivatives
+@section Ex9 9. Example: First and second derivatives - Using the Wrapper
 \code
 void sacado_test_9 ()
  
@@ -1120,101 +1119,6 @@ void sacado_test_9 ()
     const unsigned int dim=3;
  
 	std::cout << "Test 9:" << std::endl;
- 
-\endcode
-Defining the inputs (material parameters, strain tensor)
-\code
-	 double lambda=1;
-	 double mu=2;
-	 SymmetricTensor<2,dim, double> eps;
- 
-	 eps[0][0] = 1.;
-	 eps[1][1] = 2.;
-	 eps[2][2] = 3.;
- 
-	 eps[0][1] = 4.;
-	 eps[0][2] = 5.;
-	 eps[1][2] = 6.;
- 
-\endcode
-Declaring the special data types containing all derivatives
-\code
-	 typedef Sacado::Fad::DFad<double> DFadType;
- 
-	 Sacado_Wrapper::SymTensor2<dim> eps_fad;
-	 eps_fad.init_set_dofs(eps);
-	 std::cout << "eps_fad=" << eps_fad << std::endl;
- 
-\endcode
-Compute eps² = eps_ij * eps_jk in index notation
-\code
-	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad_squared;
-	 for ( unsigned int i=0; i<dim; ++i)
-		for ( unsigned int k=0; k<dim; ++k )
-			for ( unsigned int j=0; j<dim; ++j )
-				if ( i>=k )
-					eps_fad_squared[i][k] += eps_fad[i][j] * eps_fad[j][k];
- 
-\endcode
-Compute the strain energy density
-\code
-//	 Sacado_Wrapper::SW_double2<dim> energy;
-	 Sacado::Fad::DFad<DFadType> energy;
-	 energy = lambda/2. * trace(eps_fad)*trace(eps_fad) + mu * trace(eps_fad_squared);
- 
-\endcode
-The energy is outputted to give some insight into the storage of the values and derivatives.
-\code
-	std::cout << "energy=" << energy << std::endl;
- 
-\endcode
-Compute sigma as \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}}
-\code
-	 SymmetricTensor<2,dim> sigma_Sac;
-	 eps_fad.get_tangent(sigma_Sac, energy);
-	 std::cout << "sigma_Sacado=" << sigma_Sac << std::endl;
- 
-\endcode
-Analytical stress tensor:
-\code
-	 SymmetricTensor<2,dim> sigma;
-	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
-	 std::cout << "analy. sigma=" << sigma << std::endl;
- 
- 
-\endcode
-Sacado-Tangent as \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon}^2}
-\code
-	 SymmetricTensor<4,dim> C_Sac;
-	 eps_fad.get_curvature(C_Sac, energy);
- 
-\endcode
-Analytical tangent
-\code
-	 SymmetricTensor<4,dim> C_analy;
-	 C_analy = lambda * outer_product(unit_symmetric_tensor<dim>(), unit_symmetric_tensor<dim>()) + 2. * mu * identity_tensor<dim>();
- 
-	double error_Sacado_vs_analy=0;
-	for (unsigned int i=0; i<dim; ++i)
-		for ( unsigned int j=0; j<dim; ++j)
-			for ( unsigned int k=0; k<dim; ++k)
-				for ( unsigned int l=0; l<dim; ++l)
-					error_Sacado_vs_analy += std::fabs(C_Sac[i][j][k][l] - C_analy[i][j][k][l]);
- 
-	std::cout << "Numerical error=" << error_Sacado_vs_analy << std::endl;
-}
- 
- 
- 
-\endcode
-@section Ex10 10. Example: First and second derivatives
-\code
-void sacado_test_10 ()
- 
-{
-    const unsigned int dim=3;
- 
-	std::cout << "Test 10:" << std::endl;
  
 \endcode
 Defining the inputs (material parameters, strain tensor)
@@ -1272,11 +1176,13 @@ Compute the strain energy density
 	 energy = lambda/2. * trace(eps_fad)*trace(eps_fad) + mu * trace(eps_fad_squared) + 25 * phi_fad * trace(eps_fad);
  
 \endcode
-The energy is outputted to give some insight into the storage of the values and derivatives. \n
-energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] [ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ]
-21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] 150 [ 25 0 0 25 0 25 0 ] ]
- 
+The energy is outputted (formatted by hand) to give some insight into the storage of the values and derivatives. \n
+energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] \n
+				[ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \n
+				21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \n
 \code
+	//	 	 	 	150 [ 25 0 0 25 0 25 0 ] ]
+ 
 	 std::cout << "energy=" << energy << std::endl;
  
 \endcode
@@ -1395,10 +1301,6 @@ int main ()
     std::cout << std::endl;
  
     sacado_test_9();
- 
-    std::cout << std::endl;
- 
-    sacado_test_10();
 }
 \endcode
 
