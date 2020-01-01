@@ -168,7 +168,9 @@ void sacado_test_3 ()
 		eps[2][2].diff(5,6);
         
 		// By using the map and the following pairs, we have to set up the relation between strain components and dofs only once
-		// and can use the map to access the entries of the list later, without possibly mixing up indices and creating errors
+		// and can use the map to access the entries of the list later, without possibly mixing up indices and creating errors.
+		// Please don't be confused, but the dofs in the Wrapper are set up
+		// in a different order that we showed earlier. Earlier: (0,0)-(1,1)-(2,2)-...; Now: (0,0)-(0,1)-(0,2)-...
 		std::pair<unsigned int, unsigned int> tmp_pair;
 		tmp_pair.first=0; tmp_pair.second=0;
 		std_map_indicies[0] = tmp_pair;
@@ -217,7 +219,7 @@ void sacado_test_3 ()
 	}
 
 	// Instead of calling the *.diff(*) on the components one-by-one we could also use the following for-loop, so
-	// we also use the map to set the dofs
+	// we also use the map to set the dofs (as we will do in the Wrapper later).
 	// @code
 	// for ( unsigned int x=0; x<((dim==2)?3:6); ++x )
 	// {
@@ -389,7 +391,7 @@ void sacado_test_3B ()
 
 	 SymmetricTensor<2,dim, fad_double> stdTensor_I (( unit_symmetric_tensor<dim,fad_double>()) );
 
-	 // Our stress equation is now computed in index notation to simplfiy the use of the constants and
+	 // Our stress equation is now computed in index notation to simplify the use of the constants and
 	 // especially the use of the \a deviator.
 	  for ( unsigned int i=0; i<dim; ++i)
 		for ( unsigned int j=0; j<dim; ++j )
@@ -492,6 +494,11 @@ void sacado_test_4 ()
 	  eps.get_tangent(C_Sacado, sigma);
 	  std::cout << "C_Sacado=" << C_Sacado << std::endl;
 
+	 // Compute the analytical tangent:
+	  SymmetricTensor<4,dim> C_analy;
+	  C_analy = phi_d * identity_tensor<dim>();
+	  std::cout << "C_analy =" << C_analy << std::endl;
+
 	 // d_d / d_eps: double with respect to SymmetricTensor
 	  SymmetricTensor<2,dim> d_d_d_eps;
 	  eps.get_tangent(d_d_d_eps, d);
@@ -507,7 +514,6 @@ void sacado_test_4 ()
 	  double d_d_d_phi;
 	  phi.get_tangent(d_d_d_phi, d);
  	  std::cout << "d_d_d_phi=" << d_d_d_phi << std::endl;
-
 
 	// And that's it. By using the Sacado_wrapper we can compute derivatives with respect to
  	// a tensor and a scalar at the same time (besides the equations)
@@ -550,6 +556,493 @@ void sacado_test_5 ()
 }
 
 
+
+// @section Ex6 6. Example: First and second derivatives
+// MODIFIED FROM https://github.com/trilinos/Trilinos/blob/master/packages/sacado/example/dfad_dfad_example.cpp
+void sacado_test_6 ()
+
+{
+	std::cout << "Test 6:" << std::endl;
+	// define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as the Sacado-data type
+	 double a=1;
+	 double b=2;
+
+	// Number of independent variables
+	 int num_dofs = 2;
+
+	typedef Sacado::Fad::DFad<double> DFadType;
+	Sacado::Fad::DFad<DFadType> afad(num_dofs, 0, a);
+	Sacado::Fad::DFad<DFadType> bfad(num_dofs, 1, b);
+	Sacado::Fad::DFad<DFadType> cfad;
+
+	std::cout << "afad=" << afad << std::endl;
+	std::cout << "bfad=" << bfad << std::endl;
+	std::cout << "cfad=" << cfad << std::endl;
+
+	afad.val() = fad_double(num_dofs, 0, a); // set afad.val() as the first dof and init it with the double a
+	bfad.val() = fad_double(num_dofs, 1, b);
+
+	// Compute function and derivative with AD
+	 cfad = 2*afad + std::cos(afad*bfad);
+
+		std::cout << "afad=" << afad << std::endl;
+		std::cout << "bfad=" << bfad << std::endl;
+		std::cout << "cfad=" << cfad << std::endl;
+
+	// Extract value and derivatives
+	double c_ad = cfad.val().val();       // r
+	double dcda_ad = cfad.dx(0).val();    // dr/da
+	double dcdb_ad = cfad.dx(1).val();    // dr/db
+	double d2cda2_ad = cfad.dx(0).dx(0);  // d^2r/da^2
+	double d2cdadb_ad = cfad.dx(0).dx(1); // d^2r/dadb
+	double d2cdbda_ad = cfad.dx(1).dx(0); // d^2r/dbda
+	double d2cdb2_ad = cfad.dx(1).dx(1);  // d^2/db^2
+
+
+	std::cout << "cfad=" << cfad << std::endl;
+	std::cout << "c_ad=" << c_ad << std::endl;
+
+	std::cout << "Derivatives at the point (" << a << "," << b << ")" << std::endl;
+	std::cout << "dc/da = " << dcda_ad << ", dc/db=" << dcdb_ad << std::endl;
+	std::cout << "d²c/da² = " << d2cda2_ad << ", d²c/db²=" << d2cdb2_ad << std::endl;
+	std::cout << "d²c/dadb = " << d2cdadb_ad << ", d²c/dbda=" << d2cdbda_ad << std::endl;
+}
+
+
+
+// @section Ex7 7. Example: First and second derivatives
+void sacado_test_7 ()
+
+{
+    const unsigned int dim=3;
+
+	std::cout << "Test 7:" << std::endl;
+
+	 SymmetricTensor<2,dim, double> eps;
+
+	 eps[0][0] = 1.;
+	 eps[1][1] = 2.;
+	 eps[2][2] = 3.;
+
+	 eps[0][1] = 4.;
+	 eps[0][2] = 5.;
+	 eps[1][2] = 6.;
+
+
+
+	// Number of independent variables
+	 int nbr_dofs = 6;
+
+	typedef Sacado::Fad::DFad<double> DFadType;
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad;
+
+
+	(eps_fad[0][0]).diff( 0, nbr_dofs);	// set up the "inner" derivatives
+	(eps_fad[0][0]).val() = fad_double(nbr_dofs, 0, eps[0][0]); // set up the "outer" derivatives
+
+	(eps_fad[1][1]).diff( 1, nbr_dofs);
+	(eps_fad[1][1]).val() = fad_double(nbr_dofs, 1, eps[1][1]); // set up the "outer" derivatives
+
+	(eps_fad[2][2]).diff( 2, nbr_dofs);
+	(eps_fad[2][2]).val() = fad_double(nbr_dofs, 2, eps[2][2]); // set up the "outer" derivatives
+
+	(eps_fad[0][1]).diff( 3, nbr_dofs);
+	(eps_fad[0][1]).val() = fad_double(nbr_dofs, 3, eps[0][1]); // set up the "outer" derivatives
+
+	(eps_fad[0][2]).diff( 4, nbr_dofs);
+	(eps_fad[0][2]).val() = fad_double(nbr_dofs, 4, eps[0][2]); // set up the "outer" derivatives
+
+	(eps_fad[1][2]).diff( 5, nbr_dofs);
+	(eps_fad[1][2]).val() = fad_double(nbr_dofs, 5, eps[1][2]); // set up the "outer" derivatives
+
+	std::cout << eps_fad << std::endl;
+
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma;
+
+
+	// Compute function and derivative with AD
+	for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j )
+			sigma[i][j] = 25 * trace(eps_fad)*trace(eps_fad) + eps_fad[i][j];
+
+	std::cout << "sigma=" << sigma << std::endl;
+
+	double d_sigma00_d_eps00 = sigma[0][0].dx(0).val();
+	double d2_sigma00_d_eps00_2 = sigma[0][0].dx(0).dx(0);
+	//double d2_sigma00_d_eps11_2 = sigma[0][0].dx(0).dx(1);
+
+	std::cout << "d_sigma00_d_eps00 = " << d_sigma00_d_eps00 << ", d2_sigma00_d_eps00_2 = " << d2_sigma00_d_eps00_2 << std::endl;
+}
+
+
+
+// @section Ex8 8. Example: First and second derivatives
+void sacado_test_8 ()
+
+{
+    const unsigned int dim=3;
+
+	std::cout << "Test 8:" << std::endl;
+
+	// Defining the inputs (material parameters, strain tensor)
+	 double lambda=1;
+	 double mu=2;
+	 SymmetricTensor<2,dim, double> eps;
+	 double phi=0.3;
+
+	 eps[0][0] = 1.;
+	 eps[1][1] = 2.;
+	 eps[2][2] = 3.;
+
+	 eps[0][1] = 4.;
+	 eps[0][2] = 5.;
+	 eps[1][2] = 6.;
+
+	// Setup of the map relating the indices
+	 std::map<unsigned int,std::pair<unsigned int,unsigned int>> std_map_indicies;
+
+	 std::pair<unsigned int, unsigned int> tmp_pair;
+	 tmp_pair.first=0; tmp_pair.second=0;
+	 std_map_indicies[0] = tmp_pair;
+
+	 tmp_pair.first=0; tmp_pair.second=1;
+	 std_map_indicies[1] = tmp_pair;
+
+	 tmp_pair.first=0; tmp_pair.second=2;
+	 std_map_indicies[2] = tmp_pair;
+
+	 tmp_pair.first=1; tmp_pair.second=1;
+	 std_map_indicies[3] = tmp_pair;
+
+	 tmp_pair.first=1; tmp_pair.second=2;
+	 std_map_indicies[4] = tmp_pair;
+
+	 tmp_pair.first=2; tmp_pair.second=2;
+	 std_map_indicies[5] = tmp_pair;
+
+	// Number of independent variables
+	 const unsigned int nbr_dofs = 6+1;
+
+	// Declaring the special data types containing all derivatives
+	 typedef Sacado::Fad::DFad<double> DFadType;
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad, eps_fad_squared;
+	 Sacado::Fad::DFad<DFadType> phi_fad;
+
+
+	// Setting the dofs
+	 for ( unsigned int x=0; x<6; ++x )
+	 {
+	 	unsigned int i=std_map_indicies[x].first;
+	 	unsigned int j=std_map_indicies[x].second;
+		(eps_fad[i][j]).diff( x, nbr_dofs);	// set up the "inner" derivatives
+		(eps_fad[i][j]).val() = fad_double(nbr_dofs, x, eps[i][j]); // set up the "outer" derivatives
+	 }
+
+	 phi_fad.diff( 6, nbr_dofs );
+	 phi_fad.val() = fad_double(nbr_dofs, 6, phi); // set up the "outer" derivatives
+
+	 std::cout << "eps_fad=" << eps_fad << std::endl;
+	 std::cout << "phi_fad=" << phi_fad << std::endl;
+
+	// Compute eps² = eps_ij * eps_jk in index notation
+	 for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int k=0; k<dim; ++k )
+			for ( unsigned int j=0; j<dim; ++j )
+				if ( i>=k )
+					eps_fad_squared[i][k] += eps_fad[i][j] * eps_fad[j][k];
+
+	// Compute the strain energy density
+	 Sacado::Fad::DFad<DFadType> energy;
+	 energy = lambda/2. * trace(eps_fad)*trace(eps_fad) + mu * trace(eps_fad_squared) + 25 * phi_fad * trace(eps_fad);
+
+	// Give some insight into the storage of the values and derivatives
+	 std::cout << "energy=" << energy << std::endl;
+
+	// Compute sigma as \f[ \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \f]
+	 SymmetricTensor<2,dim> sigma_Sac;
+	 for ( unsigned int x=0; x<6; ++x )
+	 {
+		unsigned int i=std_map_indicies[x].first;
+		unsigned int j=std_map_indicies[x].second;
+		if ( i!=j )
+			sigma_Sac[i][j] = 0.5 * energy.dx(x).val();
+		else
+			sigma_Sac[i][j] = energy.dx(x).val();
+	 }
+	 std::cout << "sigma_Sacado=" << sigma_Sac << std::endl;
+
+	 double d_energy_d_phi = energy.dx(6).val();
+	 std::cout << "d_energy_d_phi=" << d_energy_d_phi << std::endl;
+
+	// Analytical stress tensor:
+	 SymmetricTensor<2,dim> sigma;
+	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
+	 std::cout << "analy. sigma=" << sigma << std::endl;
+
+
+	// Sacado-Tangent
+	 SymmetricTensor<4,dim> C_Sac;
+	 for(unsigned int x=0;x<6;++x)
+		for(unsigned int y=0;y<6;++y)
+		{
+			const unsigned int i=std_map_indicies[y].first;
+			const unsigned int j=std_map_indicies[y].second;
+			const unsigned int k=std_map_indicies[x].first;
+			const unsigned int l=std_map_indicies[x].second;
+
+			double deriv = energy.dx(x).dx(y); // Access the derivatives of the (i,j)-th component of \a sigma
+
+			if ( k!=l && i!=j )
+				C_Sac[i][j][k][l] = 0.25* deriv;
+			else if(k!=l)/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/
+			{
+				C_Sac[i][j][k][l] = 0.5*deriv;
+				C_Sac[i][j][l][k] = 0.5*deriv;
+			}
+			else
+				C_Sac[i][j][k][l] = deriv;
+		}
+
+	 double d2_energy_d_phi_2 = energy.dx(6).dx(6);
+	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
+
+	 SymmetricTensor<2,dim> d2_energy_d_eps_d_phi;
+
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma_Sac_full;
+	 for ( unsigned int x=0; x<6; ++x )
+	 {
+		unsigned int i=std_map_indicies[x].first;
+		unsigned int j=std_map_indicies[x].second;
+		if ( i!=j )
+			sigma_Sac_full[i][j] = 0.5 * energy.dx(x);
+		else
+			sigma_Sac_full[i][j] = energy.dx(x);
+	 }
+
+	 std::cout << "sigma_Sac_full=" << sigma_Sac_full << std::endl;
+	 d2_energy_d_eps_d_phi[0][0] = sigma_Sac_full[0][0].val().dx(6);
+	 d2_energy_d_eps_d_phi[1][1] = sigma_Sac_full[1][1].val().dx(6);
+	 d2_energy_d_eps_d_phi[2][2] = sigma_Sac_full[2][2].val().dx(6);
+	 d2_energy_d_eps_d_phi[0][1] = sigma_Sac_full[0][1].val().dx(6);
+	 d2_energy_d_eps_d_phi[0][2] = sigma_Sac_full[0][2].val().dx(6);
+	 d2_energy_d_eps_d_phi[1][2] = sigma_Sac_full[1][2].val().dx(6);
+
+	 std::cout << "d2_energy_d_eps_d_phi=" << d2_energy_d_eps_d_phi << std::endl;
+
+	 SymmetricTensor<2,dim> d2_energy_d_phi_d_eps;
+	 d2_energy_d_phi_d_eps[0][0] = energy.dx(6).dx(0);
+	 d2_energy_d_phi_d_eps[0][1] = energy.dx(6).dx(1);
+	 d2_energy_d_phi_d_eps[0][2] = energy.dx(6).dx(2);
+	 d2_energy_d_phi_d_eps[1][1] = energy.dx(6).dx(3);
+	 d2_energy_d_phi_d_eps[1][2] = energy.dx(6).dx(4);
+	 d2_energy_d_phi_d_eps[2][2] = energy.dx(6).dx(5);
+	 std::cout << "d2_energy_d_phi_d_eps=" << d2_energy_d_phi_d_eps << std::endl;
+
+
+	// Analytical tangent
+	 SymmetricTensor<4,dim> C_analy;
+	 C_analy = lambda * outer_product(unit_symmetric_tensor<dim>(), unit_symmetric_tensor<dim>()) + 2. * mu * identity_tensor<dim>();
+
+	double error_Sacado_vs_analy=0;
+	for (unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j)
+			for ( unsigned int k=0; k<dim; ++k)
+				for ( unsigned int l=0; l<dim; ++l)
+					error_Sacado_vs_analy += std::fabs(C_Sac[i][j][k][l] - C_analy[i][j][k][l]);
+
+	std::cout << "Numerical error=" << error_Sacado_vs_analy << std::endl;
+}
+
+
+
+// @section Ex9 9. Example: First and second derivatives
+void sacado_test_9 ()
+
+{
+    const unsigned int dim=3;
+
+	std::cout << "Test 9:" << std::endl;
+
+	// Defining the inputs (material parameters, strain tensor)
+	 double lambda=1;
+	 double mu=2;
+	 SymmetricTensor<2,dim, double> eps;
+
+	 eps[0][0] = 1.;
+	 eps[1][1] = 2.;
+	 eps[2][2] = 3.;
+
+	 eps[0][1] = 4.;
+	 eps[0][2] = 5.;
+	 eps[1][2] = 6.;
+
+	// Declaring the special data types containing all derivatives
+	 typedef Sacado::Fad::DFad<double> DFadType;
+
+	 Sacado_Wrapper::SymTensor2<dim> eps_fad;
+	 eps_fad.init_set_dofs(eps);
+	 std::cout << "eps_fad=" << eps_fad << std::endl;
+
+	// Compute eps² = eps_ij * eps_jk in index notation
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad_squared;
+	 for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int k=0; k<dim; ++k )
+			for ( unsigned int j=0; j<dim; ++j )
+				if ( i>=k )
+					eps_fad_squared[i][k] += eps_fad[i][j] * eps_fad[j][k];
+
+	// Compute the strain energy density
+//	 Sacado_Wrapper::SW_double2<dim> energy;
+	 Sacado::Fad::DFad<DFadType> energy;
+	 energy = lambda/2. * trace(eps_fad)*trace(eps_fad) + mu * trace(eps_fad_squared);
+
+	// The energy is outputted to give some insight into the storage of the values and derivatives.
+	std::cout << "energy=" << energy << std::endl;
+
+	// Compute sigma as \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}}
+	 SymmetricTensor<2,dim> sigma_Sac;
+	 eps_fad.get_tangent(sigma_Sac, energy);
+	 std::cout << "sigma_Sacado=" << sigma_Sac << std::endl;
+
+	// Analytical stress tensor:
+	 SymmetricTensor<2,dim> sigma;
+	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
+	 std::cout << "analy. sigma=" << sigma << std::endl;
+
+
+	// Sacado-Tangent as \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon}^2}
+	 SymmetricTensor<4,dim> C_Sac;
+	 eps_fad.get_curvature(C_Sac, energy);
+
+	// Analytical tangent
+	 SymmetricTensor<4,dim> C_analy;
+	 C_analy = lambda * outer_product(unit_symmetric_tensor<dim>(), unit_symmetric_tensor<dim>()) + 2. * mu * identity_tensor<dim>();
+
+	double error_Sacado_vs_analy=0;
+	for (unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j)
+			for ( unsigned int k=0; k<dim; ++k)
+				for ( unsigned int l=0; l<dim; ++l)
+					error_Sacado_vs_analy += std::fabs(C_Sac[i][j][k][l] - C_analy[i][j][k][l]);
+
+	std::cout << "Numerical error=" << error_Sacado_vs_analy << std::endl;
+}
+
+
+
+// @section Ex10 10. Example: First and second derivatives
+void sacado_test_10 ()
+
+{
+    const unsigned int dim=3;
+
+	std::cout << "Test 10:" << std::endl;
+
+	// Defining the inputs (material parameters, strain tensor)
+	 double lambda=1;
+	 double mu=2;
+	 SymmetricTensor<2,dim, double> eps;
+	 double phi = 0.3;
+
+	 eps[0][0] = 1.;
+	 eps[1][1] = 2.;
+	 eps[2][2] = 3.;
+
+	 eps[0][1] = 4.;
+	 eps[0][2] = 5.;
+	 eps[1][2] = 6.;
+
+	// Declaring the special data types containing all derivatives
+	 typedef Sacado::Fad::DFad<double> DFadType;
+
+	// Declare the variables \a eps_fad and \a phi_fad as the special Wrapper data types
+	 Sacado_Wrapper::SymTensor2<dim> eps_fad;
+	 Sacado_Wrapper::SW_double2<dim> phi_fad;
+
+	// Declare the summary data type relating all the dofs and initialising them too
+	 Sacado_Wrapper::DoFs_summary<dim> DoFs_summary;
+	 DoFs_summary.init_set_dofs(eps_fad, eps, phi_fad, phi);
+
+	// The variables are outputted to give some insight into the storage of the values (derivatives still trivial).
+	 std::cout << "eps_fad=" << eps_fad << std::endl;
+	 std::cout << "phi_fad=" << phi_fad << std::endl;
+
+	// Compute eps² = eps_ij * eps_jk in index notation
+	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps_fad_squared;
+	 for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int k=0; k<dim; ++k )
+			for ( unsigned int j=0; j<dim; ++j )
+				if ( i>=k )
+					eps_fad_squared[i][k] += eps_fad[i][j] * eps_fad[j][k];
+
+	// Compute the strain energy density
+	 Sacado::Fad::DFad<DFadType> energy;
+	 energy = lambda/2. * trace(eps_fad)*trace(eps_fad) + mu * trace(eps_fad_squared) + 25 * phi_fad * trace(eps_fad);
+
+	// The energy is outputted to give some insight into the storage of the values and derivatives. \n
+	// energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] [ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ]
+	// 21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] 150 [ 25 0 0 25 0 25 0 ] ]
+
+	 std::cout << "energy=" << energy << std::endl;
+
+	// Compute sigma as \f[ \boldsymbol{\sigma} = \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \f]
+	 SymmetricTensor<2,dim> sigma_Sac;
+	 eps_fad.get_tangent(sigma_Sac, energy);
+	 std::cout << "sigma_Sacado=" << sigma_Sac << std::endl;
+
+	 double d_energy_d_phi;
+	 phi_fad.get_tangent(d_energy_d_phi, energy);
+	 std::cout << "d_energy_d_phi=" << d_energy_d_phi << std::endl;
+
+
+	// Analytical stress tensor:
+	 SymmetricTensor<2,dim> sigma;
+	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
+	 std::cout << "analy. sigma=" << sigma << std::endl;
+
+
+	// Sacado stress tangent (or eps curvature) as \f[ \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon}^2} \f]
+	 SymmetricTensor<4,dim> C_Sac;
+	 eps_fad.get_curvature(C_Sac, energy);
+
+	// Sacado phi curvature as \f[ \frac{\partial^2 \Psi}{\partial \varphi^2} \f]
+	 double d2_energy_d_phi_2;
+	 phi_fad.get_curvature(d2_energy_d_phi_2, energy);
+	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
+
+	// Sacado derivatives \f[ \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon} \partial \varphi} \f]
+	 SymmetricTensor<2,dim> d2_energy_d_eps_d_phi;
+	 DoFs_summary.get_curvature(d2_energy_d_eps_d_phi, energy, eps_fad, phi_fad);
+	 std::cout << "d2_energy_d_eps_d_phi=" << d2_energy_d_eps_d_phi << std::endl;
+
+	// Sacado derivatives \f[ \frac{\partial^2 \Psi}{\partial \varphi \partial \boldsymbol{\varepsilon}} \f]
+	 SymmetricTensor<2,dim> d2_energy_d_phi_d_eps;
+	 DoFs_summary.get_curvature(d2_energy_d_phi_d_eps, energy, phi_fad, eps_fad);
+	 std::cout << "d2_energy_d_phi_d_eps=" << d2_energy_d_phi_d_eps << std::endl;
+
+	// When you consider the output: \n
+	// d2_energy_d_eps_d_phi=25 0 0 0 25 0 0 0 25 \n
+	// d2_energy_d_phi_d_eps=25 0 0 0 25 0 0 0 25 \n
+	// in detail you will notice that both second derivatives are identical. This compplies with the Schwarz integrability condition (Symmetry of second derivatives)
+	// (ignoring all limitation and requirements), it holds
+	// \f[ \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon} \partial \varphi} = \frac{\partial^2 \Psi}{\partial \varphi \partial \boldsymbol{\varepsilon}}  \f]
+
+	// Analytical stress tangent
+	 SymmetricTensor<4,dim> C_analy;
+	 C_analy = lambda * outer_product(unit_symmetric_tensor<dim>(), unit_symmetric_tensor<dim>()) + 2. * mu * identity_tensor<dim>();
+
+	// Compute the error for the stress tangent
+	 double error_Sacado_vs_analy=0;
+	 for (unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j)
+			for ( unsigned int k=0; k<dim; ++k)
+				for ( unsigned int l=0; l<dim; ++l)
+					error_Sacado_vs_analy += std::fabs(C_Sac[i][j][k][l] - C_analy[i][j][k][l]);
+	 std::cout << "Numerical error=" << error_Sacado_vs_analy << std::endl;
+}
+
+
+
 /*
  * The main function just calls all the examples and puts some space between the outputs.
  */
@@ -576,4 +1069,24 @@ int main ()
     std::cout << std::endl;
 
     sacado_test_5();
+
+    std::cout << std::endl;
+
+    sacado_test_6();
+
+    std::cout << std::endl;
+
+    sacado_test_7();
+
+    std::cout << std::endl;
+
+    sacado_test_8();
+
+    std::cout << std::endl;
+
+    sacado_test_9();
+
+    std::cout << std::endl;
+
+    sacado_test_10();
 }
