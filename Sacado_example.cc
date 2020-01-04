@@ -38,9 +38,9 @@ using fad_double = Sacado::Fad::DFad<double>;	// this data type now represents a
 void sacado_test_scalar ()
 {
 	std::cout << "Scalar Test:" << std::endl;
-	// define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as the Sacado-data type
+	// Define the variables used in the computation (inputs/independent variables: a, b; output/result: c; auxiliaries/passive variables: *) as the Sacado-data type
 	 fad_double a,b,c;
-	// initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed.
+	// Initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed.
 	// Compare: y=x² -> (dy/dx)(\@x=1) = 2. We can only compute the derivative numerically at a certain point.
 	 a = 1;
 	 b = 2;
@@ -714,6 +714,9 @@ void sacado_test_7 ()
 	 double d_energy_d_phi = energy.dx(6).val();
 	 std::cout << "d_energy_d_phi=" << d_energy_d_phi << std::endl;
 
+	 double d2_energy_d_phi_2 = energy.dx(6).dx(6);
+	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
+
 	// Analytical stress tensor:
 	 SymmetricTensor<2,dim> sigma;
 	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
@@ -742,42 +745,6 @@ void sacado_test_7 ()
 			else
 				C_Sac[i][j][k][l] = deriv;
 		}
-
-	 double d2_energy_d_phi_2 = energy.dx(6).dx(6);
-	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
-
-	 SymmetricTensor<2,dim> d2_energy_d_eps_d_phi;
-
-	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma_Sac_full;
-	 for ( unsigned int x=0; x<6; ++x )
-	 {
-		unsigned int i=std_map_indicies[x].first;
-		unsigned int j=std_map_indicies[x].second;
-		if ( i!=j )
-			sigma_Sac_full[i][j] = 0.5 * energy.dx(x);
-		else
-			sigma_Sac_full[i][j] = energy.dx(x);
-	 }
-
-	 std::cout << "sigma_Sac_full=" << sigma_Sac_full << std::endl;
-	 d2_energy_d_eps_d_phi[0][0] = sigma_Sac_full[0][0].val().dx(6);
-	 d2_energy_d_eps_d_phi[1][1] = sigma_Sac_full[1][1].val().dx(6);
-	 d2_energy_d_eps_d_phi[2][2] = sigma_Sac_full[2][2].val().dx(6);
-	 d2_energy_d_eps_d_phi[0][1] = sigma_Sac_full[0][1].val().dx(6);
-	 d2_energy_d_eps_d_phi[0][2] = sigma_Sac_full[0][2].val().dx(6);
-	 d2_energy_d_eps_d_phi[1][2] = sigma_Sac_full[1][2].val().dx(6);
-
-	 std::cout << "d2_energy_d_eps_d_phi=" << d2_energy_d_eps_d_phi << std::endl;
-
-	 SymmetricTensor<2,dim> d2_energy_d_phi_d_eps;
-	 d2_energy_d_phi_d_eps[0][0] = energy.dx(6).dx(0);
-	 d2_energy_d_phi_d_eps[0][1] = energy.dx(6).dx(1);
-	 d2_energy_d_phi_d_eps[0][2] = energy.dx(6).dx(2);
-	 d2_energy_d_phi_d_eps[1][1] = energy.dx(6).dx(3);
-	 d2_energy_d_phi_d_eps[1][2] = energy.dx(6).dx(4);
-	 d2_energy_d_phi_d_eps[2][2] = energy.dx(6).dx(5);
-	 std::cout << "d2_energy_d_phi_d_eps=" << d2_energy_d_phi_d_eps << std::endl;
-
 
 	// Analytical tangent
 	 SymmetricTensor<4,dim> C_analy;
@@ -846,9 +813,9 @@ void sacado_test_8 ()
 
 	// The energy is outputted (formatted by hand) to give some insight into the storage of the values and derivatives. \n
 	// energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] \n
-	// 				[ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \n
-	// 				21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \n
-	//	 	 	 	150 [ 25 0 0 25 0 25 0 ] ]
+	// [ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \n
+	// 21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \n
+	// 150 [ 25 0 0 25 0 25 0 ] ]
 
 	 std::cout << "energy=" << energy << std::endl;
 

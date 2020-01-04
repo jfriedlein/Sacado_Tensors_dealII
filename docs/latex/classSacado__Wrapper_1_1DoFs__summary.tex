@@ -40,12 +40,11 @@ Referenced by sacado\+\_\+test\+\_\+8().
 
 
 \begin{DoxyCode}
-512     \{
-513         SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > d\_arg\_d\_eps;
-514         eps.get\_tangent(d\_arg\_d\_eps, argument);
-515         std::cout << \textcolor{stringliteral}{"d\_arg\_d\_eps="} << d\_arg\_d\_eps << std::endl;
-516         double\_arg.get\_curvature(Curvature, d\_arg\_d\_eps, eps);
-517     \}
+550     \{
+551         SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > d\_arg\_d\_eps;
+552         eps.get\_tangent(d\_arg\_d\_eps, argument);
+553         double\_arg.get\_curvature(Curvature, d\_arg\_d\_eps, eps);
+554     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}!get\+\_\+curvature@{get\+\_\+curvature}}
 \index{get\+\_\+curvature@{get\+\_\+curvature}!Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}}
@@ -63,9 +62,9 @@ References Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2$<$ dim $>$\+::get\+\_\+c
 
 
 \begin{DoxyCode}
-526     \{
-527         double\_arg.get\_curvature(Curvature, argument, eps);
-528     \}
+563     \{
+564         double\_arg.get\_curvature(Curvature, argument, eps);
+565     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}!init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}}
 \index{init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}}
@@ -87,15 +86,15 @@ Referenced by sacado\+\_\+test\+\_\+8().
 
 
 \begin{DoxyCode}
-479     \{
-480         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg.n\_dofs;
-481 
-482         eps.start\_index = 0;
-483         double\_arg.start\_index = eps.n\_dofs;
-484         
-485         eps.init\_set\_dofs( eps\_init, nbr\_total\_dofs);
-486         double\_arg.init\_set\_dofs( double\_init, nbr\_total\_dofs );
-487     \}
+517     \{
+518         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg.n\_dofs;
+519 
+520         eps.start\_index = 0;
+521         double\_arg.start\_index = eps.n\_dofs;
+522         
+523         eps.init\_set\_dofs( eps\_init, nbr\_total\_dofs);
+524         double\_arg.init\_set\_dofs( double\_init, nbr\_total\_dofs );
+525     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}!set\+\_\+dofs@{set\+\_\+dofs}}
 \index{set\+\_\+dofs@{set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}}
@@ -115,15 +114,15 @@ Referenced by sacado\+\_\+test\+\_\+4().
 
 
 \begin{DoxyCode}
-466     \{
-467         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg.n\_dofs;
-468 
-469         eps.start\_index = 0;
-470         double\_arg.start\_index = eps.n\_dofs;
-471 
-472         eps.set\_dofs( nbr\_total\_dofs );
-473         double\_arg.set\_dofs( nbr\_total\_dofs );
-474     \}
+504     \{
+505         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg.n\_dofs;
+506 
+507         eps.start\_index = 0;
+508         double\_arg.start\_index = eps.n\_dofs;
+509 
+510         eps.set\_dofs( nbr\_total\_dofs );
+511         double\_arg.set\_dofs( nbr\_total\_dofs );
+512     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}!set\+\_\+dofs@{set\+\_\+dofs}}
 \index{set\+\_\+dofs@{set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary@{Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary}}
@@ -141,20 +140,20 @@ References Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor$<$ dim $>$\+::n\+\_\+dofs, Sac
 
 
 \begin{DoxyCode}
-491     \{
-492         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg1.n\_dofs + double\_arg2.n\_dofs + 
+529     \{
+530         \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} nbr\_total\_dofs = eps.n\_dofs + double\_arg1.n\_dofs + double\_arg2.n\_dofs + 
       double\_arg3.n\_dofs ;
-493 
-494         eps.start\_index = 0;
-495         double\_arg1.start\_index = eps.n\_dofs;
-496         double\_arg2.start\_index = eps.n\_dofs + double\_arg1.n\_dofs;
-497         double\_arg3.start\_index = eps.n\_dofs + double\_arg1.n\_dofs + double\_arg2.n\_dofs;
-498 
-499         eps.set\_dofs( nbr\_total\_dofs );
-500         double\_arg1.set\_dofs( nbr\_total\_dofs );
-501         double\_arg2.set\_dofs( nbr\_total\_dofs );
-502         double\_arg3.set\_dofs( nbr\_total\_dofs );
-503     \}
+531 
+532         eps.start\_index = 0;
+533         double\_arg1.start\_index = eps.n\_dofs;
+534         double\_arg2.start\_index = eps.n\_dofs + double\_arg1.n\_dofs;
+535         double\_arg3.start\_index = eps.n\_dofs + double\_arg1.n\_dofs + double\_arg2.n\_dofs;
+536 
+537         eps.set\_dofs( nbr\_total\_dofs );
+538         double\_arg1.set\_dofs( nbr\_total\_dofs );
+539         double\_arg2.set\_dofs( nbr\_total\_dofs );
+540         double\_arg3.set\_dofs( nbr\_total\_dofs );
+541     \}
 \end{DoxyCode}
 
 

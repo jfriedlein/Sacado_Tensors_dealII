@@ -11,21 +11,12 @@ If you usually compute the following equation ~\newline
 Sacado::Fad::DFad<double> c\_fad;
 \end{DoxyCode}
  As a result, $ c_{fad} $ now contains not just the number $ 2 $, but also all the derivatives of $ c_{fad} $ with respect to the previously defined degrees of freedom (set via command $\ast$.diff($\ast$)). ~\newline
-The following figure tries to visualize this\+:  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000001}{Todo}]update this figure or add another one for second derivatives 
+The following figure tries to visualize this for first derivatives\+:  and for second derivatives (requires different data type)\+:  Every variable that was declared as such a data type now contains besides the actual value $ c $, also its derivatives.\hypertarget{index_subsec_overview}{}\subsection{Overview}\label{index_subsec_overview}
+This overview shall give you first impression what to expect from each of the examples. The background/basics group gives you the promised look under the hood. Whereas the application group shows you how you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} to quickly compute tangents. 
 
-add another less general figure with c, a and b and explain what is meant by point p 
+If you right away want to use Sacado, then you might skip the first examples and jump to \hyperlink{index_Ex3B}{example 3B.}There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from \hyperlink{index_Ex2}{example 2} and \hyperlink{index_Ex3}{example 3} in just a view lines of code. This does not mean that the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 
-explain how to use the Wrapper (download the file \hyperlink{Sacado__Wrapper_8h}{Sacado\+\_\+\+Wrapper.\+h}, \hyperlink{CMakeCache_8txt_a986ccfc90e04633694fe6cff5472be19}{include}, ...) 
-
-Check if factor 0.\+5 is also necessary for d\+\_\+sigma / d\+\_\+phi\end{DoxyRefDesc}
-
-
-If you right away want to use Sacado, then you might skip the first examples and jump to Ex3B. There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from Ex2 and Ex3 in just a view lines of code. This does not mean that the here shown approach is the fastest or most efficient, it is just simple and easy to use.
-
-Furthermore, if you, for instance, compute problems with two-\/fields (e.\+g. displacement and scalar damage) and you need tangents with respect to both a tensor (e.\+g. strain tensor) and a scalar (e.\+g. damage variable), you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} as shown in Ex4.
-
-Some more basics\+: ~\newline
+Furthermore, if you, for instance, compute problems with two-\/fields (e.\+g. displacement and scalar damage) and you need tangents with respect to both a tensor (e.\+g. strain tensor) and a scalar (e.\+g. damage variable), you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} as shown in \hyperlink{index_Ex4}{example 4}.\hypertarget{index_subsec_more_basics}{}\subsection{Some more basics}\label{index_subsec_more_basics}
 One can access the double value of $ c_{fad} $ with the Sacado command $\ast$.val()\+: 
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} c\_value = c\_fad.val();
@@ -35,16 +26,22 @@ One can access the double value of $ c_{fad} $ with the Sacado command $\ast$.va
 \textcolor{keywordtype}{double} d\_c\_d\_a = c\_fad.dx(0);
 \textcolor{keywordtype}{double} c\_c\_d\_b = c\_fad.dx(1);
 \end{DoxyCode}
- The arguments of {\itshape dx}, namely 0 and 1 are the numbers corresponding to the dof that belong to {\itshape a} and {\itshape b}. More details on how to set this up and use it, are given in example Ex1.
-
-Some resources/links\+: ~\newline
-You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...). \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000002}{Todo}]link the Sacado and D\+II pages\end{DoxyRefDesc}
-
+ The arguments of {\itshape dx}, namely 0 and 1 are the numbers corresponding to the dof that belong to {\itshape a} and {\itshape b}. More details on how to set this up and use it, are given in \hyperlink{index_Ex1}{example 1}.\hypertarget{index_subsec_resources}{}\subsection{Some resources/links}\label{index_subsec_resources}
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+\begin{DoxyItemize}
+\item Basics on Sacado, automatic differentation and coding examples (important remarks, e.\+g. on point of non-\/differentiability)\+: ~\newline
+ \href{https://software.sandia.gov/SESS/past_seminars/111307_Phipps.pdf}{\tt https\+://software.\+sandia.\+gov/\+S\+E\+S\+S/past\+\_\+seminars/111307\+\_\+\+Phipps.\+pdf}
+\item Basics and available autodiff libraries provided by deal.\+ii\+: ~\newline
+ \href{https://www.dealii.org/current/doxygen/deal.II/group__auto__symb__diff.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/group\+\_\+\+\_\+auto\+\_\+\+\_\+symb\+\_\+\+\_\+diff.\+html}
+\item Template-\/based generic programming\+: ~\newline
+ downloads.\+hindawi.\+com/journals/sp/2012/202071.pdf
+\item Tutorial 33 by deal.\+ii\+: introduction to Sacado and implementation to assemble the residuum and compute its derivative ~\newline
+ \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html}
+\end{DoxyItemize}
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood. The code is neither elegant nor efficient, but it works. A more user-\/friendly version is provided by means of the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{}. ~\newline
 \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000003}{Todo}]add list of files and an overview \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000001}{Todo}]Check if factor 0.\+5 is also necessary for d\+\_\+sigma / d\+\_\+phi\end{DoxyRefDesc}
 
 
 \begin{DoxyNote}{Note}
@@ -94,7 +91,7 @@ The data type Symmetric\+Tensor and some related operations, such as trace, symm
 
 \begin{DoxyEnumerate}
 \item example\+: simple scalar equation from deal.\+ii-\/tutorial step-\/33 (see the introduction there to get a first impression, \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html}) \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000004}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000002}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
 
 \end{DoxyEnumerate}
 
@@ -104,11 +101,11 @@ The data type Symmetric\+Tensor and some related operations, such as trace, symm
 \{
     std::cout << \textcolor{stringliteral}{"Scalar Test:"} << std::endl;
 \end{DoxyCode}
- define the variables used in the computation (inputs\+: a, b; output\+: c; auxiliaries\+: $\ast$) as the Sacado-\/data type 
+ Define the variables used in the computation (inputs/independent variables\+: a, b; output/result\+: c; auxiliaries/passive variables\+: $\ast$) as the Sacado-\/data type 
 \begin{DoxyCode}
 \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,\hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
 \end{DoxyCode}
- initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed. Compare\+: y=x² -\/$>$ (dy/dx)(@x=1) = 2. We can only compute the derivative numerically at a certain point. 
+ Initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed. Compare\+: y=x² -\/$>$ (dy/dx)(@x=1) = 2. We can only compute the derivative numerically at a certain point. 
 \begin{DoxyCode}
  a = 1;
  b = 2;
@@ -418,7 +415,7 @@ SymmetricTensor<2,dim> eps\_d;
 \}
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000005}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000003}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
 
 
 To output the stress tensor we first have to compute it. We do this here via \[ \sigma = \overset{4}{C_{analy}} : \varepsilon \] The output exactly matched the result obtained with Sacado. \begin{DoxyNote}{Note}
@@ -575,7 +572,7 @@ SymmetricTensor<2,dim,fad\_double> sigma;
 \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} d;
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000006}{Todo}]It would be nice to use the data types from the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} for all the Sacado variables. But somehow the operators (multiply$\ast$, ...) seem to cause conflicts again.\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000004}{Todo}]It would be nice to use the data types from the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} for all the Sacado variables. But somehow the operators (multiply$\ast$, ...) seem to cause conflicts again.\end{DoxyRefDesc}
 
 
 The actual computation in the following scope uses the exact same equation as your normal computation e. g. via the data type double. Hence, you could either directly compute your stress, etc. via the Sacado variables or you define template functions that contain your equations and are either called templated with double or fad\+\_\+double. When using the first option, please consider the computation time that is generally higher for a computation with fad\+\_\+double than with normal doubles (own experience in a special case\+: slower by factor 30). The second option with templates does not suffer these issues. 
@@ -685,7 +682,7 @@ The here shown example was copied from \href{https://github.com/trilinos/Trilino
 \textcolor{keywordtype}{int} num\_dofs = 2;
 \end{DoxyCode}
  Define another data type containing even more Sacado data types \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000007}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000005}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
 
 \begin{DoxyCode}
 \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
@@ -844,6 +841,9 @@ std::cout << \textcolor{stringliteral}{"sigma\_Sacado="} << sigma\_Sac << std::e
 
 \textcolor{keywordtype}{double} d\_energy\_d\_phi = energy.dx(6).val();
 std::cout << \textcolor{stringliteral}{"d\_energy\_d\_phi="} << d\_energy\_d\_phi << std::endl;
+
+\textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2 = energy.dx(6).dx(6);
+std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
 \end{DoxyCode}
  Analytical stress tensor\+: 
 \begin{DoxyCode}
@@ -874,41 +874,6 @@ SymmetricTensor<4,dim> C\_Sac;
        \textcolor{keywordflow}{else}
            C\_Sac[i][j][k][l] = deriv;
    \}
-
-\textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2 = energy.dx(6).dx(6);
-std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
-
-SymmetricTensor<2,dim> d2\_energy\_d\_eps\_d\_phi;
-
-SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma\_Sac\_full;
-\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<6; ++x )
-\{
-   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=std\_map\_indicies[x].first;
-   \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=std\_map\_indicies[x].second;
-   \textcolor{keywordflow}{if} ( i!=j )
-       sigma\_Sac\_full[i][j] = 0.5 * energy.dx(x);
-   \textcolor{keywordflow}{else}
-       sigma\_Sac\_full[i][j] = energy.dx(x);
-\}
-
-std::cout << \textcolor{stringliteral}{"sigma\_Sac\_full="} << sigma\_Sac\_full << std::endl;
-d2\_energy\_d\_eps\_d\_phi[0][0] = sigma\_Sac\_full[0][0].val().dx(6);
-d2\_energy\_d\_eps\_d\_phi[1][1] = sigma\_Sac\_full[1][1].val().dx(6);
-d2\_energy\_d\_eps\_d\_phi[2][2] = sigma\_Sac\_full[2][2].val().dx(6);
-d2\_energy\_d\_eps\_d\_phi[0][1] = sigma\_Sac\_full[0][1].val().dx(6);
-d2\_energy\_d\_eps\_d\_phi[0][2] = sigma\_Sac\_full[0][2].val().dx(6);
-d2\_energy\_d\_eps\_d\_phi[1][2] = sigma\_Sac\_full[1][2].val().dx(6);
-
-std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_eps\_d\_phi="} << d2\_energy\_d\_eps\_d\_phi << std::endl;
-
-SymmetricTensor<2,dim> d2\_energy\_d\_phi\_d\_eps;
-d2\_energy\_d\_phi\_d\_eps[0][0] = energy.dx(6).dx(0);
-d2\_energy\_d\_phi\_d\_eps[0][1] = energy.dx(6).dx(1);
-d2\_energy\_d\_phi\_d\_eps[0][2] = energy.dx(6).dx(2);
-d2\_energy\_d\_phi\_d\_eps[1][1] = energy.dx(6).dx(3);
-d2\_energy\_d\_phi\_d\_eps[1][2] = energy.dx(6).dx(4);
-d2\_energy\_d\_phi\_d\_eps[2][2] = energy.dx(6).dx(5);
-std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_energy\_d\_phi\_d\_eps << std::endl;
 \end{DoxyCode}
  Analytical tangent 
 \begin{DoxyCode}
@@ -987,13 +952,13 @@ energy = lambda/2. * trace(eps\_fad)*trace(eps\_fad) + mu * trace(eps\_fad\_squa
 \end{DoxyCode}
  The energy is outputted (formatted by hand) to give some insight into the storage of the values and derivatives. ~\newline
 energy=399 \mbox{[} 17.\+5 32 40 21.\+5 48 25.\+5 150 \mbox{]} ~\newline
- \mbox{[} 17.\+5 \mbox{[} 5 0 0 1 0 1 25 \mbox{]} 32 \mbox{[} 0 8 0 0 0 0 0 \mbox{]} 40 \mbox{[} 0 0 8 0 0 0 0 \mbox{]} ~\newline
- 21.\+5 \mbox{[} 1 0 0 5 0 1 25 \mbox{]} 48 \mbox{[} 0 0 0 0 8 0 0 \mbox{]} 25.\+5 \mbox{[} 1 0 0 1 0 5 25 \mbox{]} ~\newline
+\mbox{[} 17.\+5 \mbox{[} 5 0 0 1 0 1 25 \mbox{]} 32 \mbox{[} 0 8 0 0 0 0 0 \mbox{]} 40 \mbox{[} 0 0 8 0 0 0 0 \mbox{]} ~\newline
+21.\+5 \mbox{[} 1 0 0 5 0 1 25 \mbox{]} 48 \mbox{[} 0 0 0 0 8 0 0 \mbox{]} 25.\+5 \mbox{[} 1 0 0 1 0 5 25 \mbox{]} ~\newline
+150 \mbox{[} 25 0 0 25 0 25 0 \mbox{]} \mbox{]}
+
 
 \begin{DoxyCode}
-\textcolor{comment}{//              150 [ 25 0 0 25 0 25 0 ] ]}
-
- std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
+std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
 \end{DoxyCode}
  Compute sigma as \[ \boldsymbol{\sigma} = \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \] 
 \begin{DoxyCode}
@@ -1099,4 +1064,5 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
 \}
 \end{DoxyCode}
 \hypertarget{index_END}{}\section{The End}\label{index_END}
-Hosted via Git\+Hub according to \href{https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/}{\tt https\+://goseeky.\+wordpress.\+com/2017/07/22/documentation-\/101-\/doxygen-\/with-\/github-\/pages/} 
+Hosted via Git\+Hub according to \href{https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/}{\tt https\+://goseeky.\+wordpress.\+com/2017/07/22/documentation-\/101-\/doxygen-\/with-\/github-\/pages/} ~\newline
+Design of the documentation inspired by the deal.\+ii tutorial programs. 

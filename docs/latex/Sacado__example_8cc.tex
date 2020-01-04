@@ -63,41 +63,41 @@ References sacado\+\_\+test\+\_\+2(), sacado\+\_\+test\+\_\+3(), sacado\+\_\+tes
 
 
 \begin{DoxyCode}
-917 \{
-918     \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ();
-919 
-920     std::cout << std::endl;
-921 
-922     \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ();
-923 
-924     std::cout << std::endl;
-925 
-926     \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ();
-927 
-928     std::cout << std::endl;
-929 
-930     \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ();
-931 
-932     std::cout << std::endl;
-933 
-934     \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4}();
-935 
-936     std::cout << std::endl;
-937 
-938     \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5}();
-939 
-940     std::cout << std::endl;
-941 
-942     \hyperlink{Sacado__example_8cc_a27450ab52a9d4250e3f5a5f2a3f8f317}{sacado\_test\_6}();
-943 
-944     std::cout << std::endl;
-945 
-946     \hyperlink{Sacado__example_8cc_a0b694459e5e15c1578d97e637faba8de}{sacado\_test\_7}();
-947 
-948     std::cout << std::endl;
-949 
-950     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
-951 \}
+884 \{
+885     \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ();
+886 
+887     std::cout << std::endl;
+888 
+889     \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ();
+890 
+891     std::cout << std::endl;
+892 
+893     \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ();
+894 
+895     std::cout << std::endl;
+896 
+897     \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ();
+898 
+899     std::cout << std::endl;
+900 
+901     \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4}();
+902 
+903     std::cout << std::endl;
+904 
+905     \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5}();
+906 
+907     std::cout << std::endl;
+908 
+909     \hyperlink{Sacado__example_8cc_a27450ab52a9d4250e3f5a5f2a3f8f317}{sacado\_test\_6}();
+910 
+911     std::cout << std::endl;
+912 
+913     \hyperlink{Sacado__example_8cc_a0b694459e5e15c1578d97e637faba8de}{sacado\_test\_7}();
+914 
+915     std::cout << std::endl;
+916 
+917     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
+918 \}
 \end{DoxyCode}
 \index{Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}!sacado\+\_\+test\+\_\+2@{sacado\+\_\+test\+\_\+2}}
 \index{sacado\+\_\+test\+\_\+2@{sacado\+\_\+test\+\_\+2}!Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}}
@@ -893,86 +893,53 @@ Referenced by main().
 714      \textcolor{keywordtype}{double} d\_energy\_d\_phi = energy.dx(6).val();
 715      std::cout << \textcolor{stringliteral}{"d\_energy\_d\_phi="} << d\_energy\_d\_phi << std::endl;
 716 
-717     \textcolor{comment}{// Analytical stress tensor:}
-718      SymmetricTensor<2,dim> sigma;
-719      sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
-720      std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
-721 
-722 
-723     \textcolor{comment}{// Sacado-Tangent}
-724      SymmetricTensor<4,dim> C\_Sac;
-725      \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<6;++x)
-726         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<6;++y)
-727         \{
-728             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=std\_map\_indicies[y].first;
-729             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=std\_map\_indicies[y].second;
-730             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
-731             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
-732 
-733             \textcolor{keywordtype}{double} deriv = energy.dx(x).dx(y); \textcolor{comment}{// Access the derivatives of the (i,j)-th component of \(\backslash\)a
+717      \textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2 = energy.dx(6).dx(6);
+718      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
+719 
+720     \textcolor{comment}{// Analytical stress tensor:}
+721      SymmetricTensor<2,dim> sigma;
+722      sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
+723      std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
+724 
+725 
+726     \textcolor{comment}{// Sacado-Tangent}
+727      SymmetricTensor<4,dim> C\_Sac;
+728      \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<6;++x)
+729         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<6;++y)
+730         \{
+731             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=std\_map\_indicies[y].first;
+732             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=std\_map\_indicies[y].second;
+733             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
+734             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
+735 
+736             \textcolor{keywordtype}{double} deriv = energy.dx(x).dx(y); \textcolor{comment}{// Access the derivatives of the (i,j)-th component of \(\backslash\)a
        sigma}
-734 
-735             \textcolor{keywordflow}{if} ( k!=l && i!=j )
-736                 C\_Sac[i][j][k][l] = 0.25* deriv;
-737             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
-738             \{
-739                 C\_Sac[i][j][k][l] = 0.5*deriv;
-740                 C\_Sac[i][j][l][k] = 0.5*deriv;
-741             \}
-742             \textcolor{keywordflow}{else}
-743                 C\_Sac[i][j][k][l] = deriv;
-744         \}
-745 
-746      \textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2 = energy.dx(6).dx(6);
-747      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
+737 
+738             \textcolor{keywordflow}{if} ( k!=l && i!=j )
+739                 C\_Sac[i][j][k][l] = 0.25* deriv;
+740             \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+741             \{
+742                 C\_Sac[i][j][k][l] = 0.5*deriv;
+743                 C\_Sac[i][j][l][k] = 0.5*deriv;
+744             \}
+745             \textcolor{keywordflow}{else}
+746                 C\_Sac[i][j][k][l] = deriv;
+747         \}
 748 
-749      SymmetricTensor<2,dim> d2\_energy\_d\_eps\_d\_phi;
-750 
-751      SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma\_Sac\_full;
-752      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<6; ++x )
-753      \{
-754         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=std\_map\_indicies[x].first;
-755         \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=std\_map\_indicies[x].second;
-756         \textcolor{keywordflow}{if} ( i!=j )
-757             sigma\_Sac\_full[i][j] = 0.5 * energy.dx(x);
-758         \textcolor{keywordflow}{else}
-759             sigma\_Sac\_full[i][j] = energy.dx(x);
-760      \}
-761 
-762      std::cout << \textcolor{stringliteral}{"sigma\_Sac\_full="} << sigma\_Sac\_full << std::endl;
-763      d2\_energy\_d\_eps\_d\_phi[0][0] = sigma\_Sac\_full[0][0].val().dx(6);
-764      d2\_energy\_d\_eps\_d\_phi[1][1] = sigma\_Sac\_full[1][1].val().dx(6);
-765      d2\_energy\_d\_eps\_d\_phi[2][2] = sigma\_Sac\_full[2][2].val().dx(6);
-766      d2\_energy\_d\_eps\_d\_phi[0][1] = sigma\_Sac\_full[0][1].val().dx(6);
-767      d2\_energy\_d\_eps\_d\_phi[0][2] = sigma\_Sac\_full[0][2].val().dx(6);
-768      d2\_energy\_d\_eps\_d\_phi[1][2] = sigma\_Sac\_full[1][2].val().dx(6);
-769 
-770      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_eps\_d\_phi="} << d2\_energy\_d\_eps\_d\_phi << std::endl;
-771 
-772      SymmetricTensor<2,dim> d2\_energy\_d\_phi\_d\_eps;
-773      d2\_energy\_d\_phi\_d\_eps[0][0] = energy.dx(6).dx(0);
-774      d2\_energy\_d\_phi\_d\_eps[0][1] = energy.dx(6).dx(1);
-775      d2\_energy\_d\_phi\_d\_eps[0][2] = energy.dx(6).dx(2);
-776      d2\_energy\_d\_phi\_d\_eps[1][1] = energy.dx(6).dx(3);
-777      d2\_energy\_d\_phi\_d\_eps[1][2] = energy.dx(6).dx(4);
-778      d2\_energy\_d\_phi\_d\_eps[2][2] = energy.dx(6).dx(5);
-779      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_energy\_d\_phi\_d\_eps << std::endl;
-780 
-781 
-782     \textcolor{comment}{// Analytical tangent}
-783      SymmetricTensor<4,dim> C\_analy;
-784      C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetric\_tensor<dim>()) + 2. * mu
+749     \textcolor{comment}{// Analytical tangent}
+750      SymmetricTensor<4,dim> C\_analy;
+751      C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetric\_tensor<dim>()) + 2. * mu
        * identity\_tensor<dim>();
-785 
-786     \textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
-787     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-788         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
-789             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
-790                 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
-791                     error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
-792 
-793     std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
-794 \}
+752 
+753     \textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
+754     \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+755         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
+756             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
+757                 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
+758                     error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
+759 
+760     std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
+761 \}
 \end{DoxyCode}
 \index{Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}!sacado\+\_\+test\+\_\+8@{sacado\+\_\+test\+\_\+8}}
 \index{sacado\+\_\+test\+\_\+8@{sacado\+\_\+test\+\_\+8}!Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}}
@@ -991,125 +958,125 @@ Referenced by main().
 
 
 \begin{DoxyCode}
-801 \{
-802     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
-803 
-804     std::cout << \textcolor{stringliteral}{"Test 8:"} << std::endl;
-805 
-806     \textcolor{comment}{// Defining the inputs (material parameters, strain tensor)}
-807      \textcolor{keywordtype}{double} lambda=1;
-808      \textcolor{keywordtype}{double} mu=2;
-809      SymmetricTensor<2,dim, double> eps;
-810      \textcolor{keywordtype}{double} phi = 0.3;
-811 
-812      eps[0][0] = 1.;
-813      eps[1][1] = 2.;
-814      eps[2][2] = 3.;
-815 
-816      eps[0][1] = 4.;
-817      eps[0][2] = 5.;
-818      eps[1][2] = 6.;
-819 
-820     \textcolor{comment}{// Declaring the special data types containing all derivatives}
-821      \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
-822 
-823     \textcolor{comment}{// Declare the variables \(\backslash\)a eps\_fad and \(\backslash\)a phi\_fad as the special Wrapper data types}
-824      \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\_Wrapper::SymTensor2<dim>} eps\_fad;
-825      \hyperlink{classSacado__Wrapper_1_1SW__double2}{Sacado\_Wrapper::SW\_double2<dim>} phi\_fad;
-826 
-827     \textcolor{comment}{// Declare the summary data type relating all the dofs and initialising them too}
-828      \hyperlink{classSacado__Wrapper_1_1DoFs__summary}{Sacado\_Wrapper::DoFs\_summary<dim>} DoFs\_summary;
-829      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_ae273d0fa3197118a11d7005523e27d8a}{init\_set\_dofs}(eps\_fad, eps, phi\_fad, phi);
-830 
-831     \textcolor{comment}{// The variables are outputted to give some insight into the storage of the values (derivatives still
+768 \{
+769     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+770 
+771     std::cout << \textcolor{stringliteral}{"Test 8:"} << std::endl;
+772 
+773     \textcolor{comment}{// Defining the inputs (material parameters, strain tensor)}
+774      \textcolor{keywordtype}{double} lambda=1;
+775      \textcolor{keywordtype}{double} mu=2;
+776      SymmetricTensor<2,dim, double> eps;
+777      \textcolor{keywordtype}{double} phi = 0.3;
+778 
+779      eps[0][0] = 1.;
+780      eps[1][1] = 2.;
+781      eps[2][2] = 3.;
+782 
+783      eps[0][1] = 4.;
+784      eps[0][2] = 5.;
+785      eps[1][2] = 6.;
+786 
+787     \textcolor{comment}{// Declaring the special data types containing all derivatives}
+788      \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
+789 
+790     \textcolor{comment}{// Declare the variables \(\backslash\)a eps\_fad and \(\backslash\)a phi\_fad as the special Wrapper data types}
+791      \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\_Wrapper::SymTensor2<dim>} eps\_fad;
+792      \hyperlink{classSacado__Wrapper_1_1SW__double2}{Sacado\_Wrapper::SW\_double2<dim>} phi\_fad;
+793 
+794     \textcolor{comment}{// Declare the summary data type relating all the dofs and initialising them too}
+795      \hyperlink{classSacado__Wrapper_1_1DoFs__summary}{Sacado\_Wrapper::DoFs\_summary<dim>} DoFs\_summary;
+796      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_ae273d0fa3197118a11d7005523e27d8a}{init\_set\_dofs}(eps\_fad, eps, phi\_fad, phi);
+797 
+798     \textcolor{comment}{// The variables are outputted to give some insight into the storage of the values (derivatives still
        trivial).}
-832      std::cout << \textcolor{stringliteral}{"eps\_fad="} << eps\_fad << std::endl;
-833      std::cout << \textcolor{stringliteral}{"phi\_fad="} << phi\_fad << std::endl;
-834 
-835     \textcolor{comment}{// Compute eps² = eps\_ij * eps\_jk in index notation}
-836      SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps\_fad\_squared;
-837      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-838         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k )
-839             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-840                 \textcolor{keywordflow}{if} ( i>=k )
-841                     eps\_fad\_squared[i][k] += eps\_fad[i][j] * eps\_fad[j][k];
-842 
-843     \textcolor{comment}{// Compute the strain energy density}
-844      Sacado::Fad::DFad<DFadType> energy;
-845      energy = lambda/2. * trace(eps\_fad)*trace(eps\_fad) + mu * trace(eps\_fad\_squared) + 25 * phi\_fad * 
+799      std::cout << \textcolor{stringliteral}{"eps\_fad="} << eps\_fad << std::endl;
+800      std::cout << \textcolor{stringliteral}{"phi\_fad="} << phi\_fad << std::endl;
+801 
+802     \textcolor{comment}{// Compute eps² = eps\_ij * eps\_jk in index notation}
+803      SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > eps\_fad\_squared;
+804      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+805         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k )
+806             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+807                 \textcolor{keywordflow}{if} ( i>=k )
+808                     eps\_fad\_squared[i][k] += eps\_fad[i][j] * eps\_fad[j][k];
+809 
+810     \textcolor{comment}{// Compute the strain energy density}
+811      Sacado::Fad::DFad<DFadType> energy;
+812      energy = lambda/2. * trace(eps\_fad)*trace(eps\_fad) + mu * trace(eps\_fad\_squared) + 25 * phi\_fad * 
       trace(eps\_fad);
-846 
-847     \textcolor{comment}{// The energy is outputted (formatted by hand) to give some insight into the storage of the values and
+813 
+814     \textcolor{comment}{// The energy is outputted (formatted by hand) to give some insight into the storage of the values and
        derivatives. \(\backslash\)n}
-848     \textcolor{comment}{// energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] \(\backslash\)n}
-849     \textcolor{comment}{//              [ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \(\backslash\)n}
-850     \textcolor{comment}{//              21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \(\backslash\)n}
-851     \textcolor{comment}{//              150 [ 25 0 0 25 0 25 0 ] ]}
-852 
-853      std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
-854 
-855     \textcolor{comment}{// Compute sigma as \(\backslash\)f[ \(\backslash\)boldsymbol\{\(\backslash\)sigma\} = \(\backslash\)frac\{\(\backslash\)partial \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}\}
+815     \textcolor{comment}{// energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] \(\backslash\)n}
+816     \textcolor{comment}{// [ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \(\backslash\)n}
+817     \textcolor{comment}{// 21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \(\backslash\)n}
+818     \textcolor{comment}{// 150 [ 25 0 0 25 0 25 0 ] ]}
+819 
+820      std::cout << \textcolor{stringliteral}{"energy="} << energy << std::endl;
+821 
+822     \textcolor{comment}{// Compute sigma as \(\backslash\)f[ \(\backslash\)boldsymbol\{\(\backslash\)sigma\} = \(\backslash\)frac\{\(\backslash\)partial \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}\}
        \(\backslash\)f]}
-856      SymmetricTensor<2,dim> sigma\_Sac;
-857      eps\_fad.get\_tangent(sigma\_Sac, energy);
-858      std::cout << \textcolor{stringliteral}{"sigma\_Sacado="} << sigma\_Sac << std::endl;
-859 
-860      \textcolor{keywordtype}{double} d\_energy\_d\_phi;
-861      phi\_fad.\hyperlink{classSacado__Wrapper_1_1SW__double2_ad51ba1e79171d60861b28098dfef903d}{get\_tangent}(d\_energy\_d\_phi, energy);
-862      std::cout << \textcolor{stringliteral}{"d\_energy\_d\_phi="} << d\_energy\_d\_phi << std::endl;
-863 
-864 
-865     \textcolor{comment}{// Analytical stress tensor:}
-866      SymmetricTensor<2,dim> sigma;
-867      sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
-868      std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
-869 
-870 
-871     \textcolor{comment}{// Sacado stress tangent (or eps curvature) as \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial
+823      SymmetricTensor<2,dim> sigma\_Sac;
+824      eps\_fad.get\_tangent(sigma\_Sac, energy);
+825      std::cout << \textcolor{stringliteral}{"sigma\_Sacado="} << sigma\_Sac << std::endl;
+826 
+827      \textcolor{keywordtype}{double} d\_energy\_d\_phi;
+828      phi\_fad.\hyperlink{classSacado__Wrapper_1_1SW__double2_ad51ba1e79171d60861b28098dfef903d}{get\_tangent}(d\_energy\_d\_phi, energy);
+829      std::cout << \textcolor{stringliteral}{"d\_energy\_d\_phi="} << d\_energy\_d\_phi << std::endl;
+830 
+831 
+832     \textcolor{comment}{// Analytical stress tensor:}
+833      SymmetricTensor<2,dim> sigma;
+834      sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
+835      std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
+836 
+837 
+838     \textcolor{comment}{// Sacado stress tangent (or eps curvature) as \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial
        \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}^2\} \(\backslash\)f]}
-872      SymmetricTensor<4,dim> C\_Sac;
-873      eps\_fad.get\_curvature(C\_Sac, energy);
-874 
-875     \textcolor{comment}{// Sacado phi curvature as \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)varphi^2\} \(\backslash\)f]}
-876      \textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2;
-877      phi\_fad.\hyperlink{classSacado__Wrapper_1_1SW__double2_a7d3f3a21cd842645af9861bf50308825}{get\_curvature}(d2\_energy\_d\_phi\_2, energy);
-878      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
-879 
-880     \textcolor{comment}{// Sacado derivatives \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\} \(\backslash\)partial \(\backslash\)varphi\}
+839      SymmetricTensor<4,dim> C\_Sac;
+840      eps\_fad.get\_curvature(C\_Sac, energy);
+841 
+842     \textcolor{comment}{// Sacado phi curvature as \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)varphi^2\} \(\backslash\)f]}
+843      \textcolor{keywordtype}{double} d2\_energy\_d\_phi\_2;
+844      phi\_fad.\hyperlink{classSacado__Wrapper_1_1SW__double2_a7d3f3a21cd842645af9861bf50308825}{get\_curvature}(d2\_energy\_d\_phi\_2, energy);
+845      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_d\_phi\_2 << std::endl;
+846 
+847     \textcolor{comment}{// Sacado derivatives \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\} \(\backslash\)partial \(\backslash\)varphi\}
        \(\backslash\)f]}
-881      SymmetricTensor<2,dim> d2\_energy\_d\_eps\_d\_phi;
-882      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_adf29bfda10814ecee9572a4751d34db0}{get\_curvature}(d2\_energy\_d\_eps\_d\_phi, energy, eps\_fad, phi\_fad);
-883      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_eps\_d\_phi="} << d2\_energy\_d\_eps\_d\_phi << std::endl;
-884 
-885     \textcolor{comment}{// Sacado derivatives \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)varphi \(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}\}
+848      SymmetricTensor<2,dim> d2\_energy\_d\_eps\_d\_phi;
+849      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_adf29bfda10814ecee9572a4751d34db0}{get\_curvature}(d2\_energy\_d\_eps\_d\_phi, energy, eps\_fad, phi\_fad);
+850      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_eps\_d\_phi="} << d2\_energy\_d\_eps\_d\_phi << std::endl;
+851 
+852     \textcolor{comment}{// Sacado derivatives \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)varphi \(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}\}
        \(\backslash\)f]}
-886      SymmetricTensor<2,dim> d2\_energy\_d\_phi\_d\_eps;
-887      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_adf29bfda10814ecee9572a4751d34db0}{get\_curvature}(d2\_energy\_d\_phi\_d\_eps, energy, phi\_fad, eps\_fad);
-888      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_energy\_d\_phi\_d\_eps << std::endl;
-889 
-890     \textcolor{comment}{// When you consider the output: \(\backslash\)n}
-891     \textcolor{comment}{// d2\_energy\_d\_eps\_d\_phi=25 0 0 0 25 0 0 0 25 \(\backslash\)n}
-892     \textcolor{comment}{// d2\_energy\_d\_phi\_d\_eps=25 0 0 0 25 0 0 0 25 \(\backslash\)n}
-893     \textcolor{comment}{// in detail you will notice that both second derivatives are identical. This compplies with the
+853      SymmetricTensor<2,dim> d2\_energy\_d\_phi\_d\_eps;
+854      DoFs\_summary.\hyperlink{classSacado__Wrapper_1_1DoFs__summary_adf29bfda10814ecee9572a4751d34db0}{get\_curvature}(d2\_energy\_d\_phi\_d\_eps, energy, phi\_fad, eps\_fad);
+855      std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_d\_eps="} << d2\_energy\_d\_phi\_d\_eps << std::endl;
+856 
+857     \textcolor{comment}{// When you consider the output: \(\backslash\)n}
+858     \textcolor{comment}{// d2\_energy\_d\_eps\_d\_phi=25 0 0 0 25 0 0 0 25 \(\backslash\)n}
+859     \textcolor{comment}{// d2\_energy\_d\_phi\_d\_eps=25 0 0 0 25 0 0 0 25 \(\backslash\)n}
+860     \textcolor{comment}{// in detail you will notice that both second derivatives are identical. This compplies with the
        Schwarz integrability condition (Symmetry of second derivatives)}
-894     \textcolor{comment}{// (ignoring all limitation and requirements), it holds}
-895     \textcolor{comment}{// \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\} \(\backslash\)partial \(\backslash\)varphi\} = \(\backslash\)frac\{\(\backslash\)partial^2
+861     \textcolor{comment}{// (ignoring all limitation and requirements), it holds}
+862     \textcolor{comment}{// \(\backslash\)f[ \(\backslash\)frac\{\(\backslash\)partial^2 \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\} \(\backslash\)partial \(\backslash\)varphi\} = \(\backslash\)frac\{\(\backslash\)partial^2
        \(\backslash\)Psi\}\{\(\backslash\)partial \(\backslash\)varphi \(\backslash\)partial \(\backslash\)boldsymbol\{\(\backslash\)varepsilon\}\}  \(\backslash\)f]}
-896 
-897     \textcolor{comment}{// Analytical stress tangent}
-898      SymmetricTensor<4,dim> C\_analy;
-899      C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetric\_tensor<dim>()) + 2. * mu
+863 
+864     \textcolor{comment}{// Analytical stress tangent}
+865      SymmetricTensor<4,dim> C\_analy;
+866      C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetric\_tensor<dim>()) + 2. * mu
        * identity\_tensor<dim>();
-900 
-901     \textcolor{comment}{// Compute the error for the stress tangent}
-902      \textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
-903      \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-904         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
-905             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
-906                 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
-907                     error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
-908      std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
-909 \}
+867 
+868     \textcolor{comment}{// Compute the error for the stress tangent}
+869      \textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
+870      \textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+871         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
+872             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
+873                 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
+874                     error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
+875      std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
+876 \}
 \end{DoxyCode}
 \index{Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}!sacado\+\_\+test\+\_\+scalar@{sacado\+\_\+test\+\_\+scalar}}
 \index{sacado\+\_\+test\+\_\+scalar@{sacado\+\_\+test\+\_\+scalar}!Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}}
@@ -1130,10 +1097,10 @@ Referenced by main().
 \begin{DoxyCode}
 39 \{
 40     std::cout << \textcolor{stringliteral}{"Scalar Test:"} << std::endl;
-41     \textcolor{comment}{// define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as the
-       Sacado-data type}
+41     \textcolor{comment}{// Define the variables used in the computation (inputs/independent variables: a, b; output/result: c;
+       auxiliaries/passive variables: *) as the Sacado-data type}
 42      \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,\hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
-43     \textcolor{comment}{// initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives
+43     \textcolor{comment}{// Initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives
        are computed.}
 44     \textcolor{comment}{// Compare: y=x² -> (dy/dx)(\(\backslash\)@x=1) = 2. We can only compute the derivative numerically at a certain
        point.}

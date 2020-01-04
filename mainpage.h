@@ -24,19 +24,26 @@ Using Sacado, on the other hand, the variable \f$ c_{fad} \f$ is now of, for exa
 @endcode
 As a result, \f$ c_{fad} \f$ now contains not just the number \f$ 2 \f$, but also all the derivatives of \f$ c_{fad} \f$
 with respect to the previously defined degrees of freedom (set via command *.diff(*)). \n
-The following figure tries to visualize this:
+The following figure tries to visualize this for first derivatives:
 \image html Sacado_data-type.png
-@todo update this figure or add another one for second derivatives
-@todo add another less general figure with c, a and b and explain what is meant by point p
+and for second derivatives (requires different data type):
+\image html Sacado_data-type_1_2_derivatives.png
+Every variable that was declared as such a data type now contains besides the actual value \f$ c \f$, also its derivatives.
 
-If you right away want to use Sacado, then you might skip the first examples and jump to Ex3B.
-There we show how to use the "Sacado_Wrapper" that does everything from Ex2 and Ex3 in just a view lines of code. This does not mean that
+@subsection subsec_overview Overview
+This overview shall give you first impression what to expect from each of the examples.
+The background/basics group gives you the promised look under the hood.
+Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
+\image html overview_of_examples.png
+
+If you right away want to use Sacado, then you might skip the first examples and jump to \ref Ex3B "example 3B.
+There we show how to use the "Sacado_Wrapper" that does everything from \ref Ex2 "example 2" and \ref Ex3 "example 3" in just a view lines of code. This does not mean that
 the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 
 Furthermore, if you, for instance, compute problems with two-fields (e.g. displacement and scalar damage) and you need
-tangents with respect to both a tensor (e.g. strain tensor) and a scalar (e.g. damage variable), you can use the Sacado_Wrapper as shown in Ex4.
+tangents with respect to both a tensor (e.g. strain tensor) and a scalar (e.g. damage variable), you can use the Sacado_Wrapper as shown in \ref Ex4 "example 4".
 
-Some more basics: \n
+@subsection subsec_more_basics Some more basics
 One can access the double value of \f$ c_{fad} \f$ with the Sacado command *.val():
 @code
 	double c_value = c_fad.val();
@@ -47,16 +54,21 @@ The derivatives of \f$ c_{fad} \f$ can be accessed with the command *.dx():
 	double c_c_d_b = c_fad.dx(1);
 @endcode
 The arguments of \a dx, namely 0 and 1 are the numbers corresponding to the dof that belong to \a a and \a b. More details on how to set this up
-and use it, are given in example Ex1.
+and use it, are given in \ref Ex1 "example 1".
 
-Some resources/links: \n
+@subsection subsec_resources Some resources/links
 You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
-@todo link the Sacado and DII pages
+- Basics on Sacado, automatic differentation and coding examples (important remarks, e.g. on point of non-differentiability): \n
+	https://software.sandia.gov/SESS/past_seminars/111307_Phipps.pdf
+- Basics and available autodiff libraries provided by deal.ii: \n
+	https://www.dealii.org/current/doxygen/deal.II/group__auto__symb__diff.html
+- Template-based generic programming: \n
+	downloads.hindawi.com/journals/sp/2012/202071.pdf
+- Tutorial 33 by deal.ii: introduction to Sacado and implementation to assemble the residuum and compute its derivative \n
+	https://www.dealii.org/current/doxygen/deal.II/step_33.html
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood.
 The code is neither elegant nor efficient, but it works. A more user-friendly version is provided by means of the "Sacado_Wrapper". \n
-@todo add list of files and an overview
-@todo explain how to use the Wrapper (download the file Sacado_Wrapper.h, #include, ...)
 @todo Check if factor 0.5 is also necessary for d_sigma / d_phi
 
 @note This documentation and code only protocol my first steps with Sacado. They are not guaranteed to be correct neither are they verified.
@@ -120,11 +132,11 @@ void sacado_test_scalar ()
 {
 	std::cout << "Scalar Test:" << std::endl;
 \endcode
-define the variables used in the computation (inputs: a, b; output: c; auxiliaries: *) as the Sacado-data type
+Define the variables used in the computation (inputs/independent variables: a, b; output/result: c; auxiliaries/passive variables: *) as the Sacado-data type
 \code
 	 fad_double a,b,c;
 \endcode
-initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed.
+Initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed.
 Compare: y=x² -> (dy/dx)(\@x=1) = 2. We can only compute the derivative numerically at a certain point.
 \code
 	 a = 1;
@@ -971,6 +983,9 @@ Compute sigma as \f[ \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \f]
 	 double d_energy_d_phi = energy.dx(6).val();
 	 std::cout << "d_energy_d_phi=" << d_energy_d_phi << std::endl;
  
+	 double d2_energy_d_phi_2 = energy.dx(6).dx(6);
+	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
+ 
 \endcode
 Analytical stress tensor:
 \code
@@ -1003,42 +1018,6 @@ Sacado-Tangent
 			else
 				C_Sac[i][j][k][l] = deriv;
 		}
- 
-	 double d2_energy_d_phi_2 = energy.dx(6).dx(6);
-	 std::cout << "d2_energy_d_phi_2=" << d2_energy_d_phi_2 << std::endl;
- 
-	 SymmetricTensor<2,dim> d2_energy_d_eps_d_phi;
- 
-	 SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > sigma_Sac_full;
-	 for ( unsigned int x=0; x<6; ++x )
-	 {
-		unsigned int i=std_map_indicies[x].first;
-		unsigned int j=std_map_indicies[x].second;
-		if ( i!=j )
-			sigma_Sac_full[i][j] = 0.5 * energy.dx(x);
-		else
-			sigma_Sac_full[i][j] = energy.dx(x);
-	 }
- 
-	 std::cout << "sigma_Sac_full=" << sigma_Sac_full << std::endl;
-	 d2_energy_d_eps_d_phi[0][0] = sigma_Sac_full[0][0].val().dx(6);
-	 d2_energy_d_eps_d_phi[1][1] = sigma_Sac_full[1][1].val().dx(6);
-	 d2_energy_d_eps_d_phi[2][2] = sigma_Sac_full[2][2].val().dx(6);
-	 d2_energy_d_eps_d_phi[0][1] = sigma_Sac_full[0][1].val().dx(6);
-	 d2_energy_d_eps_d_phi[0][2] = sigma_Sac_full[0][2].val().dx(6);
-	 d2_energy_d_eps_d_phi[1][2] = sigma_Sac_full[1][2].val().dx(6);
- 
-	 std::cout << "d2_energy_d_eps_d_phi=" << d2_energy_d_eps_d_phi << std::endl;
- 
-	 SymmetricTensor<2,dim> d2_energy_d_phi_d_eps;
-	 d2_energy_d_phi_d_eps[0][0] = energy.dx(6).dx(0);
-	 d2_energy_d_phi_d_eps[0][1] = energy.dx(6).dx(1);
-	 d2_energy_d_phi_d_eps[0][2] = energy.dx(6).dx(2);
-	 d2_energy_d_phi_d_eps[1][1] = energy.dx(6).dx(3);
-	 d2_energy_d_phi_d_eps[1][2] = energy.dx(6).dx(4);
-	 d2_energy_d_phi_d_eps[2][2] = energy.dx(6).dx(5);
-	 std::cout << "d2_energy_d_phi_d_eps=" << d2_energy_d_phi_d_eps << std::endl;
- 
  
 \endcode
 Analytical tangent
@@ -1126,11 +1105,11 @@ Compute the strain energy density
 \endcode
 The energy is outputted (formatted by hand) to give some insight into the storage of the values and derivatives. \n
 energy=399 [ 17.5 32 40 21.5 48 25.5 150 ] \n
-				[ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \n
-				21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \n
-\code
-	//	 	 	 	150 [ 25 0 0 25 0 25 0 ] ]
+[ 17.5 [ 5 0 0 1 0 1 25 ] 32 [ 0 8 0 0 0 0 0 ] 40 [ 0 0 8 0 0 0 0 ] \n
+21.5 [ 1 0 0 5 0 1 25 ] 48 [ 0 0 0 0 8 0 0 ] 25.5 [ 1 0 0 1 0 5 25 ] \n
+150 [ 25 0 0 25 0 25 0 ] ]
  
+\code
 	 std::cout << "energy=" << energy << std::endl;
  
 \endcode
@@ -1250,7 +1229,8 @@ int main ()
 
 @section END The End
 
-Hosted via GitHub according to https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/
+Hosted via GitHub according to https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/ \n
+Design of the documentation inspired by the deal.ii tutorial programs.
 
 @}
 */

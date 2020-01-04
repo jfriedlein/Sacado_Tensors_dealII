@@ -188,9 +188,9 @@ namespace Sacado_Wrapper
 		static const unsigned int n_dofs = ((dim==2)?3:6); // ToDo: Find a way to use eps.n_independent_components(); that gives ((dim==2)?3:6) for a SymmetricTensor
 
 		void init_set_dofs ( SymmetricTensor<2,dim> &tensor_double, const unsigned int nbr_total_dofs=n_dofs );
-//
-//		void get_tangent (SymmetricTensor<4,dim> &Tangent, SymmetricTensor<2,dim, fad_double> &sigma);
-//
+
+		void get_tangent (SymmetricTensor<4,dim> &Tangent, SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &sigma);
+
 		void get_tangent( SymmetricTensor<2,dim> &Tangent, Sacado::Fad::DFad<DFadType> &argument );
 		
 		void get_tangent( SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &Tangent, Sacado::Fad::DFad<DFadType> &argument );
@@ -231,6 +231,25 @@ namespace Sacado_Wrapper
 		 }
 	}
 	
+	template<int dim>
+	void SymTensor2<dim>::get_tangent( SymmetricTensor<4,dim> &Tangent, SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &argument )
+	{
+		 for(unsigned int x=0;x<n_dofs;++x)
+			for(unsigned int y=0;y<n_dofs;++y)
+			{
+				const unsigned int i=std_map_indicies[y].first;
+				const unsigned int j=std_map_indicies[y].second;
+				const unsigned int k=std_map_indicies[x].first;
+				const unsigned int l=std_map_indicies[x].second;
+
+				if(k!=l)/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/
+					Tangent[i][j][k][l] = 0.5 * argument[k][l].dx(y).val();		// ToDo: check this on paper (was more like a gut feeling)
+				else
+					Tangent[i][j][k][l] = argument[k][l].dx(y).val();
+			}
+	}
+
+
 	/*
 	 * Compute the tangent still containing all the second derivatives
 	 */
@@ -377,14 +396,14 @@ namespace Sacado_Wrapper
 		void init_set_dofs ( const double &double_init, unsigned int nbr_total_dofs=n_dofs );
 
 		void get_tangent (double &Tangent, Sacado::Fad::DFad<DFadType> &argument);
+		void get_tangent (SymmetricTensor<2,dim> &Tangent, SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &argument, SymTensor2<dim> &eps);
+
 
 		void get_curvature (double &Curvature, Sacado::Fad::DFad<DFadType> &argument);
 		
 		void get_curvature (SymmetricTensor<2,dim> &Curvature, SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &argument, SymTensor2<dim> &eps );
 		void get_curvature (SymmetricTensor<2,dim> &Curvature, Sacado::Fad::DFad<DFadType> &argument,                          SymTensor2<dim> &eps );
 
-//		void get_tangent ( double &Tangent, fad_double &argument );
-//		
 //		void get_values ( double &return_double );
 	};
 
@@ -404,6 +423,19 @@ namespace Sacado_Wrapper
 	
 	
 	template<int dim>
+	void SW_double2<dim>::get_tangent (SymmetricTensor<2,dim> &Tangent, SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > &argument, SymTensor2<dim> &eps)
+	{
+		for(unsigned int x=0;x<eps.n_dofs;++x)
+		{
+			const unsigned int i=eps.std_map_indicies[x].first;
+			const unsigned int j=eps.std_map_indicies[x].second;
+			// ToDo: find a better way to loop over the indices than using eps as input argument
+			Tangent[i][j] = argument[i][j].dx(start_index).val();
+		}
+	}
+
+
+	template<int dim>
 	void SW_double2<dim>::get_curvature (double &Curvature, Sacado::Fad::DFad<DFadType> &argument)
 	{
 		Curvature = argument.dx(this->start_index).dx(this->start_index);
@@ -421,7 +453,10 @@ namespace Sacado_Wrapper
 			const unsigned int i=eps.std_map_indicies[x].first;
 			const unsigned int j=eps.std_map_indicies[x].second;
 
-			Curvature[i][j] = argument[i][j].val().dx(start_index);
+//			if ( i!=j )
+//				Curvature[i][j] = 0.5 * argument[i][j].val().dx(start_index);	// ToDo: check the factor 0.5
+//			else
+				Curvature[i][j] = argument[i][j].val().dx(start_index);
 		}
 	}
 	
@@ -436,7 +471,10 @@ namespace Sacado_Wrapper
 			const unsigned int i=eps.std_map_indicies[x].first;
 			const unsigned int j=eps.std_map_indicies[x].second;
 
-			Curvature[i][j] = argument.dx(start_index).dx(x);
+			if ( i!=j )
+				Curvature[i][j] = 0.5 * argument.dx(start_index).dx(x);	// ToDo: check the factor 0.5
+			else
+				Curvature[i][j] = argument.dx(start_index).dx(x);
 		}
 	}
 		
@@ -512,7 +550,6 @@ namespace Sacado_Wrapper
 	{
 		SymmetricTensor<2,dim, Sacado::Fad::DFad<DFadType> > d_arg_d_eps;
 		eps.get_tangent(d_arg_d_eps, argument);
-		std::cout << "d_arg_d_eps=" << d_arg_d_eps << std::endl;
 		double_arg.get_curvature(Curvature, d_arg_d_eps, eps);
 	}
 
