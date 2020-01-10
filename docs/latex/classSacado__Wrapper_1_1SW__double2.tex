@@ -68,10 +68,10 @@ Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::get\+
 
 
 \begin{DoxyCode}
-440     \{
-441         Curvature = argument.dx(this->\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(this->
+451     \{
+452         Curvature = argument.dx(this->\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(this->
       \hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index});
-442     \}
+453     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!get\+\_\+curvature@{get\+\_\+curvature}}
 \index{get\+\_\+curvature@{get\+\_\+curvature}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -88,19 +88,19 @@ References Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2$<$ dim $>$\+::n\+\_\+dofs, an
 
 
 \begin{DoxyCode}
-450     \{
-451         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
-452         \{
-453             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
-454             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
-455 
-456 \textcolor{comment}{//          if ( i!=j )}
-457 \textcolor{comment}{//              Curvature[i][j] = 0.5 * argument[i][j].val().dx(start\_index);   // ToDo: check the factor
+461     \{
+462         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
+463         \{
+464             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
+465             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
+466 
+467 \textcolor{comment}{//          if ( i!=j )}
+468 \textcolor{comment}{//              Curvature[i][j] = 0.5 * argument[i][j].val().dx(start\_index);   // ToDo: check the factor
        0.5}
-458 \textcolor{comment}{//          else}
-459                 Curvature[i][j] = argument[i][j].val().dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index});
-460         \}
-461     \}
+469 \textcolor{comment}{//          else}
+470                 Curvature[i][j] = argument[i][j].val().dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index});
+471         \}
+472     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!get\+\_\+curvature@{get\+\_\+curvature}}
 \index{get\+\_\+curvature@{get\+\_\+curvature}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -117,19 +117,19 @@ References Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2$<$ dim $>$\+::n\+\_\+dofs, an
 
 
 \begin{DoxyCode}
-468     \{
-469         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
-470         \{
-471             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
-472             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
-473 
-474             \textcolor{keywordflow}{if} ( i!=j )
-475                 Curvature[i][j] = 0.5 * argument.dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(x);  \textcolor{comment}{// ToDo: check the
+479     \{
+480         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
+481         \{
+482             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
+483             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
+484 
+485             \textcolor{keywordflow}{if} ( i!=j )
+486                 Curvature[i][j] = 0.5 * argument.dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(x);  \textcolor{comment}{// ToDo: check the
        factor 0.5}
-476             \textcolor{keywordflow}{else}
-477                 Curvature[i][j] = argument.dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(x);
-478         \}
-479     \}
+487             \textcolor{keywordflow}{else}
+488                 Curvature[i][j] = argument.dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).dx(x);
+489         \}
+490     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -145,9 +145,9 @@ Referenced by sacado\+\_\+test\+\_\+8().
 
 
 \begin{DoxyCode}
-420     \{
-421         Tangent = argument.dx(this->\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).val();
-422     \}
+431     \{
+432         Tangent = argument.dx(this->\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).val();
+433     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -164,15 +164,15 @@ References Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2$<$ dim $>$\+::n\+\_\+dofs, an
 
 
 \begin{DoxyCode}
-427     \{
-428         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
-429         \{
-430             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
-431             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
-432             \textcolor{comment}{// ToDo: find a better way to loop over the indices than using eps as input argument}
-433             Tangent[i][j] = argument[i][j].dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).val();
-434         \}
-435     \}
+438     \{
+439         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<eps.n\_dofs;++x)
+440         \{
+441             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=eps.std\_map\_indicies[x].first;
+442             \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=eps.std\_map\_indicies[x].second;
+443             \textcolor{comment}{// ToDo: find a better way to loop over the indices than using eps as input argument}
+444             Tangent[i][j] = argument[i][j].dx(\hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}).val();
+445         \}
+446     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}}
 \index{init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -188,10 +188,10 @@ Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\
 
 
 \begin{DoxyCode}
-412     \{
-413         (*this).diff( \hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index} , nbr\_total\_dofs );
-414         (*this).val() = \hyperlink{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_total\_dofs, \hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}, double\_init);
-415     \}
+423     \{
+424         (*this).diff( \hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index} , nbr\_total\_dofs );
+425         (*this).val() = \hyperlink{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_total\_dofs, \hyperlink{classSacado__Wrapper_1_1SW__double2_ae7327540ad1fd725ea78ffc2268b423a}{start\_index}, double\_init);
+426     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!operator=@{operator=}}
 \index{operator=@{operator=}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -202,7 +202,7 @@ Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\
 )\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classSacado__Wrapper_1_1SW__double2_a6f0538f891bd49efa54cc508da477f2e}{}\label{classSacado__Wrapper_1_1SW__double2_a6f0538f891bd49efa54cc508da477f2e}
 
 \begin{DoxyCode}
-390 \{ Sacado::Fad::DFad<DFadType>::operator =( double\_init ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
+401 \{ Sacado::Fad::DFad<DFadType>::operator =( double\_init ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}!operator=@{operator=}}
 \index{operator=@{operator=}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2}}
@@ -213,7 +213,7 @@ Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\
 )\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classSacado__Wrapper_1_1SW__double2_a426ab490411a347540e5af7028638495}{}\label{classSacado__Wrapper_1_1SW__double2_a426ab490411a347540e5af7028638495}
 
 \begin{DoxyCode}
-391 \{ Sacado::Fad::DFad<DFadType>::operator =( fad\_assignment ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
+402 \{ Sacado::Fad::DFad<DFadType>::operator =( fad\_assignment ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
 \end{DoxyCode}
 
 

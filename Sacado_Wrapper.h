@@ -84,6 +84,8 @@ namespace Sacado_Wrapper
 		void get_tangent( SymmetricTensor<2,dim> &Tangent, fad_double &argument );
 		
 		void get_values ( SymmetricTensor<2,dim> &tensor_double );
+
+		SymmetricTensor<2,dim> get_value ();
 	};
 
 
@@ -168,6 +170,15 @@ namespace Sacado_Wrapper
 			for ( unsigned int j=0; j<dim; ++j )
 				tensor_double[i][j] = ((*this)[i][j]).val();
 	}
+
+	template<int dim>
+	SymmetricTensor<2,dim> SymTensor<dim>::get_value ()
+	{
+		SymmetricTensor<2,dim> tmp;
+		(*this).get_values(tmp);
+		return tmp;
+	}
+
 
 	//###########################################################################################################//
 
