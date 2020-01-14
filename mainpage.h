@@ -36,7 +36,7 @@ The background/basics group gives you the promised look under the hood.
 Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
 \image html overview_of_examples.png
 
-If you right away want to use Sacado, then you might skip the first examples and jump to \ref Ex3B "example 3B.
+If you right away want to use Sacado, then you might skip the first examples and jump to \ref Ex3B "example 3B".
 There we show how to use the "Sacado_Wrapper" that does everything from \ref Ex2 "example 2" and \ref Ex3 "example 3" in just a view lines of code. This does not mean that
 the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 
@@ -172,7 +172,7 @@ void sacado_test_2 ()
 	std::cout << "Test 2:" << std::endl;
  
 \endcode
-First we set the dimension \a dim: 2D->dim=2; 3D->dim=3 \n This defines the "size" of the tensors and the number of dofs. Ex2 only works in 3D, whereas the following Ex3 is set up dimension-independent.
+First we set the dimension \a dim: 2D->dim=2; 3D->dim=3 \n This defines the "size" of the tensors and the number of dofs. \ref Ex2 "Example 2" only works in 3D, whereas the following Ex3 is set up dimension-independent.
 \code
 	const unsigned int dim = 3;
  
@@ -405,7 +405,7 @@ the tangent in the actual FE code.
 	SymmetricTensor<4,dim> C_Sacado;
  
 \endcode
-As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we loop over the
+As in \ref Ex2 "example 2" we access the components of the stress tensor one by one. In order to capture all of them we loop over the
 components i and j of the stress tensor.
 \code
 	for ( unsigned int i=0; i<dim; ++i)
@@ -684,17 +684,17 @@ with fad_double than with normal doubles (own experience in a special case: slow
 The second option with templates does not suffer these issues.
 \code
 	  {
+	  d = phi*phi + 25 + trace(eps) + eps.norm();
+	  std::cout << "d=" << d << std::endl;
+ 
 	  for ( unsigned int i=0; i<dim; ++i)
 	 	for ( unsigned int j=0; j<dim; ++j )
-	 		sigma[i][j] = phi * eps[i][j];
+	 		sigma[i][j] = phi * eps[i][j] * d;
 \endcode
 ToDo: strangely when phi is a fad_double then the multiplication phi * eps works directly without
 having to use the index notation
 \code
 	  std::cout << "sigma=" << sigma << std::endl;
- 
-	  d = phi*phi + 25 + trace(eps);
-	  std::cout << "d=" << d << std::endl;
 	  }
  
  
@@ -710,23 +710,42 @@ d_sigma / d_eps: SymmetricTensor with respect to SymmetricTensor
 Compute the analytical tangent:
 \code
 	  SymmetricTensor<4,dim> C_analy;
-	  C_analy = phi_d * identity_tensor<dim>();
-	  std::cout << "C_analy =" << C_analy << std::endl;
+	  C_analy = ( std::pow(phi_d, 3) + 25*phi_d + phi_d*trace(eps_d) + phi_d*eps_d.norm() ) * identity_tensor<dim>()
+			    + phi_d * outer_product( eps_d, unit_symmetric_tensor<dim>())
+	  	  	  	+ phi_d * outer_product( eps_d, eps_d ) * 1./eps_d.norm();
+\endcode
+Be aware of the difference between \f[ eps_d \dyadic \boldsymbol{1} \text{ and } \boldsymbol{1} \dyadic eps_d \f]
+\code
+	  std::cout << "C_analy =" << C_analy << std::endl << std::endl;
  
 \endcode
 d_d / d_eps: double with respect to SymmetricTensor
 \code
 	  SymmetricTensor<2,dim> d_d_d_eps;
 	  eps.get_tangent(d_d_d_eps, d);
-	  std::cout << "d_d_d_eps=" << d_d_d_eps << std::endl;
+	  std::cout << "d_d_d_eps      =" << d_d_d_eps << std::endl;
+	  SymmetricTensor<2,dim> d_d_d_eps_analy;
+	  d_d_d_eps_analy = unit_symmetric_tensor<dim>() + eps_d / eps_d.norm();
+	  std::cout << "d_d_d_eps_analy=" << d_d_d_eps_analy << std::endl << std::endl;
  
 \endcode
 d_sigma / d_phi: SymmetricTensor with respect to double
 \code
 	  SymmetricTensor<2,dim> d_sigma_d_phi;
 	  phi.get_tangent(d_sigma_d_phi, sigma);
- 	  std::cout << "d_sigma_d_phi=" << d_sigma_d_phi << std::endl;
-	  std::cout << "sigma = d_sigma_d_phi * phi = " << d_sigma_d_phi * phi_d << std::endl;
+ 	  std::cout << "d_sigma_d_phi      =" << d_sigma_d_phi << std::endl;
+	  SymmetricTensor<2,dim> d_sigma_d_phi_analy;
+	  d_sigma_d_phi_analy = ( phi_d*phi_d + 25 + trace(eps_d) + eps_d.norm() + 2 * phi_d*phi_d ) * eps_d;
+	  std::cout << "d_sigma_d_phi_analy=" << d_sigma_d_phi_analy << std::endl << std::endl;
+ 
+\endcode
+Retrieve the values stored in \a sigma:
+\code
+	  SymmetricTensor<2,dim> sigma_d;
+	  for ( unsigned int i=0; i<dim; ++i)
+	  	 	for ( unsigned int j=0; j<dim; ++j )
+	  	 		sigma_d[i][j] = sigma[i][j].val();
+	  std::cout << "sigma_d = " << sigma_d << std::endl;
  
 \endcode
 d_d / d_phi: double with respect to double
@@ -734,6 +753,19 @@ d_d / d_phi: double with respect to double
 	  double d_d_d_phi;
 	  phi.get_tangent(d_d_d_phi, d);
  	  std::cout << "d_d_d_phi=" << d_d_d_phi << std::endl;
+ 
+\endcode
+Retrieve the value stored in d
+\code
+ 	  double d_double = d.val();
+ 
+\endcode
+Taylor-series for point x
+@todo Maybe add some more text on the linearization
+\code
+ 	  double x = phi_d + 0.05;
+ 	  std::cout << "d_lin = d_d_d_phi * (phi_d - x) + d@(phi_d) = " << d_d_d_phi * (x-phi_d) + d_double << std::endl;
+ 	  std::cout << "d@x = " << x*x + 25 + trace(eps_d) + eps_d.norm() << std::endl;
  
 \endcode
 And that's it. By using the Sacado_wrapper we can compute derivatives with respect to
@@ -1185,6 +1217,112 @@ Compute the error for the stress tangent
 }
  
  
+\endcode
+@section Ex9 9. Example: Why we sometimes need the factor of 0.5 in the derivatives and sometimes we don't
+\code
+void sacado_test_9 ()
+ 
+{
+    const unsigned int dim=3;
+ 
+	std::cout << "Test 9:" << std::endl;
+ 
+	double kappa_param = 5;
+	fad_double kappa (kappa_param);
+	double mu = 2;
+ 
+	SymmetricTensor<2,dim, fad_double> sigma, eps;
+ 
+    std::map<unsigned int,std::pair<unsigned int,unsigned int>> std_map_indicies;
+ 
+		eps[0][0] = 1;
+		eps[1][1] = 2;
+		eps[2][2] = 3;
+ 
+		eps[0][1] = 4;
+		eps[0][2] = 5;
+		eps[1][2] = 6;
+ 
+ 
+		eps[0][0].diff(0,6);
+		eps[0][1].diff(1,6);
+		eps[0][2].diff(2,6);
+		eps[1][1].diff(3,6);
+		eps[1][2].diff(4,6);
+		eps[2][2].diff(5,6);
+ 
+		std::pair<unsigned int, unsigned int> tmp_pair;
+		tmp_pair.first=0; tmp_pair.second=0;
+		std_map_indicies[0] = tmp_pair;
+ 
+		tmp_pair.first=0; tmp_pair.second=1;
+		std_map_indicies[1] = tmp_pair;
+ 
+		tmp_pair.first=0; tmp_pair.second=2;
+		std_map_indicies[2] = tmp_pair;
+ 
+		tmp_pair.first=1; tmp_pair.second=1;
+		std_map_indicies[3] = tmp_pair;
+ 
+		tmp_pair.first=1; tmp_pair.second=2;
+		std_map_indicies[4] = tmp_pair;
+ 
+		tmp_pair.first=2; tmp_pair.second=2;
+		std_map_indicies[5] = tmp_pair;
+ 
+	SymmetricTensor<2,dim, fad_double> stdTensor_I (( unit_symmetric_tensor<dim,fad_double>()) );
+ 
+	sigma = kappa * (trace(eps) *  stdTensor_I);
+    SymmetricTensor<2,dim,fad_double> tmp = deviator<dim,fad_double>(symmetrize<dim,fad_double>(eps)); tmp*=(mu*2);
+    sigma +=  tmp;
+ 
+	std::cout << "sigma=" << sigma << std::endl;
+ 
+	SymmetricTensor<4,dim> C_Sacado;
+ 
+	for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j )
+		{
+			double *derivs = &sigma[i][j].fastAccessDx(0); // Access the derivatives of the (i,j)-th component of \a sigma
+ 
+			for(unsigned int x=0;x<((dim==2)?3:6);++x)
+            {
+                unsigned int k=std_map_indicies[x].first;
+                unsigned int l=std_map_indicies[x].second;
+ 
+                if(k!=l)/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/
+                {
+                    C_Sacado[i][j][k][l] = 0.5*derivs[x];
+                    C_Sacado[i][j][l][k] = 0.5*derivs[x];
+                }
+                else
+                    C_Sacado[i][j][k][l] = derivs[x];
+            }
+		}
+ 
+	SymmetricTensor<2,dim> eps_d;
+	eps_d[0][0] = 1;
+	eps_d[1][1] = 2;
+	eps_d[2][2] = 3;
+ 
+	eps_d[0][1] = 4;
+	eps_d[0][2] = 5;
+	eps_d[1][2] = 6;
+ 
+	SymmetricTensor<2,dim> stress_from_tangent = C_Sacado*eps_d;
+ 
+	std::cout << "dev=" << deviator(eps_d) << std::endl;
+ 
+	std::cout << "C_Sacado*eps_d=" << stress_from_tangent << std::endl;
+	std::cout << stress_from_tangent[0][1] << std::endl;
+	std::cout << stress_from_tangent[0][2] << std::endl;
+	std::cout << stress_from_tangent[1][2] << std::endl;
+ 
+\endcode
+@todo Check this in detail and finish it
+\code
+}
+ 
  
 /*
  * The main function just calls all the examples and puts some space between the outputs.
@@ -1224,6 +1362,10 @@ int main ()
     std::cout << std::endl;
  
     sacado_test_8();
+ 
+    std::cout << std::endl;
+ 
+    sacado_test_9();
 }
 \endcode
 

@@ -130,8 +130,12 @@ Referenced by sacado\+\_\+test\+\_\+3\+B(), and sacado\+\_\+test\+\_\+4().
 159             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=\hyperlink{classSacado__Wrapper_1_1SymTensor_ae3b1c56cde3fc5c7805b618ef3d9de75}{std\_map\_indicies}[x].second;
 160 
 161             Tangent[k][l] = derivs[x]; \textcolor{comment}{// ToDo: check whether the 0.5* is necessary here too}
-162         \}
-163     \}
+162 
+163             \textcolor{comment}{// Correct the off-diagonal terms by the factor of 0.5}
+164              \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+165                 Tangent[k][l] *= 0.5; \textcolor{comment}{// ToDo: check whether the 0.5* is necessary here too}
+166         \}
+167     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}!get\+\_\+value@{get\+\_\+value}}
 \index{get\+\_\+value@{get\+\_\+value}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}}
@@ -146,11 +150,11 @@ References Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor$<$ dim $>$\+::get\+\_\+values(
 
 
 \begin{DoxyCode}
-176     \{
-177         SymmetricTensor<2,dim> tmp;
-178         (*this).get\_values(tmp);
-179         \textcolor{keywordflow}{return} tmp;
-180     \}
+180     \{
+181         SymmetricTensor<2,dim> tmp;
+182         (*this).get\_values(tmp);
+183         \textcolor{keywordflow}{return} tmp;
+184     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}!get\+\_\+values@{get\+\_\+values}}
 \index{get\+\_\+values@{get\+\_\+values}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}}
@@ -165,11 +169,11 @@ Referenced by Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor$<$ dim $>$\+::get\+\_\+valu
 
 
 \begin{DoxyCode}
-168     \{
-169         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-170             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-171                 tensor\_double[i][j] = ((*\textcolor{keyword}{this})[i][j]).val();
-172     \}
+172     \{
+173         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+174             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+175                 tensor\_double[i][j] = ((*\textcolor{keyword}{this})[i][j]).val();
+176     \}
 \end{DoxyCode}
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}!init@{init}}
 \index{init@{init}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor}}

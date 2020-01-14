@@ -36,7 +36,7 @@ The background/basics group gives you the promised look under the hood.
 Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
 \image html overview_of_examples.png
 
-If you right away want to use Sacado, then you might skip the first examples and jump to \ref Ex3B "example 3B.
+If you right away want to use Sacado, then you might skip the first examples and jump to \ref Ex3B "example 3B".
 There we show how to use the "Sacado_Wrapper" that does everything from \ref Ex2 "example 2" and \ref Ex3 "example 3" in just a view lines of code. This does not mean that
 the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 

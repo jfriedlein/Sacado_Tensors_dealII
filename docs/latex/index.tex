@@ -14,7 +14,7 @@ Sacado::Fad::DFad<double> c\_fad;
 The following figure tries to visualize this for first derivatives\+:  and for second derivatives (requires different data type)\+:  Every variable that was declared as such a data type now contains besides the actual value $ c $, also its derivatives.\hypertarget{index_subsec_overview}{}\subsection{Overview}\label{index_subsec_overview}
 This overview shall give you first impression what to expect from each of the examples. The background/basics group gives you the promised look under the hood. Whereas the application group shows you how you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} to quickly compute tangents. 
 
-If you right away want to use Sacado, then you might skip the first examples and jump to \hyperlink{index_Ex3B}{example 3B.}There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from \hyperlink{index_Ex2}{example 2} and \hyperlink{index_Ex3}{example 3} in just a view lines of code. This does not mean that the here shown approach is the fastest or most efficient, it is just simple and easy to use.
+If you right away want to use Sacado, then you might skip the first examples and jump to \hyperlink{index_Ex3B}{example 3B}. There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from \hyperlink{index_Ex2}{example 2} and \hyperlink{index_Ex3}{example 3} in just a view lines of code. This does not mean that the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 
 Furthermore, if you, for instance, compute problems with two-\/fields (e.\+g. displacement and scalar damage) and you need tangents with respect to both a tensor (e.\+g. strain tensor) and a scalar (e.\+g. damage variable), you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} as shown in \hyperlink{index_Ex4}{example 4}.\hypertarget{index_subsec_more_basics}{}\subsection{Some more basics}\label{index_subsec_more_basics}
 One can access the double value of $ c_{fad} $ with the Sacado command $\ast$.val()\+: 
@@ -135,7 +135,7 @@ Here we want to introduce tensors for the first time. Hence, we limit ourselves 
     std::cout << \textcolor{stringliteral}{"Test 2:"} << std::endl;
 \end{DoxyCode}
  First we set the dimension {\itshape dim\+:} 2\+D-\/$>$dim=2; 3\+D-\/$>$dim=3 ~\newline
- This defines the \char`\"{}size\char`\"{} of the tensors and the number of dofs. Ex2 only works in 3D, whereas the following Ex3 is set up dimension-\/independent. 
+ This defines the \char`\"{}size\char`\"{} of the tensors and the number of dofs. \hyperlink{index_Ex2}{Example 2} only works in 3D, whereas the following Ex3 is set up dimension-\/independent. 
 \begin{DoxyCode}
 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim = 3;
 \end{DoxyCode}
@@ -344,7 +344,7 @@ The fourth-\/order tensor {\itshape C\+\_\+\+Sacado} is our final goal, we don\t
 \begin{DoxyCode}
 SymmetricTensor<4,dim> C\_Sacado;
 \end{DoxyCode}
- As in Ex2 we access the components of the stress tensor one by one. In order to capture all of them we loop over the components i and j of the stress tensor. 
+ As in \hyperlink{index_Ex2}{example 2} we access the components of the stress tensor one by one. In order to capture all of them we loop over the components i and j of the stress tensor. 
 \begin{DoxyCode}
 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
@@ -578,16 +578,16 @@ SymmetricTensor<2,dim,fad\_double> sigma;
 The actual computation in the following scope uses the exact same equation as your normal computation e. g. via the data type double. Hence, you could either directly compute your stress, etc. via the Sacado variables or you define template functions that contain your equations and are either called templated with double or fad\+\_\+double. When using the first option, please consider the computation time that is generally higher for a computation with fad\+\_\+double than with normal doubles (own experience in a special case\+: slower by factor 30). The second option with templates does not suffer these issues. 
 \begin{DoxyCode}
 \{
+d = phi*phi + 25 + trace(eps) + eps.norm();
+std::cout << \textcolor{stringliteral}{"d="} << d << std::endl;
+
 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
   \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-      sigma[i][j] = phi * eps[i][j];
+      sigma[i][j] = phi * eps[i][j] * d;
 \end{DoxyCode}
  To\+Do\+: strangely when phi is a fad\+\_\+double then the multiplication phi $\ast$ eps works directly without having to use the index notation 
 \begin{DoxyCode}
 std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
-
-d = phi*phi + 25 + trace(eps);
-std::cout << \textcolor{stringliteral}{"d="} << d << std::endl;
 \}
 \end{DoxyCode}
  Get the tangents d\+\_\+sigma / d\+\_\+eps\+: Symmetric\+Tensor with respect to Symmetric\+Tensor 
@@ -599,27 +599,59 @@ std::cout << \textcolor{stringliteral}{"C\_Sacado="} << C\_Sacado << std::endl;
  Compute the analytical tangent\+: 
 \begin{DoxyCode}
 SymmetricTensor<4,dim> C\_analy;
-C\_analy = phi\_d * identity\_tensor<dim>();
-std::cout << \textcolor{stringliteral}{"C\_analy ="} << C\_analy << std::endl;
+C\_analy = ( std::pow(phi\_d, 3) + 25*phi\_d + phi\_d*trace(eps\_d) + phi\_d*eps\_d.norm() ) * 
+      identity\_tensor<dim>()
+          + phi\_d * outer\_product( eps\_d, unit\_symmetric\_tensor<dim>())
+          + phi\_d * outer\_product( eps\_d, eps\_d ) * 1./eps\_d.norm();
+\end{DoxyCode}
+ Be aware of the difference between \[ eps_d \dyadic \boldsymbol{1} \text{ and } \boldsymbol{1} \dyadic eps_d \] 
+\begin{DoxyCode}
+std::cout << \textcolor{stringliteral}{"C\_analy ="} << C\_analy << std::endl << std::endl;
 \end{DoxyCode}
  d\+\_\+d / d\+\_\+eps\+: double with respect to Symmetric\+Tensor 
 \begin{DoxyCode}
 SymmetricTensor<2,dim> d\_d\_d\_eps;
 eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ab97427c3b5cab279e58607cf431ab262}{get\_tangent}(d\_d\_d\_eps, d);
-std::cout << \textcolor{stringliteral}{"d\_d\_d\_eps="} << d\_d\_d\_eps << std::endl;
+std::cout << \textcolor{stringliteral}{"d\_d\_d\_eps      ="} << d\_d\_d\_eps << std::endl;
+SymmetricTensor<2,dim> d\_d\_d\_eps\_analy;
+d\_d\_d\_eps\_analy = unit\_symmetric\_tensor<dim>() + eps\_d / eps\_d.norm();
+std::cout << \textcolor{stringliteral}{"d\_d\_d\_eps\_analy="} << d\_d\_d\_eps\_analy << std::endl << std::endl;
 \end{DoxyCode}
  d\+\_\+sigma / d\+\_\+phi\+: Symmetric\+Tensor with respect to double 
 \begin{DoxyCode}
 SymmetricTensor<2,dim> d\_sigma\_d\_phi;
 phi.\hyperlink{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}{get\_tangent}(d\_sigma\_d\_phi, sigma);
-std::cout << \textcolor{stringliteral}{"d\_sigma\_d\_phi="} << d\_sigma\_d\_phi << std::endl;
-std::cout << \textcolor{stringliteral}{"sigma = d\_sigma\_d\_phi * phi = "} << d\_sigma\_d\_phi * phi\_d << std::endl;
+std::cout << \textcolor{stringliteral}{"d\_sigma\_d\_phi      ="} << d\_sigma\_d\_phi << std::endl;
+SymmetricTensor<2,dim> d\_sigma\_d\_phi\_analy;
+d\_sigma\_d\_phi\_analy = ( phi\_d*phi\_d + 25 + trace(eps\_d) + eps\_d.norm() + 2 * phi\_d*phi\_d ) * eps\_d;
+std::cout << \textcolor{stringliteral}{"d\_sigma\_d\_phi\_analy="} << d\_sigma\_d\_phi\_analy << std::endl << std::endl;
+\end{DoxyCode}
+ Retrieve the values stored in {\itshape sigma\+:} 
+\begin{DoxyCode}
+SymmetricTensor<2,dim> sigma\_d;
+\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+          sigma\_d[i][j] = sigma[i][j].val();
+std::cout << \textcolor{stringliteral}{"sigma\_d = "} << sigma\_d << std::endl;
 \end{DoxyCode}
  d\+\_\+d / d\+\_\+phi\+: double with respect to double 
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} d\_d\_d\_phi;
 phi.\hyperlink{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}{get\_tangent}(d\_d\_d\_phi, d);
 std::cout << \textcolor{stringliteral}{"d\_d\_d\_phi="} << d\_d\_d\_phi << std::endl;
+\end{DoxyCode}
+ Retrieve the value stored in d 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} d\_double = d.val();
+\end{DoxyCode}
+ Taylor-\/series for point x \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000005}{Todo}]Maybe add some more text on the linearization \end{DoxyRefDesc}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} x = phi\_d + 0.05;
+std::cout << \textcolor{stringliteral}{"d\_lin = d\_d\_d\_phi * (phi\_d - x) + d@(phi\_d) = "} << d\_d\_d\_phi * (x-phi\_d) + d\_double << 
+      std::endl;
+std::cout << \textcolor{stringliteral}{"d@x = "} << x*x + 25 + trace(eps\_d) + eps\_d.norm() << std::endl;
 \end{DoxyCode}
  And that\textquotesingle{}s it. By using the Sacado\+\_\+wrapper we can compute derivatives with respect to a tensor and a scalar at the same time (besides the equations) in essence with just the following lines of code namely\+:
 \begin{DoxyItemize}
@@ -682,7 +714,7 @@ The here shown example was copied from \href{https://github.com/trilinos/Trilino
 \textcolor{keywordtype}{int} num\_dofs = 2;
 \end{DoxyCode}
  Define another data type containing even more Sacado data types \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000005}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000006}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
 
 \begin{DoxyCode}
 \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
@@ -1020,7 +1052,115 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
                     error\_Sacado\_vs\_analy += std::fabs(C\_Sac[i][j][k][l] - C\_analy[i][j][k][l]);
      std::cout << \textcolor{stringliteral}{"Numerical error="} << error\_Sacado\_vs\_analy << std::endl;
 \}
+\end{DoxyCode}
+ \hypertarget{index_Ex9}{}\section{9. Example\+: Why we sometimes need the factor of 0.\+5 in the derivatives and sometimes we don\textquotesingle{}t}\label{index_Ex9}
+
+\begin{DoxyCode}
+\textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9} ()
  
+\{
+    \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+ 
+    std::cout << \textcolor{stringliteral}{"Test 9:"} << std::endl;
+ 
+    \textcolor{keywordtype}{double} kappa\_param = 5;
+    \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} kappa (kappa\_param);
+    \textcolor{keywordtype}{double} mu = 2;
+ 
+    SymmetricTensor<2,dim, fad\_double> sigma, eps;
+ 
+    std::map<unsigned int,std::pair<unsigned int,unsigned int>> std\_map\_indicies;
+ 
+        eps[0][0] = 1;
+        eps[1][1] = 2;
+        eps[2][2] = 3;
+ 
+        eps[0][1] = 4;
+        eps[0][2] = 5;
+        eps[1][2] = 6;
+ 
+ 
+        eps[0][0].diff(0,6);
+        eps[0][1].diff(1,6);
+        eps[0][2].diff(2,6);
+        eps[1][1].diff(3,6);
+        eps[1][2].diff(4,6);
+        eps[2][2].diff(5,6);
+ 
+        std::pair<unsigned int, unsigned int> tmp\_pair;
+        tmp\_pair.first=0; tmp\_pair.second=0;
+        std\_map\_indicies[0] = tmp\_pair;
+ 
+        tmp\_pair.first=0; tmp\_pair.second=1;
+        std\_map\_indicies[1] = tmp\_pair;
+ 
+        tmp\_pair.first=0; tmp\_pair.second=2;
+        std\_map\_indicies[2] = tmp\_pair;
+ 
+        tmp\_pair.first=1; tmp\_pair.second=1;
+        std\_map\_indicies[3] = tmp\_pair;
+ 
+        tmp\_pair.first=1; tmp\_pair.second=2;
+        std\_map\_indicies[4] = tmp\_pair;
+ 
+        tmp\_pair.first=2; tmp\_pair.second=2;
+        std\_map\_indicies[5] = tmp\_pair;
+ 
+    SymmetricTensor<2,dim, fad\_double> stdTensor\_I (( unit\_symmetric\_tensor<dim,fad\_double>()) );
+ 
+    sigma = kappa * (trace(eps) *  stdTensor\_I);
+    SymmetricTensor<2,dim,fad\_double> tmp = deviator<dim,fad\_double>(symmetrize<dim,fad\_double>(eps)); tmp*
+      =(mu*2);
+    sigma +=  tmp;
+ 
+    std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
+ 
+    SymmetricTensor<4,dim> C\_Sacado;
+ 
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+        \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+        \{
+            \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access the derivatives of the (i,j)-th
+       component of \(\backslash\)a sigma}
+ 
+            \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<((dim==2)?3:6);++x)
+            \{
+                \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
+                \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
+ 
+                \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+                \{
+                    C\_Sacado[i][j][k][l] = 0.5*derivs[x];
+                    C\_Sacado[i][j][l][k] = 0.5*derivs[x];
+                \}
+                \textcolor{keywordflow}{else}
+                    C\_Sacado[i][j][k][l] = derivs[x];
+            \}
+        \}
+ 
+    SymmetricTensor<2,dim> eps\_d;
+    eps\_d[0][0] = 1;
+    eps\_d[1][1] = 2;
+    eps\_d[2][2] = 3;
+ 
+    eps\_d[0][1] = 4;
+    eps\_d[0][2] = 5;
+    eps\_d[1][2] = 6;
+ 
+    SymmetricTensor<2,dim> stress\_from\_tangent = C\_Sacado*eps\_d;
+ 
+    std::cout << \textcolor{stringliteral}{"dev="} << deviator(eps\_d) << std::endl;
+ 
+    std::cout << \textcolor{stringliteral}{"C\_Sacado*eps\_d="} << stress\_from\_tangent << std::endl;
+    std::cout << stress\_from\_tangent[0][1] << std::endl;
+    std::cout << stress\_from\_tangent[0][2] << std::endl;
+    std::cout << stress\_from\_tangent[1][2] << std::endl;
+\end{DoxyCode}
+ \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000007}{Todo}]Check this in detail and finish it \end{DoxyRefDesc}
+
+\begin{DoxyCode}
+\}
  
  
 \textcolor{comment}{/*}
@@ -1061,6 +1201,10 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
     std::cout << std::endl;
  
     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
+ 
+    std::cout << std::endl;
+ 
+    \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9}();
 \}
 \end{DoxyCode}
 \hypertarget{index_END}{}\section{The End}\label{index_END}

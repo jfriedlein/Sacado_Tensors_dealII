@@ -158,7 +158,11 @@ namespace Sacado_Wrapper
 			unsigned int k=std_map_indicies[x].first;
 			unsigned int l=std_map_indicies[x].second;
 
-			Tangent[k][l] = derivs[x]; // ToDo: check whether the 0.5* is necessary here too
+        	Tangent[k][l] = derivs[x]; // ToDo: check whether the 0.5* is necessary here too
+
+        	// Correct the off-diagonal terms by the factor of 0.5
+             if(k!=l)/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/
+            	Tangent[k][l] *= 0.5; // ToDo: check whether the 0.5* is necessary here too
 		}
 	}
 
