@@ -511,7 +511,8 @@ namespace Sacado_Wrapper
 
 		
 		void set_dofs( SymTensor<dim> &eps, SW_double<dim> &double_arg1, SW_double<dim> &double_arg2, SW_double<dim> &double_arg3 );
-
+		// e.g. for strain, gamma_p and gamma_d
+		 void set_dofs( SymTensor<dim> &eps, SW_double<dim> &double_arg1, SW_double<dim> &double_arg2 );
 	};
 
 	template<int dim>
@@ -555,6 +556,19 @@ namespace Sacado_Wrapper
 		double_arg3.set_dofs( nbr_total_dofs );
 	}
 	
+	template<int dim>
+	void DoFs_summary<dim>::set_dofs(SymTensor<dim> &eps, SW_double<dim> &double_arg1, SW_double<dim> &double_arg2 )
+	{
+		const unsigned int nbr_total_dofs = eps.n_dofs + double_arg1.n_dofs + double_arg2.n_dofs ;
+
+		eps.start_index = 0;
+		double_arg1.start_index = eps.n_dofs;
+		double_arg2.start_index = eps.n_dofs + double_arg1.n_dofs;
+
+		eps.set_dofs( nbr_total_dofs );
+		double_arg1.set_dofs( nbr_total_dofs );
+		double_arg2.set_dofs( nbr_total_dofs );
+	}
 	
 	/*
 	 * 

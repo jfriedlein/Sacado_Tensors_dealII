@@ -27,8 +27,9 @@ with open(mergedFile, "w") as outputFile: # write into the output file line by l
     with open(dirMainpage, "r") as mainpageDoc: # read the framework file line by line until ...
         for line in mainpageDoc:
             if ( "\code" in line ):  # ... you find this keywork, then place the code after this keyword until ...
-                # modify the code an write it into the mainpage file:
-                code = True # True: the current line contains code; False: the current line contains a comment that shall be outputed as normal text
+                # modify the code and write it into the mainpage file:
+                code = True # True: the current line contains code;
+                            # False: the current line contains a comment that shall be outputed as normal text
                 firstLine = True
                 with open(dirCode, "r") as codeDoc:  # read the code line by line
                     for lineCode in codeDoc:
@@ -42,6 +43,9 @@ with open(mergedFile, "w") as outputFile: # write into the output file line by l
                         #if ( first_N_nonspace_letters == "///" ): # this indicates some completely outcommented code, so we keep the comment and don't create a text from this
                         #    lineCode = lineCode[1:len(lineCode)] # on
                         #    code = True
+                        # ToDo-optimize: The following means that we only identify a line as comment when it exactly starts with "// ",
+                        # with the emphasis on the blank space. When you use a tab direclty after the "//" it won't be identified as a comment.
+                        # So you need to always use "// ...", where the dots can be as many tabs as you like, after you typed the blank space.
                         if ( first_N_nonspace_letters == "// " ):
                             if ( len(lineCode)==3 ): # this would be an empty line marked as comment
                                 lineCode = "\n"

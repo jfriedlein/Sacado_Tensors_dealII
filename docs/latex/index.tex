@@ -583,11 +583,11 @@ std::cout << \textcolor{stringliteral}{"d="} << d << std::endl;
 
 \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
   \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-      sigma[i][j] = phi * eps[i][j] * d;
+      sigma[i][j] = phi * d * eps[i][j];
 \end{DoxyCode}
  To\+Do\+: strangely when phi is a fad\+\_\+double then the multiplication phi $\ast$ eps works directly without having to use the index notation 
 \begin{DoxyCode}
-std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
+std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl << std::endl;
 \}
 \end{DoxyCode}
  Get the tangents d\+\_\+sigma / d\+\_\+eps\+: Symmetric\+Tensor with respect to Symmetric\+Tensor 
@@ -604,9 +604,20 @@ C\_analy = ( std::pow(phi\_d, 3) + 25*phi\_d + phi\_d*trace(eps\_d) + phi\_d*eps
           + phi\_d * outer\_product( eps\_d, unit\_symmetric\_tensor<dim>())
           + phi\_d * outer\_product( eps\_d, eps\_d ) * 1./eps\_d.norm();
 \end{DoxyCode}
- Be aware of the difference between \[ eps_d \dyadic \boldsymbol{1} \text{ and } \boldsymbol{1} \dyadic eps_d \] 
+ \begin{DoxyNote}{Note}
+Be aware of the difference between \[ eps_d \otimes \boldsymbol{1} \text{ and } \boldsymbol{1} \otimes eps_d \] 
 \begin{DoxyCode}
-std::cout << \textcolor{stringliteral}{"C\_analy ="} << C\_analy << std::endl << std::endl;
+std::cout << \textcolor{stringliteral}{"C\_analy ="} << C\_analy << std::endl;
+\end{DoxyCode}
+ To simplify the comparison we compute a scalar error as the sum of the absolute differences of each component 
+\begin{DoxyCode}
+\textcolor{keywordtype}{double} error\_Sacado\_vs\_analy=0;
+\textcolor{keywordflow}{for} (\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+     \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j)
+         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=0; k<dim; ++k)
+             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=0; l<dim; ++l)
+                 error\_Sacado\_vs\_analy += std::fabs(C\_Sacado[i][j][k][l] - C\_analy[i][j][k][l]);
+std::cout << \textcolor{stringliteral}{"numerical error: "} << error\_Sacado\_vs\_analy << std::endl << std::endl;
 \end{DoxyCode}
  d\+\_\+d / d\+\_\+eps\+: double with respect to Symmetric\+Tensor 
 \begin{DoxyCode}
@@ -644,7 +655,9 @@ std::cout << \textcolor{stringliteral}{"d\_d\_d\_phi="} << d\_d\_d\_phi << std::
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} d\_double = d.val();
 \end{DoxyCode}
- Taylor-\/series for point x \begin{DoxyRefDesc}{Todo}
+ Taylor-\/series for point x 
+\end{DoxyNote}
+\begin{DoxyRefDesc}{Todo}
 \item[\hyperlink{todo__todo000005}{Todo}]Maybe add some more text on the linearization \end{DoxyRefDesc}
 
 \begin{DoxyCode}
@@ -880,7 +893,8 @@ std::cout << \textcolor{stringliteral}{"d2\_energy\_d\_phi\_2="} << d2\_energy\_
  Analytical stress tensor\+: 
 \begin{DoxyCode}
 SymmetricTensor<2,dim> sigma;
-sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
+sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps + 25 * phi * 
+      unit\_symmetric\_tensor<dim>();
 std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
 \end{DoxyCode}
  Sacado-\/\+Tangent 
@@ -1005,7 +1019,8 @@ std::cout << \textcolor{stringliteral}{"d\_energy\_d\_phi="} << d\_energy\_d\_ph
  Analytical stress tensor\+: 
 \begin{DoxyCode}
 SymmetricTensor<2,dim> sigma;
-sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps;
+sigma = lambda*trace(eps)*unit\_symmetric\_tensor<dim>() + 2. * mu * eps + 25 * phi * 
+      unit\_symmetric\_tensor<dim>();
 std::cout << \textcolor{stringliteral}{"analy. sigma="} << sigma << std::endl;
 \end{DoxyCode}
  Sacado stress tangent (or eps curvature) as \[ \frac{\partial^2 \Psi}{\partial \boldsymbol{\varepsilon}^2} \] 
@@ -1114,50 +1129,77 @@ C\_analy = lambda * outer\_product(unit\_symmetric\_tensor<dim>(), unit\_symmetr
     sigma +=  tmp;
  
     std::cout << \textcolor{stringliteral}{"sigma="} << sigma << std::endl;
- 
-    SymmetricTensor<4,dim> C\_Sacado;
- 
-    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+\end{DoxyCode}
+ Retrieve the values stored in {\itshape sigma\+:} 
+\begin{DoxyCode}
+  SymmetricTensor<2,dim> sigma\_d;
+  \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+            sigma\_d[i][j] = sigma[i][j].val();
+
+SymmetricTensor<4,dim> C\_Sacado;
+
+\textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+    \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+    \{
+        \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access the derivatives of the (i,j)-th component
+       of \(\backslash\)a sigma}
+
+        \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<((dim==2)?3:6);++x)
         \{
-            \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access the derivatives of the (i,j)-th
-       component of \(\backslash\)a sigma}
- 
-            \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<((dim==2)?3:6);++x)
+            \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
+            \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
+
+            \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
             \{
-                \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=std\_map\_indicies[x].first;
-                \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=std\_map\_indicies[x].second;
- 
-                \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
-                \{
-                    C\_Sacado[i][j][k][l] = 0.5*derivs[x];
-                    C\_Sacado[i][j][l][k] = 0.5*derivs[x];
-                \}
-                \textcolor{keywordflow}{else}
-                    C\_Sacado[i][j][k][l] = derivs[x];
+                C\_Sacado[i][j][k][l] = 0.5*derivs[x];
+                C\_Sacado[i][j][l][k] = 0.5*derivs[x];
             \}
+            \textcolor{keywordflow}{else}
+                C\_Sacado[i][j][k][l] = derivs[x];
         \}
- 
-    SymmetricTensor<2,dim> eps\_d;
-    eps\_d[0][0] = 1;
-    eps\_d[1][1] = 2;
-    eps\_d[2][2] = 3;
- 
-    eps\_d[0][1] = 4;
-    eps\_d[0][2] = 5;
-    eps\_d[1][2] = 6;
- 
-    SymmetricTensor<2,dim> stress\_from\_tangent = C\_Sacado*eps\_d;
- 
-    std::cout << \textcolor{stringliteral}{"dev="} << deviator(eps\_d) << std::endl;
- 
-    std::cout << \textcolor{stringliteral}{"C\_Sacado*eps\_d="} << stress\_from\_tangent << std::endl;
-    std::cout << stress\_from\_tangent[0][1] << std::endl;
-    std::cout << stress\_from\_tangent[0][2] << std::endl;
-    std::cout << stress\_from\_tangent[1][2] << std::endl;
+    \}
+
+SymmetricTensor<2,dim> eps\_d;
+eps\_d[0][0] = 1;
+eps\_d[1][1] = 2;
+eps\_d[2][2] = 3;
+
+eps\_d[0][1] = 4;
+eps\_d[0][2] = 5;
+eps\_d[1][2] = 6;
+
+SymmetricTensor<2,dim> stress\_from\_tangent = C\_Sacado*eps\_d;
+
+std::cout << \textcolor{stringliteral}{"C\_Sacado*eps\_d="} << stress\_from\_tangent << std::endl;
+std::cout << \textcolor{stringliteral}{"sigma=         "} << sigma\_d << std::endl;
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000007}{Todo}]Check this in detail and finish it \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000007}{Todo}]Add the link to the ac.\+nz site\end{DoxyRefDesc}
+
+
+As you can see we obtain the correct stress tensor only by using the factor 0.\+5 onto the off-\/diagonal elements of the symmetric tensor. ~\newline
+\begin{DoxyNote}{Note}
+So, why do we need the factor 0.\+5 then? (based on \mbox{[}homepages.\+engineering.\+auckland.\+ac.\+nz ...\mbox{]})~\newline
+When using symmetric tensor one has to be aware of the definition of the independent variables. In 3d those are the following 6 components\+: ~\newline
+
+\begin{DoxyItemize}
+\item $ A_{11} $
+\item $ A_{22} $
+\item $ A_{33} $
+\item $ \overline{A_{12}} $
+\item $ \overline{A_{13}} $
+\item $ \overline{A_{23}} $ ~\newline
+Here the overlined components denote the averaged values, such that
+\item $ \overline{A_{12}} = 0.5 \cdot [ A_{12} + A_{21} ] = A_{12} = A_{21} $
+\item ... ~\newline
+This looks rather boring, because the averaged value of the two identical components (symmetry) is identical to the components. But (and that is a crucial B\+UT), this only holds for the values N\+OT the derivatives. The derivative of a function $ \Phi $ with respect to a symmetric tensor {\itshape A} is \[ \frac{\partial \Phi}{\partial \overline{A_{12}}} = \frac{\partial \Phi}{\partial A_{12}} \cdot \frac{\partial A_{12}}{\partial \overline{A_{12}}} + \frac{\partial \Phi}{\partial A_{21}} \cdot \frac{\partial A_{21}}{\partial \overline{A_{21}}} = \frac{\partial \Phi}{\partial A_{12}} + \frac{\partial \Phi}{\partial A_{21}} = 2 \cdot \frac{\partial \Phi}{\partial A_{12}} \] Note how the derivatives with respect to the actual tensor components (here 12 and 21) are identical. ~\newline
+However, our derivatives (computed via Sacado) were calculated with respect to the actually independent variables (overlined). Still, in the tensor with the derivatives we want the derivatives with respect to the normal components (not overlined). ~\newline
+Summary\+: ~\newline
+When you compute derivatives with respect to a symmetric tensor, you have to scale the off-\/diagonal elements by 0.\+5 to account for the fact that you actually work with the averaged values. ~\newline
+As a consequence, we use the factor 0.\+5 for all off-\/diagonal components of derivatives with respect to symmetric tensors. For second derivatives with respect to symmetric tensors the factors 0.\+5 and 0.\+25 come into play.
+\end{DoxyItemize}
+\end{DoxyNote}
 
 \begin{DoxyCode}
 \}

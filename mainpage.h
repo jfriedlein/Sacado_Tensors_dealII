@@ -689,12 +689,12 @@ The second option with templates does not suffer these issues.
  
 	  for ( unsigned int i=0; i<dim; ++i)
 	 	for ( unsigned int j=0; j<dim; ++j )
-	 		sigma[i][j] = phi * eps[i][j] * d;
+	 		sigma[i][j] = phi * d * eps[i][j];
 \endcode
 ToDo: strangely when phi is a fad_double then the multiplication phi * eps works directly without
 having to use the index notation
 \code
-	  std::cout << "sigma=" << sigma << std::endl;
+	  std::cout << "sigma=" << sigma << std::endl << std::endl;
 	  }
  
  
@@ -714,9 +714,20 @@ Compute the analytical tangent:
 			    + phi_d * outer_product( eps_d, unit_symmetric_tensor<dim>())
 	  	  	  	+ phi_d * outer_product( eps_d, eps_d ) * 1./eps_d.norm();
 \endcode
-Be aware of the difference between \f[ eps_d \dyadic \boldsymbol{1} \text{ and } \boldsymbol{1} \dyadic eps_d \f]
+@note Be aware of the difference between \f[ eps_d \otimes \boldsymbol{1} \text{ and } \boldsymbol{1} \otimes eps_d \f]
 \code
-	  std::cout << "C_analy =" << C_analy << std::endl << std::endl;
+	  std::cout << "C_analy =" << C_analy << std::endl;
+ 
+\endcode
+To simplify the comparison we compute a scalar error as the sum of the absolute differences of each component
+\code
+	   double error_Sacado_vs_analy=0;
+	   for (unsigned int i=0; i<dim; ++i)
+			for ( unsigned int j=0; j<dim; ++j)
+				for ( unsigned int k=0; k<dim; ++k)
+					for ( unsigned int l=0; l<dim; ++l)
+						error_Sacado_vs_analy += std::fabs(C_Sacado[i][j][k][l] - C_analy[i][j][k][l]);
+	   std::cout << "numerical error: " << error_Sacado_vs_analy << std::endl << std::endl;
  
 \endcode
 d_d / d_eps: double with respect to SymmetricTensor
@@ -1022,7 +1033,7 @@ Compute sigma as \f[ \frac{\partial \Psi}{\partial \boldsymbol{\varepsilon}} \f]
 Analytical stress tensor:
 \code
 	 SymmetricTensor<2,dim> sigma;
-	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
+	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps + 25 * phi * unit_symmetric_tensor<dim>();
 	 std::cout << "analy. sigma=" << sigma << std::endl;
  
  
@@ -1160,7 +1171,7 @@ Compute sigma as \f[ \boldsymbol{\sigma} = \frac{\partial \Psi}{\partial \boldsy
 Analytical stress tensor:
 \code
 	 SymmetricTensor<2,dim> sigma;
-	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps;
+	 sigma = lambda*trace(eps)*unit_symmetric_tensor<dim>() + 2. * mu * eps + 25 * phi * unit_symmetric_tensor<dim>();
 	 std::cout << "analy. sigma=" << sigma << std::endl;
  
  
@@ -1278,6 +1289,14 @@ void sacado_test_9 ()
  
 	std::cout << "sigma=" << sigma << std::endl;
  
+\endcode
+Retrieve the values stored in \a sigma:
+\code
+	  SymmetricTensor<2,dim> sigma_d;
+	  for ( unsigned int i=0; i<dim; ++i)
+	  	 	for ( unsigned int j=0; j<dim; ++j )
+	  	 		sigma_d[i][j] = sigma[i][j].val();
+ 
 	SymmetricTensor<4,dim> C_Sacado;
  
 	for ( unsigned int i=0; i<dim; ++i)
@@ -1311,15 +1330,42 @@ void sacado_test_9 ()
  
 	SymmetricTensor<2,dim> stress_from_tangent = C_Sacado*eps_d;
  
-	std::cout << "dev=" << deviator(eps_d) << std::endl;
- 
 	std::cout << "C_Sacado*eps_d=" << stress_from_tangent << std::endl;
-	std::cout << stress_from_tangent[0][1] << std::endl;
-	std::cout << stress_from_tangent[0][2] << std::endl;
-	std::cout << stress_from_tangent[1][2] << std::endl;
+	std::cout << "sigma=         " << sigma_d << std::endl;
  
 \endcode
-@todo Check this in detail and finish it
+@todo Add the link to the ac.nz site
+ 
+As you can see we obtain the correct stress tensor only by using the factor 0.5 onto the off-diagonal elements of the symmetric tensor. \n
+@note So, why do we need the factor 0.5 then? (based on [homepages.engineering.auckland.ac.nz ...])\n
+When using symmetric tensor one has to be aware of the definition of the independent variables. In 3d those are the
+following 6 components: \n
+- \f$ A_{11} \f$
+- \f$ A_{22} \f$
+- \f$ A_{33} \f$
+- \f$ \overline{A_{12}} \f$
+- \f$ \overline{A_{13}} \f$
+- \f$ \overline{A_{23}} \f$ \n
+Here the overlined components denote the averaged values, such that
+- \f$ \overline{A_{12}} = 0.5 \cdot [ A_{12} + A_{21} ] = A_{12} = A_{21} \f$
+- ... \n
+This looks rather boring, because the averaged value of the two identical components (symmetry) is identical to the components.
+But (and that is a crucial BUT), this only holds for the values NOT the derivatives.
+The derivative of a function \f$ \Phi \f$ with respect to a symmetric tensor \a A is
+\f[ \frac{\partial \Phi}{\partial \overline{A_{12}}} = \frac{\partial \Phi}{\partial A_{12}} \cdot \frac{\partial A_{12}}{\partial \overline{A_{12}}}
+	 														+ \frac{\partial \Phi}{\partial A_{21}} \cdot \frac{\partial A_{21}}{\partial \overline{A_{21}}}
+															= \frac{\partial \Phi}{\partial A_{12}} + \frac{\partial \Phi}{\partial A_{21}}
+															= 2 \cdot \frac{\partial \Phi}{\partial A_{12}} \f]
+Note how the derivatives with respect to the actual tensor components (here 12 and 21) are identical. \n
+However, our derivatives (computed via Sacado) were calculated with respect to the actually independent
+variables (overlined). Still, in the tensor with the derivatives we want the derivatives with respect to the normal components (not overlined). \n
+Summary: \n
+When you compute derivatives with respect to a symmetric tensor, you have to scale the off-diagonal elements by 0.5 to account for the fact that you actually work with
+the averaged values. \n
+As a consequence, we use the factor 0.5 for all off-diagonal components of derivatives with respect to symmetric tensors. For second derivatives with respect to
+symmetric tensors the factors 0.5 and 0.25 come into play.
+ 
+
 \code
 }
  
