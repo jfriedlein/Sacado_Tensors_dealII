@@ -6,7 +6,7 @@ The aim is to compute e. g. the tangent
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\overset{4}{C}&space;=&space;\frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon&space;}}" title="\overset{4}{C} = \frac{\partial\boldsymbol{\sigma}}{\partial\boldsymbol{\varepsilon }}" /></a>
 
-as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma=sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi=phi(eps) and compute second derivatives (see feature list).
+as a fourth order tensor on the material point level (quadrature point) based on the implementation of the stress-equation sigma=sigma(eps,phi) only. Similarly, we can compute the tangent in combination with a scalar variable, such as the scalar damage phi and compute second derivatives (see feature list).
  
 The here shown code only implements functions (and finally the Wrapper) to pack the derivatives related to tensors into a nice format, pass them to Sacado to compute the derivatives and unpack the results back into tensors. This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. It will be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 https://www.dealii.org/current/doxygen/deal.II/step_33.html with already implemented deal.ii-functionality. 
 
@@ -76,6 +76,7 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 - add note on the efficiency/computation time
 - update links in the documentation
 - add link to https://arxiv.org/pdf/1811.05031.pdf
+- remove todo for factor 0.5 in the beginning
 
 ## Test cases:
 - ..
