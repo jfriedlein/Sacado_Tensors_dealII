@@ -74,6 +74,8 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 - implement more data types (e.g. Vector, nonsym tensor) and compatibility with more combinations (e.g. vector-vector, vector-double).
 - add some text that: Every variable computed from the variables set as dofs contains the derivatives as shown in the figure. Hence, you can compute the tangents for every variable.
 - add note on the efficiency/computation time
+- update links in the documentation
+- add link to https://arxiv.org/pdf/1811.05031.pdf
 
 ## Test cases:
 - ..
