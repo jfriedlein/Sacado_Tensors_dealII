@@ -12,7 +12,7 @@ Sacado::Fad::DFad<double> c\_fad;
 \end{DoxyCode}
  As a result, $ c_{fad} $ now contains not just the number $ 2 $, but also all the derivatives of $ c_{fad} $ with respect to the previously defined degrees of freedom (set via command $\ast$.diff($\ast$)). ~\newline
 The following figure tries to visualize this for first derivatives\+:  and for second derivatives (requires different data type)\+:  Every variable that was declared as such a data type now contains besides the actual value $ c $, also its derivatives.\hypertarget{index_subsec_overview}{}\subsection{Overview}\label{index_subsec_overview}
-This overview shall give you first impression what to expect from each of the examples. The background/basics group gives you the promised look under the hood. Whereas the application group shows you how you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} to quickly compute tangents. 
+This overview shall give you a first impression what to expect from each of the examples. The background/basics group gives you the promised look under the hood. Whereas the application group shows you how you can use the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} to quickly compute tangents. 
 
 If you right away want to use Sacado, then you might skip the first examples and jump to \hyperlink{index_Ex3B}{example 3B}. There we show how to use the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{} that does everything from \hyperlink{index_Ex2}{example 2} and \hyperlink{index_Ex3}{example 3} in just a view lines of code. This does not mean that the here shown approach is the fastest or most efficient, it is just simple and easy to use.
 
@@ -27,7 +27,11 @@ One can access the double value of $ c_{fad} $ with the Sacado command $\ast$.va
 \textcolor{keywordtype}{double} c\_c\_d\_b = c\_fad.dx(1);
 \end{DoxyCode}
  The arguments of {\itshape dx}, namely 0 and 1 are the numbers corresponding to the dof that belong to {\itshape a} and {\itshape b}. More details on how to set this up and use it, are given in \hyperlink{index_Ex1}{example 1}.\hypertarget{index_subsec_resources}{}\subsection{Some resources/links}\label{index_subsec_resources}
-You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...). \begin{DoxyRefDesc}{Todo}
+\item[\hyperlink{todo__todo000001}{Todo}]Link is broken\end{DoxyRefDesc}
+
+
+
 \begin{DoxyItemize}
 \item Basics on Sacado, automatic differentation and coding examples (important remarks, e.\+g. on point of non-\/differentiability)\+: ~\newline
  \href{https://software.sandia.gov/SESS/past_seminars/111307_Phipps.pdf}{\tt https\+://software.\+sandia.\+gov/\+S\+E\+S\+S/past\+\_\+seminars/111307\+\_\+\+Phipps.\+pdf}
@@ -41,7 +45,7 @@ You can use Sacado to compute general derivatives of functions (with or without 
 
 The here shown examples shall solely show how Sacado can be applied and give some background and a look under the hood. The code is neither elegant nor efficient, but it works. A more user-\/friendly version is provided by means of the \char`\"{}\+Sacado\+\_\+\+Wrapper\char`\"{}. ~\newline
 \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000001}{Todo}]Check if factor 0.\+5 is also necessary for d\+\_\+sigma / d\+\_\+phi\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000002}{Todo}]Check if factor 0.\+5 is also necessary for d\+\_\+sigma / d\+\_\+phi\end{DoxyRefDesc}
 
 
 \begin{DoxyNote}{Note}
@@ -91,7 +95,7 @@ The data type Symmetric\+Tensor and some related operations, such as trace, symm
 
 \begin{DoxyEnumerate}
 \item example\+: simple scalar equation from deal.\+ii-\/tutorial step-\/33 (see the introduction there to get a first impression, \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html}) \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000002}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000003}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
 
 \end{DoxyEnumerate}
 
@@ -415,7 +419,7 @@ SymmetricTensor<2,dim> eps\_d;
 \}
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000003}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000004}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
 
 
 To output the stress tensor we first have to compute it. We do this here via \[ \sigma = \overset{4}{C_{analy}} : \varepsilon \] The output exactly matched the result obtained with Sacado. \begin{DoxyNote}{Note}
@@ -572,7 +576,7 @@ SymmetricTensor<2,dim,fad\_double> sigma;
 \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} d;
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000004}{Todo}]It would be nice to use the data types from the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} for all the Sacado variables. But somehow the operators (multiply$\ast$, ...) seem to cause conflicts again.\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000005}{Todo}]It would be nice to use the data types from the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} for all the Sacado variables. But somehow the operators (multiply$\ast$, ...) seem to cause conflicts again.\end{DoxyRefDesc}
 
 
 The actual computation in the following scope uses the exact same equation as your normal computation e. g. via the data type double. Hence, you could either directly compute your stress, etc. via the Sacado variables or you define template functions that contain your equations and are either called templated with double or fad\+\_\+double. When using the first option, please consider the computation time that is generally higher for a computation with fad\+\_\+double than with normal doubles (own experience in a special case\+: slower by factor 30). The second option with templates does not suffer these issues. 
@@ -658,7 +662,7 @@ std::cout << \textcolor{stringliteral}{"d\_d\_d\_phi="} << d\_d\_d\_phi << std::
  Taylor-\/series for point x 
 \end{DoxyNote}
 \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000005}{Todo}]Maybe add some more text on the linearization \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000006}{Todo}]Maybe add some more text on the linearization \end{DoxyRefDesc}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{double} x = phi\_d + 0.05;
@@ -727,7 +731,7 @@ The here shown example was copied from \href{https://github.com/trilinos/Trilino
 \textcolor{keywordtype}{int} num\_dofs = 2;
 \end{DoxyCode}
  Define another data type containing even more Sacado data types \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000006}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000007}{Todo}]try to merge the fad\+\_\+double data type with this templated data type \end{DoxyRefDesc}
 
 \begin{DoxyCode}
 \textcolor{keyword}{typedef} Sacado::Fad::DFad<double> \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{DFadType};
@@ -1175,7 +1179,7 @@ std::cout << \textcolor{stringliteral}{"C\_Sacado*eps\_d="} << stress\_from\_tan
 std::cout << \textcolor{stringliteral}{"sigma=         "} << sigma\_d << std::endl;
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000007}{Todo}]Add the link to the ac.\+nz site\end{DoxyRefDesc}
+\item[\hyperlink{todo__todo000008}{Todo}]Add the link to the ac.\+nz site\end{DoxyRefDesc}
 
 
 As you can see we obtain the correct stress tensor only by using the factor 0.\+5 onto the off-\/diagonal elements of the symmetric tensor. ~\newline

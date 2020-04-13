@@ -31,7 +31,7 @@ and for second derivatives (requires different data type):
 Every variable that was declared as such a data type now contains besides the actual value \f$ c \f$, also its derivatives.
 
 @subsection subsec_overview Overview
-This overview shall give you first impression what to expect from each of the examples.
+This overview shall give you a first impression what to expect from each of the examples.
 The background/basics group gives you the promised look under the hood.
 Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
 \image html overview_of_examples.png
@@ -58,6 +58,8 @@ and use it, are given in \ref Ex1 "example 1".
 
 @subsection subsec_resources Some resources/links
 You can use Sacado to compute general derivatives of functions (with or without tensors) with respect to variables (double, Tensors, ...).
+@todo Link is broken
+
 - Basics on Sacado, automatic differentation and coding examples (important remarks, e.g. on point of non-differentiability): \n
 	https://software.sandia.gov/SESS/past_seminars/111307_Phipps.pdf
 - Basics and available autodiff libraries provided by deal.ii: \n
