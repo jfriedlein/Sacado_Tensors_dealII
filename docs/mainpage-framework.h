@@ -85,7 +85,7 @@ Any comments, criticism, corrections, feedback, improvements, ... are appreciate
 @section END The End
 
 Hosted via GitHub according to https://goseeky.wordpress.com/2017/07/22/documentation-101-doxygen-with-github-pages/ \n
-Design of the documentation inspired by the deal.ii tutorial programs.
+Design of the documentation inspired by the deal.ii tutorial programs and created as shown here: https://github.com/jfriedlein/Custom_Doxygen_Documentation
 
 @}
 */
