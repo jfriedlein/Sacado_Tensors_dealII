@@ -19,7 +19,7 @@ except:
     
 # set the paths to ...
 dirMainpage = "./mainpage-framework.h" # ... the framework file containing e.g. the introduction text
-dirCode = "../Sacado_example.cc"  # ... the code that will be placed into the mainpage between the keywords "\code" and "\endcode"
+#dirCode = "../hybrid_solver.h"  # ... the code that will be placed into the mainpage between the keywords "\code" and "\endcode"
 mergedFile = "../mainpage.h"  # ... the output file containing the text from the framework and the code from the dirCode-file
 
 do_replace = False
@@ -27,6 +27,9 @@ with open(mergedFile, "w") as outputFile: # write into the output file line by l
     with open(dirMainpage, "r") as mainpageDoc: # read the framework file line by line until ...
         for line in mainpageDoc:
             if ( "\code" in line ):  # ... you find this keywork, then place the code after this keyword until ...
+                # First we extract the name of the code file that should be placed between \code and \endcode
+                next_line = next(mainpageDoc)
+                dirCode = "../" + next_line[0:len(next_line)-1] # The last part just removes the \n at the end of the line
                 # modify the code and write it into the mainpage file:
                 code = True # True: the current line contains code;
                             # False: the current line contains a comment that shall be outputed as normal text
