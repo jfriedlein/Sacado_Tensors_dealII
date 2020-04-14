@@ -48,7 +48,7 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 
 - Compute tangents from equations with respect to a single SymmetricTensor<2,dim> and a single scalar. (Example 4)
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\textrm{&space;at&space;the&space;same&space;time}" title="\boldsymbol{A, B, } \overset{4}{C} \textrm{ and } $D$ \textrm{ at the same time}" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\text{&space;at&space;the&space;same&space;time}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\boldsymbol{A,&space;B,&space;}&space;\overset{4}{C}&space;\textrm{&space;and&space;}&space;$D$&space;\text{&space;at&space;the&space;same&space;time}" title="\boldsymbol{A, B, } \overset{4}{C} \textrm{ and } $D$ \text{ at the same time}" /></a>
 
 - Compute second derivatives of equations with respect to a single SymmetricTensor<2,dim> and a single scalar. (Example 7, 8)
 
