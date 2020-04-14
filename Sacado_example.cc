@@ -385,6 +385,7 @@ void sacado_test_3B ()
 
 	// We define all the entries in the symmetric tensor \a eps as the dofs. So we can later derive any variable
 	// with respect to the strain tensor \a eps.
+	// @note Keep the order first declare \a eps, then initialise it and afterwards set it as dofs
 	 eps.set_dofs();
 
 	// Now we declare our output and auxiliary variables as Sacado-Tensors.

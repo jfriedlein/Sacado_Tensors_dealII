@@ -1,3 +1,5 @@
+#ifndef Sacado_Wrapper_H
+#define Sacado_Wrapper_H
 
 // @section includes Include Files
 // The data type SymmetricTensor and some related operations, such as trace, symmetrize, deviator, ... for tensor calculus
@@ -130,7 +132,7 @@ namespace Sacado_Wrapper
 			for ( unsigned int j=0; j<dim; ++j )
 			{
 				double *derivs = &sigma[i][j].fastAccessDx(0); // Access the derivatives of the (i,j)-th component of \a sigma
-				
+
 	            // We loop over all the dofs. To be able to use this independent of the chosen dimension \a dim, we use a ternary operator
 	            // to decide whether we have to loop over 6 derivatives or just 3.
 	            for(unsigned int x=start_index;x<(start_index+n_dofs);++x)
@@ -599,4 +601,5 @@ namespace Sacado_Wrapper
 
 
 
+#endif // Sacado_Wrapper_H
 

@@ -128,8 +128,8 @@ using fad_double = Sacado::Fad::DFad<double>;	// this data type now represents a
 @section Ex1 1. example: simple scalar equation
 1. example: simple scalar equation from deal.ii-tutorial step-33 (see the introduction there to get a first impression, https://www.dealii.org/current/doxygen/deal.II/step_33.html)
 @todo clean up the documentation of the classes
-
 \code
+//
 void sacado_test_scalar ()
 {
 	std::cout << "Scalar Test:" << std::endl;
@@ -484,7 +484,9 @@ We again define our strain tensor \a eps_d (*_d for standard double in contrast 
 	}
 \endcode
 @todo use boldsymbol for tensors
-
+\code
+	//
+\endcode
 To output the stress tensor we first have to compute it. We do this here via
 \f[ \sigma = \overset{4}{C_{analy}} : \varepsilon \f]
 The output exactly matched the result obtained with Sacado.
@@ -492,8 +494,8 @@ The output exactly matched the result obtained with Sacado.
 the tangent computed via Sacado is correct. When we compute the stress tensor with Sacado and for example mix up a + and - sign, this might not matter
 at all if the number that is added or subtracted is small. However, for the tangent this nasty sign can be very critical. Just keep in mind: the
 tangent has 81 components and the stress tensor just 9, so how does one want to verify 81 variables by comparing 9?
-
 \code
+	//
     std::cout << "sigma_analy: " << (C_analy*eps_d) << std::endl;
  
 \endcode
@@ -565,6 +567,7 @@ Next we initialize our Sacado strain tensor with the values of the inputed doubl
 \endcode
 We define all the entries in the symmetric tensor \a eps as the dofs. So we can later derive any variable
 with respect to the strain tensor \a eps.
+@note Keep the order first declare \a eps, then initialise it and afterwards set it as dofs
 \code
 	 eps.set_dofs();
  
@@ -648,8 +651,8 @@ Initialize the strain tensor and the damage variable
 Set the dofs, where the argument sets the total nbr of dofs (3 or 6 for the sym. tensor and 1 for the double)
 \code
 //	  eps.set_dofs(eps.n_independent_components+1/*an additional dof for phi*/);
+//
 \endcode
-
 In order to also compute derivatives with respect to the scalar \a phi, we add this scalar to our list
 of derivatives. Because we have already defined 3 or 6 dofs our additional dof will be placed at the end
 of this list. We set this up with the member variable start_index ...
@@ -1367,8 +1370,8 @@ the averaged values. \n
 As a consequence, we use the factor 0.5 for all off-diagonal components of derivatives with respect to symmetric tensors. For second derivatives with respect to
 symmetric tensors the factors 0.5 and 0.25 come into play.
  
-
 \code
+	//
 }
  
  
