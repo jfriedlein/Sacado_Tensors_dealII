@@ -31,7 +31,7 @@ Collaboration diagram for Sacado\+\_\+\+Wrapper\+:\+:S\+W\+\_\+double$<$ dim $>$
 \item 
 void \hyperlink{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c797682a}{init} (const double \&double\+\_\+init)
 \item 
-void \hyperlink{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}{set\+\_\+dofs} (unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} nbr\+\_\+total\+\_\+dofs=\hyperlink{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{n\+\_\+dofs})
+void \hyperlink{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}{set\+\_\+dofs} (unsigned int nbr\+\_\+total\+\_\+dofs=\hyperlink{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{n\+\_\+dofs})
 \item 
 void \hyperlink{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}{get\+\_\+tangent} (Symmetric\+Tensor$<$ 2, dim $>$ \&Tangent, Symmetric\+Tensor$<$ 2, dim, \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} $>$ \&sigma)
 \item 
@@ -42,138 +42,144 @@ void \hyperlink{classSacado__Wrapper_1_1SW__double_ae7e9f33604ea736e485576447d78
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} \hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\+\_\+index} = 0
+unsigned int \hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\+\_\+index} = 0
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static const unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} \hyperlink{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{n\+\_\+dofs} = 1
+static const unsigned int \hyperlink{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{n\+\_\+dofs} = 1
 \end{DoxyCompactItemize}
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}\label{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{get\+\_\+tangent(\+Symmetric\+Tensor$<$ 2, dim $>$ \&\+Tangent, Symmetric\+Tensor$<$ 2, dim, fad\+\_\+double $>$ \&sigma)}{get_tangent(SymmetricTensor< 2, dim > &Tangent, SymmetricTensor< 2, dim, fad_double > &sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+tangent (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{Tangent, }
-\item[{Symmetric\+Tensor$<$ 2, dim, {\bf fad\+\_\+double} $>$ \&}]{sigma}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}{}\label{classSacado__Wrapper_1_1SW__double_a2e6eca4457eb22b06172bb5749038f1e}
+\subsubsection{\texorpdfstring{get\+\_\+tangent()}{get\_tangent()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+tangent (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{Tangent,  }\item[{Symmetric\+Tensor$<$ 2, dim, \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} $>$ \&}]{sigma }\end{DoxyParamCaption})}
+
 
 
 Referenced by sacado\+\_\+test\+\_\+4().
 
 
 \begin{DoxyCode}
-362     \{
-363         \textcolor{comment}{// reassemble the tangent as a SECOND order tensor}
-364          \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-365             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-366             \{
-367                 \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access derivatives}
-368                 Tangent[i][j] = derivs[ this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index} ]; \textcolor{comment}{// ToDo: check whether the 0.5* is
+364     \{
+365         \textcolor{comment}{// reassemble the tangent as a SECOND order tensor}
+366          \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+367             \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+368             \{
+369                 \textcolor{keywordtype}{double} *derivs = &sigma[i][j].fastAccessDx(0); \textcolor{comment}{// Access derivatives}
+370                 Tangent[i][j] = derivs[ this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index} ]; \textcolor{comment}{// ToDo: check whether the 0.5* is
        necessary here too}
-369             \}
-370     \}
+371             \}
+372     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_a468303caab70c91f72bfe0547afff53a}\label{classSacado__Wrapper_1_1SW__double_a468303caab70c91f72bfe0547afff53a}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{get\+\_\+tangent(double \&\+Tangent, fad\+\_\+double \&argument)}{get_tangent(double &Tangent, fad_double &argument)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+tangent (
-\begin{DoxyParamCaption}
-\item[{double \&}]{Tangent, }
-\item[{{\bf fad\+\_\+double} \&}]{argument}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SW__double_a468303caab70c91f72bfe0547afff53a}{}\label{classSacado__Wrapper_1_1SW__double_a468303caab70c91f72bfe0547afff53a}
+\subsubsection{\texorpdfstring{get\+\_\+tangent()}{get\_tangent()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+tangent (\begin{DoxyParamCaption}\item[{double \&}]{Tangent,  }\item[{\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} \&}]{argument }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-374     \{
-375          \textcolor{keywordtype}{double} *derivs = &argument.fastAccessDx(0);
-376          Tangent = derivs[ this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index} ];
-377     \}
+376     \{
+377          \textcolor{keywordtype}{double} *derivs = &argument.fastAccessDx(0);
+378          Tangent = derivs[ this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index} ];
+379     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_ae7e9f33604ea736e485576447d78a46c}\label{classSacado__Wrapper_1_1SW__double_ae7e9f33604ea736e485576447d78a46c}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!get\+\_\+values@{get\+\_\+values}}
 \index{get\+\_\+values@{get\+\_\+values}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{get\+\_\+values(double \&return\+\_\+double)}{get_values(double &return_double)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+values (
-\begin{DoxyParamCaption}
-\item[{double \&}]{return\+\_\+double}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SW__double_ae7e9f33604ea736e485576447d78a46c}{}\label{classSacado__Wrapper_1_1SW__double_ae7e9f33604ea736e485576447d78a46c}
+\subsubsection{\texorpdfstring{get\+\_\+values()}{get\_values()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::get\+\_\+values (\begin{DoxyParamCaption}\item[{double \&}]{return\+\_\+double }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-381     \{
-382         return\_double = (*this).val();
-383     \}
+383     \{
+384         return\_double = (*this).val();
+385     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c797682a}\label{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c797682a}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!init@{init}}
 \index{init@{init}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{init(const double \&double\+\_\+init)}{init(const double &double_init)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::init (
-\begin{DoxyParamCaption}
-\item[{const double \&}]{double\+\_\+init}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c797682a}{}\label{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c797682a}
+\subsubsection{\texorpdfstring{init()}{init()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::init (\begin{DoxyParamCaption}\item[{const double \&}]{double\+\_\+init }\end{DoxyParamCaption})}
+
 
 
 Referenced by sacado\+\_\+test\+\_\+4().
 
 
 \begin{DoxyCode}
-350     \{
-351         (*this) = double\_init;
-352     \}
+352     \{
+353         (*this) = double\_init;
+354     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_a355de495ebe0e0b78ea4569fbb697717}\label{classSacado__Wrapper_1_1SW__double_a355de495ebe0e0b78ea4569fbb697717}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!operator=@{operator=}}
 \index{operator=@{operator=}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{operator=(double double\+\_\+init)}{operator=(double double_init)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ {\bf S\+W\+\_\+double}\& {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::operator= (
-\begin{DoxyParamCaption}
-\item[{double}]{double\+\_\+init}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classSacado__Wrapper_1_1SW__double_a355de495ebe0e0b78ea4569fbb697717}{}\label{classSacado__Wrapper_1_1SW__double_a355de495ebe0e0b78ea4569fbb697717}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+\hyperlink{classSacado__Wrapper_1_1SW__double}{S\+W\+\_\+double}\& \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::operator= (\begin{DoxyParamCaption}\item[{double}]{double\+\_\+init }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
 
 \begin{DoxyCode}
-331 \{ fad\_double::operator =( double\_init ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
+333 \{ fad\_double::operator =( double\_init ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_ae9d242c29208f994f2eaabd9f5d5fa3c}\label{classSacado__Wrapper_1_1SW__double_ae9d242c29208f994f2eaabd9f5d5fa3c}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!operator=@{operator=}}
 \index{operator=@{operator=}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{operator=(fad\+\_\+double fad\+\_\+assignment)}{operator=(fad_double fad_assignment)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ {\bf S\+W\+\_\+double}\& {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::operator= (
-\begin{DoxyParamCaption}
-\item[{{\bf fad\+\_\+double}}]{fad\+\_\+assignment}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classSacado__Wrapper_1_1SW__double_ae9d242c29208f994f2eaabd9f5d5fa3c}{}\label{classSacado__Wrapper_1_1SW__double_ae9d242c29208f994f2eaabd9f5d5fa3c}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+\hyperlink{classSacado__Wrapper_1_1SW__double}{S\+W\+\_\+double}\& \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::operator= (\begin{DoxyParamCaption}\item[{\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double}}]{fad\+\_\+assignment }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
 
 \begin{DoxyCode}
-332 \{ fad\_double::operator =( fad\_assignment ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
+334 \{ fad\_double::operator =( fad\_assignment ) ;\textcolor{keywordflow}{return} *\textcolor{keyword}{this};\}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}\label{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!set\+\_\+dofs@{set\+\_\+dofs}}
 \index{set\+\_\+dofs@{set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{set\+\_\+dofs(unsigned int nbr\+\_\+total\+\_\+dofs=n\+\_\+dofs)}{set_dofs(unsigned int nbr_total_dofs=n_dofs)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::set\+\_\+dofs (
-\begin{DoxyParamCaption}
-\item[{unsigned {\bf int}}]{nbr\+\_\+total\+\_\+dofs = {\ttfamily {\bf n\+\_\+dofs}}}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}{}\label{classSacado__Wrapper_1_1SW__double_a36ced4218d40104fd8e548039a97cfb8}
+\subsubsection{\texorpdfstring{set\+\_\+dofs()}{set\_dofs()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::set\+\_\+dofs (\begin{DoxyParamCaption}\item[{unsigned int}]{nbr\+\_\+total\+\_\+dofs = {\ttfamily \hyperlink{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{n\+\_\+dofs}} }\end{DoxyParamCaption})}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::set\+\_\+dofs().
 
 
 \begin{DoxyCode}
-356     \{
-357         (*this).diff( this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index}, nbr\_total\_dofs );
-358     \}
+358     \{
+359         (*this).diff( this->\hyperlink{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{start\_index}, nbr\_total\_dofs );
+360     \}
 \end{DoxyCode}
 
 
 \subsection{Member Data Documentation}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}\label{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!n\+\_\+dofs@{n\+\_\+dofs}}
 \index{n\+\_\+dofs@{n\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{n\+\_\+dofs}{n_dofs}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ const unsigned {\bf int} {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::n\+\_\+dofs = 1\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}{}\label{classSacado__Wrapper_1_1SW__double_a45e46904e5fd5be42bb4c9bb7454ffc5}
+\subsubsection{\texorpdfstring{n\+\_\+dofs}{n\_dofs}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+const unsigned int \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::n\+\_\+dofs = 1\hspace{0.3cm}{\ttfamily [static]}}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::set\+\_\+dofs().
 
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}\label{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}!start\+\_\+index@{start\+\_\+index}}
 \index{start\+\_\+index@{start\+\_\+index}!Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double@{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}}
-\subsubsection[{\texorpdfstring{start\+\_\+index}{start_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ unsigned {\bf int} {\bf Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::start\+\_\+index = 0}\hypertarget{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}{}\label{classSacado__Wrapper_1_1SW__double_aa0927ce06528899dd44afe5d770840c1}
+\subsubsection{\texorpdfstring{start\+\_\+index}{start\_index}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+unsigned int \hyperlink{classSacado__Wrapper_1_1SW__double}{Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double}$<$ dim $>$\+::start\+\_\+index = 0}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::set\+\_\+dofs().

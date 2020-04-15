@@ -1,10 +1,10 @@
 \hypertarget{Sacado__Wrapper_8h}{}\section{Sacado\+\_\+\+Wrapper.\+h File Reference}
 \label{Sacado__Wrapper_8h}\index{Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}}
-{\ttfamily \#include $<$deal.\+I\+I/base/symmetric\+\_\+tensor.\+h$>$}\\*
-{\ttfamily \#include $<$iostream$>$}\\*
-{\ttfamily \#include $<$fstream$>$}\\*
-{\ttfamily \#include $<$cmath$>$}\\*
-{\ttfamily \#include $<$Sacado.\+hpp$>$}\\*
+{\ttfamily \#include $<$deal.\+I\+I/base/symmetric\+\_\+tensor.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$Sacado.\+hpp$>$}\newline
 Include dependency graph for Sacado\+\_\+\+Wrapper.\+h\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
@@ -47,63 +47,69 @@ typedef Sacado\+::\+Fad\+::\+D\+Fad$<$ double $>$ \hyperlink{Sacado__Wrapper_8h_
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$int dim$>$ }\\void \hyperlink{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}{get\+\_\+index\+\_\+map} (std\+::map$<$ unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}, std\+::pair$<$ unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}, unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} $>$$>$ \&std\+\_\+map\+\_\+indicies)
+{\footnotesize template$<$int dim$>$ }\\void \hyperlink{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}{get\+\_\+index\+\_\+map} (std\+::map$<$ unsigned int, std\+::pair$<$ unsigned int, unsigned int $>$$>$ \&std\+\_\+map\+\_\+indicies)
 \end{DoxyCompactItemize}
 
 
 \subsection{Typedef Documentation}
+\mbox{\Hypertarget{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}\label{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}} 
 \index{Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}!D\+Fad\+Type@{D\+Fad\+Type}}
 \index{D\+Fad\+Type@{D\+Fad\+Type}!Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}}
-\subsubsection[{\texorpdfstring{D\+Fad\+Type}{DFadType}}]{\setlength{\rightskip}{0pt plus 5cm}typedef Sacado\+::\+Fad\+::\+D\+Fad$<$double$>$ {\bf D\+Fad\+Type}}\hypertarget{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{}\label{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}
+\subsubsection{\texorpdfstring{D\+Fad\+Type}{DFadType}}
+{\footnotesize\ttfamily typedef Sacado\+::\+Fad\+::\+D\+Fad$<$double$>$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type}}
+
+\mbox{\Hypertarget{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}\label{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}} 
 \index{Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}!fad\+\_\+double@{fad\+\_\+double}}
 \index{fad\+\_\+double@{fad\+\_\+double}!Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}}
-\subsubsection[{\texorpdfstring{fad\+\_\+double}{fad_double}}]{\setlength{\rightskip}{0pt plus 5cm}using {\bf fad\+\_\+double} =  Sacado\+::\+Fad\+::\+D\+Fad$<$double$>$}\hypertarget{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}{}\label{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}
+\subsubsection{\texorpdfstring{fad\+\_\+double}{fad\_double}}
+{\footnotesize\ttfamily using \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} =  Sacado\+::\+Fad\+::\+D\+Fad$<$double$>$}
+
 
 
 \subsection{Function Documentation}
+\mbox{\Hypertarget{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}\label{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}} 
 \index{Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}!get\+\_\+index\+\_\+map@{get\+\_\+index\+\_\+map}}
 \index{get\+\_\+index\+\_\+map@{get\+\_\+index\+\_\+map}!Sacado\+\_\+\+Wrapper.\+h@{Sacado\+\_\+\+Wrapper.\+h}}
-\subsubsection[{\texorpdfstring{get\+\_\+index\+\_\+map(std\+::map$<$ unsigned int, std\+::pair$<$ unsigned int, unsigned int $>$$>$ \&std\+\_\+map\+\_\+indicies)}{get_index_map(std::map< unsigned int, std::pair< unsigned int, unsigned int >> &std_map_indicies)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void get\+\_\+index\+\_\+map (
-\begin{DoxyParamCaption}
-\item[{std\+::map$<$ unsigned {\bf int}, std\+::pair$<$ unsigned {\bf int}, unsigned {\bf int} $>$$>$ \&}]{std\+\_\+map\+\_\+indicies}
-\end{DoxyParamCaption}
-)}\hypertarget{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}{}\label{Sacado__Wrapper_8h_abe25ecefccdd45897ebc69797e1051ea}
+\subsubsection{\texorpdfstring{get\+\_\+index\+\_\+map()}{get\_index\_map()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void get\+\_\+index\+\_\+map (\begin{DoxyParamCaption}\item[{std\+::map$<$ unsigned int, std\+::pair$<$ unsigned int, unsigned int $>$$>$ \&}]{std\+\_\+map\+\_\+indicies }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-23 \{
-24     std::pair<unsigned int, unsigned int> tmp\_pair;
-25 
-26     \textcolor{keywordflow}{switch} ( dim )
-27     \{
-28     \textcolor{keywordflow}{case} 2:
-29         tmp\_pair.first=0; tmp\_pair.second=0;
-30         std\_map\_indicies[0] = tmp\_pair;
-31 
-32         tmp\_pair.first=0; tmp\_pair.second=1;
-33         std\_map\_indicies[1] = tmp\_pair;
-34 
-35         tmp\_pair.first=1; tmp\_pair.second=1;
-36         std\_map\_indicies[2] = tmp\_pair;
-37         \textcolor{keywordflow}{break};
-38     \textcolor{keywordflow}{case} 3:
-39         tmp\_pair.first=0; tmp\_pair.second=0;
-40         std\_map\_indicies[0] = tmp\_pair;
-41 
-42         tmp\_pair.first=0; tmp\_pair.second=1;
-43         std\_map\_indicies[1] = tmp\_pair;
-44 
-45         tmp\_pair.first=0; tmp\_pair.second=2;
-46         std\_map\_indicies[2] = tmp\_pair;
-47 
-48         tmp\_pair.first=1; tmp\_pair.second=1;
-49         std\_map\_indicies[3] = tmp\_pair;
-50 
-51         tmp\_pair.first=1; tmp\_pair.second=2;
-52         std\_map\_indicies[4] = tmp\_pair;
-53 
-54         tmp\_pair.first=2; tmp\_pair.second=2;
-55         std\_map\_indicies[5] = tmp\_pair;
-56         \textcolor{keywordflow}{break};
-57     \}
-58 \}
+25 \{
+26     std::pair<unsigned int, unsigned int> tmp\_pair;
+27 
+28     \textcolor{keywordflow}{switch} ( dim )
+29     \{
+30     \textcolor{keywordflow}{case} 2:
+31         tmp\_pair.first=0; tmp\_pair.second=0;
+32         std\_map\_indicies[0] = tmp\_pair;
+33 
+34         tmp\_pair.first=0; tmp\_pair.second=1;
+35         std\_map\_indicies[1] = tmp\_pair;
+36 
+37         tmp\_pair.first=1; tmp\_pair.second=1;
+38         std\_map\_indicies[2] = tmp\_pair;
+39         \textcolor{keywordflow}{break};
+40     \textcolor{keywordflow}{case} 3:
+41         tmp\_pair.first=0; tmp\_pair.second=0;
+42         std\_map\_indicies[0] = tmp\_pair;
+43 
+44         tmp\_pair.first=0; tmp\_pair.second=1;
+45         std\_map\_indicies[1] = tmp\_pair;
+46 
+47         tmp\_pair.first=0; tmp\_pair.second=2;
+48         std\_map\_indicies[2] = tmp\_pair;
+49 
+50         tmp\_pair.first=1; tmp\_pair.second=1;
+51         std\_map\_indicies[3] = tmp\_pair;
+52 
+53         tmp\_pair.first=1; tmp\_pair.second=2;
+54         std\_map\_indicies[4] = tmp\_pair;
+55 
+56         tmp\_pair.first=2; tmp\_pair.second=2;
+57         std\_map\_indicies[5] = tmp\_pair;
+58         \textcolor{keywordflow}{break};
+59     \}
+60 \}
 \end{DoxyCode}

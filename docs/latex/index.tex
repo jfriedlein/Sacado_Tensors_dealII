@@ -95,19 +95,17 @@ The data type Symmetric\+Tensor and some related operations, such as trace, symm
 
 \begin{DoxyEnumerate}
 \item example\+: simple scalar equation from deal.\+ii-\/tutorial step-\/33 (see the introduction there to get a first impression, \href{https://www.dealii.org/current/doxygen/deal.II/step_33.html}{\tt https\+://www.\+dealii.\+org/current/doxygen/deal.\+I\+I/step\+\_\+33.\+html}) \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000003}{Todo}]clean up the documentation of the classes\end{DoxyRefDesc}
-
-\end{DoxyEnumerate}
-
+\item[\hyperlink{todo__todo000003}{Todo}]clean up the documentation of the classes \end{DoxyRefDesc}
 
 \begin{DoxyCode}
+\textcolor{comment}{//}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ()
 \{
     std::cout << \textcolor{stringliteral}{"Scalar Test:"} << std::endl;
 \end{DoxyCode}
  Define the variables used in the computation (inputs/independent variables\+: a, b; output/result\+: c; auxiliaries/passive variables\+: $\ast$) as the Sacado-\/data type 
 \begin{DoxyCode}
-\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,\hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
+\hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b,c;
 \end{DoxyCode}
  Initialize the input variables a and b; This (a,b) = (1,2) will be the point where the derivatives are computed. Compare\+: y=x² -\/$>$ (dy/dx)(@x=1) = 2. We can only compute the derivative numerically at a certain point. 
 \begin{DoxyCode}
@@ -128,7 +126,8 @@ c = 2*a + std::cos(a*b);
     std::cout << \textcolor{stringliteral}{"dc/da = "} << derivs[0] << \textcolor{stringliteral}{", dc/db="} << derivs[1] << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex2}{}\section{2. example\+: Preparation for the use of Sacado with tensors}\label{index_Ex2}
+ 
+\end{DoxyEnumerate}\hypertarget{index_Ex2}{}\section{2. example\+: Preparation for the use of Sacado with tensors}\label{index_Ex2}
 Here we want to introduce tensors for the first time. Hence, we limit ourselves to a trivial equation relating the strain tensor {\itshape eps} with dim x dim components with the stress tensor {\itshape sigma}. Both here used tensors are symmetric, hence we use the Symmetric\+Tensor class and have to keep some details in mind (see below factor 0.\+5 related to Voigt-\/\+Notation). Don\textquotesingle{}t be scared by the enormous number of repetitive lines of code, everything shown in this example and the following will be handled by the \hyperlink{namespaceSacado__Wrapper}{Sacado\+\_\+\+Wrapper} with roughly four lines of code. 
 \begin{DoxyCode}
 \textcolor{comment}{/*}
@@ -419,14 +418,15 @@ SymmetricTensor<2,dim> eps\_d;
 \}
 \end{DoxyCode}
  \begin{DoxyRefDesc}{Todo}
-\item[\hyperlink{todo__todo000004}{Todo}]use boldsymbol for tensors\end{DoxyRefDesc}
-
-
-To output the stress tensor we first have to compute it. We do this here via \[ \sigma = \overset{4}{C_{analy}} : \varepsilon \] The output exactly matched the result obtained with Sacado. \begin{DoxyNote}{Note}
-Checking the Sacado stress tensor against an analytically computed or otherwise determined stress tensor is absolutely no way to check whether the tangent computed via Sacado is correct. When we compute the stress tensor with Sacado and for example mix up a + and -\/ sign, this might not matter at all if the number that is added or subtracted is small. However, for the tangent this nasty sign can be very critical. Just keep in mind\+: the tangent has 81 components and the stress tensor just 9, so how does one want to verify 81 variables by comparing 9?
-\end{DoxyNote}
+\item[\hyperlink{todo__todo000004}{Todo}]use boldsymbol for tensors \end{DoxyRefDesc}
 
 \begin{DoxyCode}
+\textcolor{comment}{//}
+\end{DoxyCode}
+ To output the stress tensor we first have to compute it. We do this here via \[ \sigma = \overset{4}{C_{analy}} : \varepsilon \] The output exactly matched the result obtained with Sacado. \begin{DoxyNote}{Note}
+Checking the Sacado stress tensor against an analytically computed or otherwise determined stress tensor is absolutely no way to check whether the tangent computed via Sacado is correct. When we compute the stress tensor with Sacado and for example mix up a + and -\/ sign, this might not matter at all if the number that is added or subtracted is small. However, for the tangent this nasty sign can be very critical. Just keep in mind\+: the tangent has 81 components and the stress tensor just 9, so how does one want to verify 81 variables by comparing 9? 
+\begin{DoxyCode}
+\textcolor{comment}{//}
 std::cout << \textcolor{stringliteral}{"sigma\_analy: "} << (C\_analy*eps\_d) << std::endl;
 \end{DoxyCode}
  That\textquotesingle{}s the reason we compare all the entries in the Sacado and the analytical tensor one by one 
@@ -452,7 +452,9 @@ std::cout << \textcolor{stringliteral}{"sigma\_analy: "} << (C\_analy*eps\_d) <<
     std::cout << \textcolor{stringliteral}{"numerical error: "} << error\_Sacado\_vs\_analy << std::endl;
 \}
 \end{DoxyCode}
- \hypertarget{index_Ex3B}{}\section{3\+B. Example\+: Using the wrapper for Ex3}\label{index_Ex3B}
+ 
+\end{DoxyNote}
+\hypertarget{index_Ex3B}{}\section{3\+B. Example\+: Using the wrapper for Ex3}\label{index_Ex3B}
 
 \begin{DoxyCode}
 \textcolor{keywordtype}{void} \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ()
@@ -485,7 +487,8 @@ We declare our strain tensor as the special data type \hyperlink{classSacado__Wr
 \begin{DoxyCode}
 eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_acbad579d5ead9e96ff46aa15d9b5aef4}{init}(eps\_d);
 \end{DoxyCode}
- We define all the entries in the symmetric tensor {\itshape eps} as the dofs. So we can later derive any variable with respect to the strain tensor {\itshape eps}. 
+ We define all the entries in the symmetric tensor {\itshape eps} as the dofs. So we can later derive any variable with respect to the strain tensor {\itshape eps}. \begin{DoxyNote}{Note}
+Keep the order first declare {\itshape eps}, then initialise it and afterwards set it as dofs 
 \begin{DoxyCode}
 eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_aa9e0fcc9d4e0a4120bedb8ef9b8d7ecb}{set\_dofs}();
 \end{DoxyCode}
@@ -507,7 +510,7 @@ SymmetricTensor<4,dim> C\_Sacado;
 eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ab97427c3b5cab279e58607cf431ab262}{get\_tangent}(C\_Sacado, sigma);
 \end{DoxyCode}
  We could again compare the herein computed tangent with the analytical tangent from Ex2, but as before the results are fairly boring, because Sacado hits the analytical tangent exactly --- no surprise for such simple equations.
-
+\end{DoxyNote}
 And that\textquotesingle{}s it. By using the Sacado\+\_\+wrapper we can achieve everything from Ex2 (besides the equations) with just four lines of code namely\+:
 \begin{DoxyItemize}
 \item eps.\+init(eps\+\_\+d); // To initialize the Sacado strain tensor
@@ -553,10 +556,9 @@ phi.\hyperlink{classSacado__Wrapper_1_1SW__double_adca799dd92dadebda9aebc91c7976
  Set the dofs, where the argument sets the total nbr of dofs (3 or 6 for the sym. tensor and 1 for the double) 
 \begin{DoxyCode}
 \textcolor{comment}{//    eps.set\_dofs(eps.n\_independent\_components+1/*an additional dof for phi*/);}
+\textcolor{comment}{//}
 \end{DoxyCode}
-
-
-In order to also compute derivatives with respect to the scalar {\itshape phi}, we add this scalar to our list of derivatives. Because we have already defined 3 or 6 dofs our additional dof will be placed at the end of this list. We set this up with the member variable start\+\_\+index ... 
+ In order to also compute derivatives with respect to the scalar {\itshape phi}, we add this scalar to our list of derivatives. Because we have already defined 3 or 6 dofs our additional dof will be placed at the end of this list. We set this up with the member variable start\+\_\+index ... 
 \begin{DoxyCode}
 \textcolor{comment}{//    phi.start\_index=eps.n\_independent\_components;}
 \end{DoxyCode}
@@ -687,7 +689,7 @@ std::cout << \textcolor{stringliteral}{"d@x = "} << x*x + 25 + trace(eps\_d) + e
 \{
     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
     std::cout << \textcolor{stringliteral}{"Test 5:"} << std::endl;
-    Tensor<1,dim,fad\_double> \hyperlink{CMakeCache_8txt_aac1d6a1710812201527c735f7c6afbaa}{c};
+    Tensor<1,dim,fad\_double> c;
     \hyperlink{Sacado__example_8cc_a868b94676739e612d9c95940e70892a9}{fad\_double} a,b;
     \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} n\_dofs=2;
     a = 1; b = 2;   \textcolor{comment}{// at the point (a,b) = (1,2)}
@@ -1206,6 +1208,7 @@ As a consequence, we use the factor 0.\+5 for all off-\/diagonal components of d
 \end{DoxyNote}
 
 \begin{DoxyCode}
+    \textcolor{comment}{//}
 \}
  
  

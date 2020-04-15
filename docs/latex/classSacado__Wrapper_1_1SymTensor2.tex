@@ -27,7 +27,7 @@ Collaboration diagram for Sacado\+\_\+\+Wrapper\+:\+:Sym\+Tensor2$<$ dim $>$\+:\
 \item 
 \hyperlink{classSacado__Wrapper_1_1SymTensor2_ae43e523ee18d7bf678e5d426df92cd49}{Sym\+Tensor2} ()
 \item 
-void \hyperlink{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}{init\+\_\+set\+\_\+dofs} (Symmetric\+Tensor$<$ 2, dim $>$ \&tensor\+\_\+double, const unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} nbr\+\_\+total\+\_\+dofs=\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\+\_\+dofs})
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}{init\+\_\+set\+\_\+dofs} (Symmetric\+Tensor$<$ 2, dim $>$ \&tensor\+\_\+double, const unsigned int nbr\+\_\+total\+\_\+dofs=\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\+\_\+dofs})
 \item 
 void \hyperlink{classSacado__Wrapper_1_1SymTensor2_a4a7d1a0e9efb9d4a6bf6768a75611762}{get\+\_\+tangent} (Symmetric\+Tensor$<$ 4, dim $>$ \&Tangent, Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ $>$ \&sigma)
 \item 
@@ -40,188 +40,195 @@ void \hyperlink{classSacado__Wrapper_1_1SymTensor2_aeff4168705676c8f8c050e9ea1fc
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-std\+::map$<$ unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}, std\+::pair$<$ unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int}, unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} $>$ $>$ \hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\+\_\+map\+\_\+indicies}
+std\+::map$<$ unsigned int, std\+::pair$<$ unsigned int, unsigned int $>$ $>$ \hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\+\_\+map\+\_\+indicies}
 \item 
-unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} \hyperlink{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}{start\+\_\+index} = 0
+unsigned int \hyperlink{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}{start\+\_\+index} = 0
 \end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-static const unsigned \hyperlink{CMakeCache_8txt_a79a3d8790b2588b09777910863574e09}{int} \hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\+\_\+dofs} = ((dim==2)?3\+:6)
+static const unsigned int \hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\+\_\+dofs} = ((dim==2)?3\+:6)
 \end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_ae43e523ee18d7bf678e5d426df92cd49}\label{classSacado__Wrapper_1_1SymTensor2_ae43e523ee18d7bf678e5d426df92cd49}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!Sym\+Tensor2@{Sym\+Tensor2}}
 \index{Sym\+Tensor2@{Sym\+Tensor2}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{Sym\+Tensor2()}{SymTensor2()}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::{\bf Sym\+Tensor2} (
-\begin{DoxyParamCaption}
-{}
-\end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classSacado__Wrapper_1_1SymTensor2_ae43e523ee18d7bf678e5d426df92cd49}{}\label{classSacado__Wrapper_1_1SymTensor2_ae43e523ee18d7bf678e5d426df92cd49}
+\subsubsection{\texorpdfstring{Sym\+Tensor2()}{SymTensor2()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+\hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::\hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sym\+Tensor2} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
 
 \begin{DoxyCode}
-195         \{
-196             get\_index\_map<dim>( \hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies} );
-197         \}
+197         \{
+198             get\_index\_map<dim>( \hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies} );
+199         \}
 \end{DoxyCode}
 
 
 \subsection{Member Function Documentation}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_aeff4168705676c8f8c050e9ea1fc46be}\label{classSacado__Wrapper_1_1SymTensor2_aeff4168705676c8f8c050e9ea1fc46be}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!get\+\_\+curvature@{get\+\_\+curvature}}
 \index{get\+\_\+curvature@{get\+\_\+curvature}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{get\+\_\+curvature(\+Symmetric\+Tensor$<$ 4, dim $>$ \&\+Curvature, Sacado\+::\+Fad\+::\+D\+Fad$<$ D\+Fad\+Type $>$ \&argument)}{get_curvature(SymmetricTensor< 4, dim > &Curvature, Sacado::Fad::DFad< DFadType > &argument)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+curvature (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 4, dim $>$ \&}]{Curvature, }
-\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ {\bf D\+Fad\+Type} $>$ \&}]{argument}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SymTensor2_aeff4168705676c8f8c050e9ea1fc46be}{}\label{classSacado__Wrapper_1_1SymTensor2_aeff4168705676c8f8c050e9ea1fc46be}
+\subsubsection{\texorpdfstring{get\+\_\+curvature()}{get\_curvature()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+curvature (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 4, dim $>$ \&}]{Curvature,  }\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ \&}]{argument }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-288     \{
-289          \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++x)
-290             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++y)
-291             \{
-292                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].first;
-293                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].second;
-294                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
-295                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
-296 
-297                 \textcolor{keywordtype}{double} deriv = argument.dx(x).dx(y); \textcolor{comment}{// Access the derivatives of the (i,j)-th component of
-       \(\backslash\)a sigma}
+290     \{
+291          \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++x)
+292             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++y)
+293             \{
+294                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].first;
+295                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].second;
+296                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
+297                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
 298 
-299                 \textcolor{keywordflow}{if} ( k!=l && i!=j )
-300                     Curvature[i][j][k][l] = 0.25* deriv;
-301                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
-302                 \{
-303                     Curvature[i][j][k][l] = 0.5*deriv;
-304                     Curvature[i][j][l][k] = 0.5*deriv;
-305                 \}
-306                 \textcolor{keywordflow}{else}
-307                     Curvature[i][j][k][l] = deriv;
-308             \}
-309     \}
+299                 \textcolor{keywordtype}{double} deriv = argument.dx(x).dx(y); \textcolor{comment}{// Access the derivatives of the (i,j)-th component of
+       \(\backslash\)a sigma}
+300 
+301                 \textcolor{keywordflow}{if} ( k!=l && i!=j )
+302                     Curvature[i][j][k][l] = 0.25* deriv;
+303                 \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+304                 \{
+305                     Curvature[i][j][k][l] = 0.5*deriv;
+306                     Curvature[i][j][l][k] = 0.5*deriv;
+307                 \}
+308                 \textcolor{keywordflow}{else}
+309                     Curvature[i][j][k][l] = deriv;
+310             \}
+311     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_a4a7d1a0e9efb9d4a6bf6768a75611762}\label{classSacado__Wrapper_1_1SymTensor2_a4a7d1a0e9efb9d4a6bf6768a75611762}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{get\+\_\+tangent(\+Symmetric\+Tensor$<$ 4, dim $>$ \&\+Tangent, Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ D\+Fad\+Type $>$ $>$ \&sigma)}{get_tangent(SymmetricTensor< 4, dim > &Tangent, SymmetricTensor< 2, dim, Sacado::Fad::DFad< DFadType > > &sigma)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 4, dim $>$ \&}]{Tangent, }
-\item[{Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ {\bf D\+Fad\+Type} $>$ $>$ \&}]{sigma}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SymTensor2_a4a7d1a0e9efb9d4a6bf6768a75611762}{}\label{classSacado__Wrapper_1_1SymTensor2_a4a7d1a0e9efb9d4a6bf6768a75611762}
+\subsubsection{\texorpdfstring{get\+\_\+tangent()}{get\_tangent()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 4, dim $>$ \&}]{Tangent,  }\item[{Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ $>$ \&}]{sigma }\end{DoxyParamCaption})}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::get\+\_\+curvature().
 
 
 \begin{DoxyCode}
-251     \{
-252          \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++x)
-253             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++y)
-254             \{
-255                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].first;
-256                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].second;
-257                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
-258                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
-259 
-260                 \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
-261                     Tangent[i][j][k][l] = 0.5 * argument[k][l].dx(y).val();     \textcolor{comment}{// ToDo: check this on
+253     \{
+254          \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0;x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++x)
+255             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} y=0;y<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs};++y)
+256             \{
+257                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].first;
+258                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[y].second;
+259                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} k=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
+260                 \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} l=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
+261 
+262                 \textcolor{keywordflow}{if}(k!=l)\textcolor{comment}{/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/}
+263                     Tangent[i][j][k][l] = 0.5 * argument[k][l].dx(y).val();     \textcolor{comment}{// ToDo: check this on
        paper (was more like a gut feeling)}
-262                 \textcolor{keywordflow}{else}
-263                     Tangent[i][j][k][l] = argument[k][l].dx(y).val();
-264             \}
-265     \}
+264                 \textcolor{keywordflow}{else}
+265                     Tangent[i][j][k][l] = argument[k][l].dx(y).val();
+266             \}
+267     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_aad13518e282739f93126adb9db351474}\label{classSacado__Wrapper_1_1SymTensor2_aad13518e282739f93126adb9db351474}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{get\+\_\+tangent(\+Symmetric\+Tensor$<$ 2, dim $>$ \&\+Tangent, Sacado\+::\+Fad\+::\+D\+Fad$<$ D\+Fad\+Type $>$ \&argument)}{get_tangent(SymmetricTensor< 2, dim > &Tangent, Sacado::Fad::DFad< DFadType > &argument)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{Tangent, }
-\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ {\bf D\+Fad\+Type} $>$ \&}]{argument}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SymTensor2_aad13518e282739f93126adb9db351474}{}\label{classSacado__Wrapper_1_1SymTensor2_aad13518e282739f93126adb9db351474}
+\subsubsection{\texorpdfstring{get\+\_\+tangent()}{get\_tangent()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{Tangent,  }\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ \&}]{argument }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-237     \{
-238         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
-239          \{
-240             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
-241             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
-242             \textcolor{keywordflow}{if} ( i!=j )
-243                 Tangent[i][j] = 0.5 * argument.dx(x).val();
-244             \textcolor{keywordflow}{else}
-245                 Tangent[i][j] = argument.dx(x).val();
-246          \}
-247     \}
+239     \{
+240         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
+241          \{
+242             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
+243             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
+244             \textcolor{keywordflow}{if} ( i!=j )
+245                 Tangent[i][j] = 0.5 * argument.dx(x).val();
+246             \textcolor{keywordflow}{else}
+247                 Tangent[i][j] = argument.dx(x).val();
+248          \}
+249     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_a7cd555be3d8c00559af7954671f417fa}\label{classSacado__Wrapper_1_1SymTensor2_a7cd555be3d8c00559af7954671f417fa}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!get\+\_\+tangent@{get\+\_\+tangent}}
 \index{get\+\_\+tangent@{get\+\_\+tangent}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{get\+\_\+tangent(\+Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ D\+Fad\+Type $>$ $>$ \&\+Tangent, Sacado\+::\+Fad\+::\+D\+Fad$<$ D\+Fad\+Type $>$ \&argument)}{get_tangent(SymmetricTensor< 2, dim, Sacado::Fad::DFad< DFadType > > &Tangent, Sacado::Fad::DFad< DFadType > &argument)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ {\bf D\+Fad\+Type} $>$ $>$ \&}]{Tangent, }
-\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ {\bf D\+Fad\+Type} $>$ \&}]{argument}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SymTensor2_a7cd555be3d8c00559af7954671f417fa}{}\label{classSacado__Wrapper_1_1SymTensor2_a7cd555be3d8c00559af7954671f417fa}
+\subsubsection{\texorpdfstring{get\+\_\+tangent()}{get\_tangent()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::get\+\_\+tangent (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 2, dim, Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ $>$ \&}]{Tangent,  }\item[{Sacado\+::\+Fad\+::\+D\+Fad$<$ \hyperlink{Sacado__Wrapper_8h_a7e0893207b87dad05c66a34baac8ed2e}{D\+Fad\+Type} $>$ \&}]{argument }\end{DoxyParamCaption})}
+
 
 \begin{DoxyCode}
-273     \{
-274         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
-275          \{
-276             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
-277             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
-278             \textcolor{keywordflow}{if} ( i!=j )
-279                 Tangent[i][j] = 0.5 * argument.dx(x);
-280             \textcolor{keywordflow}{else}
-281                 Tangent[i][j] = argument.dx(x);
-282          \}
-283     \}
+275     \{
+276         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
+277          \{
+278             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
+279             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
+280             \textcolor{keywordflow}{if} ( i!=j )
+281                 Tangent[i][j] = 0.5 * argument.dx(x);
+282             \textcolor{keywordflow}{else}
+283                 Tangent[i][j] = argument.dx(x);
+284          \}
+285     \}
 \end{DoxyCode}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}\label{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}}
 \index{init\+\_\+set\+\_\+dofs@{init\+\_\+set\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{init\+\_\+set\+\_\+dofs(\+Symmetric\+Tensor$<$ 2, dim $>$ \&tensor\+\_\+double, const unsigned int nbr\+\_\+total\+\_\+dofs=n\+\_\+dofs)}{init_set_dofs(SymmetricTensor< 2, dim > &tensor_double, const unsigned int nbr_total_dofs=n_dofs)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ void {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::init\+\_\+set\+\_\+dofs (
-\begin{DoxyParamCaption}
-\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{tensor\+\_\+double, }
-\item[{const unsigned {\bf int}}]{nbr\+\_\+total\+\_\+dofs = {\ttfamily {\bf n\+\_\+dofs}}}
-\end{DoxyParamCaption}
-)}\hypertarget{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}{}\label{classSacado__Wrapper_1_1SymTensor2_a54495897cfdd887d0081015571a28107}
+\subsubsection{\texorpdfstring{init\+\_\+set\+\_\+dofs()}{init\_set\_dofs()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+void \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::init\+\_\+set\+\_\+dofs (\begin{DoxyParamCaption}\item[{Symmetric\+Tensor$<$ 2, dim $>$ \&}]{tensor\+\_\+double,  }\item[{const unsigned int}]{nbr\+\_\+total\+\_\+dofs = {\ttfamily \hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\+\_\+dofs}} }\end{DoxyParamCaption})}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\+\_\+set\+\_\+dofs().
 
 
 \begin{DoxyCode}
-224     \{
-225          \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
-226          \{
-227             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
-228             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
-229             ((*this)[i][j]).diff( x, nbr\_total\_dofs);   \textcolor{comment}{// set up the "inner" derivatives}
-230             ((*this)[i][j]).val() = \hyperlink{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_total\_dofs, x, tensor\_double[i][j]); \textcolor{comment}{// set up
+226     \{
+227          \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} x=0; x<\hyperlink{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{n\_dofs}; ++x )
+228          \{
+229             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].first;
+230             \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=\hyperlink{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{std\_map\_indicies}[x].second;
+231             ((*this)[i][j]).diff( x, nbr\_total\_dofs);   \textcolor{comment}{// set up the "inner" derivatives}
+232             ((*this)[i][j]).val() = \hyperlink{Sacado__Wrapper_8h_a868b94676739e612d9c95940e70892a9}{fad\_double}(nbr\_total\_dofs, x, tensor\_double[i][j]); \textcolor{comment}{// set up
        the "outer" derivatives}
-231          \}
-232     \}
+233          \}
+234     \}
 \end{DoxyCode}
 
 
 \subsection{Member Data Documentation}
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}\label{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!n\+\_\+dofs@{n\+\_\+dofs}}
 \index{n\+\_\+dofs@{n\+\_\+dofs}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{n\+\_\+dofs}{n_dofs}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ const unsigned {\bf int} {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::n\+\_\+dofs = ((dim==2)?3\+:6)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}{}\label{classSacado__Wrapper_1_1SymTensor2_ad9d6542de5481e0d41bd1831cb0aeaff}
+\subsubsection{\texorpdfstring{n\+\_\+dofs}{n\_dofs}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+const unsigned int \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::n\+\_\+dofs = ((dim==2)?3\+:6)\hspace{0.3cm}{\ttfamily [static]}}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2$<$ dim $>$\+::get\+\_\+curvature(), Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2$<$ dim $>$\+::get\+\_\+tangent(), and Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\+\_\+set\+\_\+dofs().
 
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}\label{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!start\+\_\+index@{start\+\_\+index}}
 \index{start\+\_\+index@{start\+\_\+index}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{start\+\_\+index}{start_index}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ unsigned {\bf int} {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::start\+\_\+index = 0}\hypertarget{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}{}\label{classSacado__Wrapper_1_1SymTensor2_ab14d036243a7505e918af354b1cb74d9}
+\subsubsection{\texorpdfstring{start\+\_\+index}{start\_index}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+unsigned int \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::start\+\_\+index = 0}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+Do\+Fs\+\_\+summary$<$ dim $>$\+::init\+\_\+set\+\_\+dofs().
 
+\mbox{\Hypertarget{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}\label{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}} 
 \index{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}!std\+\_\+map\+\_\+indicies@{std\+\_\+map\+\_\+indicies}}
 \index{std\+\_\+map\+\_\+indicies@{std\+\_\+map\+\_\+indicies}!Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2@{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}}
-\subsubsection[{\texorpdfstring{std\+\_\+map\+\_\+indicies}{std_map_indicies}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$int dim$>$ std\+::map$<$unsigned {\bf int},std\+::pair$<$unsigned {\bf int},unsigned {\bf int}$>$ $>$ {\bf Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::std\+\_\+map\+\_\+indicies}\hypertarget{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}{}\label{classSacado__Wrapper_1_1SymTensor2_a1c6b89438714315ae209f4687b687505}
+\subsubsection{\texorpdfstring{std\+\_\+map\+\_\+indicies}{std\_map\_indicies}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+std\+::map$<$unsigned int,std\+::pair$<$unsigned int,unsigned int$>$ $>$ \hyperlink{classSacado__Wrapper_1_1SymTensor2}{Sacado\+\_\+\+Wrapper\+::\+Sym\+Tensor2}$<$ dim $>$\+::std\+\_\+map\+\_\+indicies}
+
 
 
 Referenced by Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2$<$ dim $>$\+::get\+\_\+curvature(), and Sacado\+\_\+\+Wrapper\+::\+S\+W\+\_\+double2$<$ dim $>$\+::get\+\_\+tangent().
