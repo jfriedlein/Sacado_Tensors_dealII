@@ -1219,8 +1219,24 @@ As a consequence, we use the factor 0.\+5 for all off-\/diagonal components of d
 
 \begin{DoxyCode}
 \}
- 
- 
+\end{DoxyCode}
+ \begin{DoxyNote}{Note}
+Here we template $<$dim,Number$>$ for a function \char`\"{}on the same level\char`\"{}. If you template a member function with $<$\+Number$>$ inside a class template $<$dim$>$, use ~\newline
+
+\begin{DoxyCode}
+\textcolor{keyword}{template}<\textcolor{keywordtype}{int} dim>
+\textcolor{keyword}{template}<\textcolor{keyword}{typename} Number>
+SymmetricTensor<2,dim,Number> ...
+\end{DoxyCode}
+ For the latter the declaration of the member function in the class body looks like this\+: 
+\begin{DoxyCode}
+ \textcolor{keyword}{template}<\textcolor{keyword}{typename} Number>
+SymmetricTensor<2,dim,Number> ...
+\end{DoxyCode}
+
+\end{DoxyNote}
+
+\begin{DoxyCode}
 \textcolor{keyword}{template}<\textcolor{keywordtype}{int} dim, \textcolor{keyword}{typename} Number>
 SymmetricTensor<2,dim,Number> \hyperlink{Sacado__example_8cc_ae6e87a9cc06bd452cb5a1bfec2245569}{stress\_strain\_relation} ( \textcolor{keyword}{const} 
       SymmetricTensor<2,dim,Number> &eps, \textcolor{keyword}{const} \textcolor{keywordtype}{double} &kappa, \textcolor{keyword}{const} \textcolor{keywordtype}{double} &mu )

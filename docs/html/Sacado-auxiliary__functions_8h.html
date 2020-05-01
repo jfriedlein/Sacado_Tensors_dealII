@@ -103,6 +103,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aad3b558b1d45add85343228c2a2146f6"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
 <tr class="memitem:aad3b558b1d45add85343228c2a2146f6"><td class="memTemplItemLeft" align="right" valign="top">SymmetricTensor&lt; 2, dim &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Sacado-auxiliary__functions_8h.html#aad3b558b1d45add85343228c2a2146f6">extract_value_from_Sacado</a> (const SymmetricTensor&lt; 2, dim, <a class="el" href="Sacado-auxiliary__functions_8h.html#a868b94676739e612d9c95940e70892a9">fad_double</a> &gt; &amp;SymTensor_Sacado)</td></tr>
 <tr class="separator:aad3b558b1d45add85343228c2a2146f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84c0541927416960b085bb73d2da4cf1"><td class="memTemplParams" colspan="2">template&lt;int dim&gt; </td></tr>
+<tr class="memitem:a84c0541927416960b085bb73d2da4cf1"><td class="memTemplItemLeft" align="right" valign="top">Vector&lt; <a class="el" href="Sacado-auxiliary__functions_8h.html#a868b94676739e612d9c95940e70892a9">fad_double</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Sacado-auxiliary__functions_8h.html#a84c0541927416960b085bb73d2da4cf1">reinit</a> (unsigned int a, bool b)</td></tr>
+<tr class="separator:a84c0541927416960b085bb73d2da4cf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a868b94676739e612d9c95940e70892a9"></a>
@@ -137,7 +140,7 @@ template&lt;int dim&gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    SymmetricTensor&lt;2,dim&gt; SymTensor;</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">// .val() extracts the \a double value from the Sacado variable</span></div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;     <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;dim; ++i)</div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j=i; j&lt;dim; ++j )</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            SymTensor[i][j] = SymTensor_Sacado[i][j].val();</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;     </div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;     <span class="keywordflow">return</span> SymTensor;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div></div><!-- fragment -->
+<div class="fragment"><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div><div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    SymmetricTensor&lt;2,dim&gt; SymTensor;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// .val() extracts the \a double value from the Sacado variable</span></div><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;     <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;dim; ++i)</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j=i; j&lt;dim; ++j )</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            SymTensor[i][j] = SymTensor_Sacado[i][j].val();</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;     </div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;     <span class="keywordflow">return</span> SymTensor;</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 <a id="a05eaab6eac85b896a69c4fc2984628bc"></a>
@@ -158,6 +161,36 @@ template&lt;int dim&gt; </div>
       </table>
 </div><div class="memdoc">
 <div class="fragment"><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;{</div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    SymmetricTensor&lt;2,dim,fad_double&gt; SymTensor_Sacado;</div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;     <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> i=0; i&lt;dim; ++i)</div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">for</span> ( <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> j=i; j&lt;dim; ++j )</div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            SymTensor_Sacado[i][j] = SymTensor[i][j];</div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;     </div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;     <span class="keywordflow">return</span> SymTensor_Sacado;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div></div><!-- fragment -->
+</div>
+</div>
+<a id="a84c0541927416960b085bb73d2da4cf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84c0541927416960b085bb73d2da4cf1">&#9670;&nbsp;</a></span>reinit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dim&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">Vector&lt;<a class="el" href="Sacado-auxiliary__functions_8h.html#a868b94676739e612d9c95940e70892a9">fad_double</a>&gt; reinit </td>
+          <td>(</td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="fragment"><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;{</div><div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    Vector&lt;fad_double&gt; abc (5);</div><div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;     <span class="keywordflow">return</span> abc;</div><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div></div><!-- fragment -->
 </div>
 </div>
 </div><!-- contents -->

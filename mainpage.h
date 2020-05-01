@@ -1383,7 +1383,22 @@ symmetric tensors the factors 0.5 and 0.25 come into play.
 \code
 }
  
+\endcode
+@note Here we template <dim,Number> for a function "on the same level".
+If you template a member function with <Number> inside a class template <dim>,
+use \n
+@code
+template<int dim>
+template<typename Number>
+SymmetricTensor<2,dim,Number> ...
+@endcode
+For the latter the declaration of the member function in the class body looks like this:
+@code
+ template<typename Number>
+SymmetricTensor<2,dim,Number> ...
+@endcode
  
+\code
 template<int dim, typename Number>
 SymmetricTensor<2,dim,Number> stress_strain_relation ( const SymmetricTensor<2,dim,Number> &eps, const double &kappa, const double &mu )
 {

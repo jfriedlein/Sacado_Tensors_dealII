@@ -73,49 +73,49 @@ References sacado\+\_\+test\+\_\+10(), sacado\+\_\+test\+\_\+2(), sacado\+\_\+te
 
 
 \begin{DoxyCode}
-1147 \{
-1148     \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ();
-1149 
-1150     std::cout << std::endl;
-1151 
-1152     \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ();
-1153 
-1154     std::cout << std::endl;
-1155 
-1156     \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ();
-1157 
-1158     std::cout << std::endl;
-1159 
-1160     \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ();
-1161 
-1162     std::cout << std::endl;
-1163 
-1164     \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4}();
-1165 
-1166     std::cout << std::endl;
-1167 
-1168     \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5}();
-1169 
-1170     std::cout << std::endl;
-1171 
-1172     \hyperlink{Sacado__example_8cc_a27450ab52a9d4250e3f5a5f2a3f8f317}{sacado\_test\_6}();
-1173 
-1174     std::cout << std::endl;
-1175 
-1176     \hyperlink{Sacado__example_8cc_a0b694459e5e15c1578d97e637faba8de}{sacado\_test\_7}();
-1177 
-1178     std::cout << std::endl;
-1179 
-1180     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
-1181 
-1182     std::cout << std::endl;
-1183 
-1184     \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9}();
-1185 
-1186     std::cout << std::endl;
-1187 
-1188     \hyperlink{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}{sacado\_test\_10}();
-1189 \}
+1160 \{
+1161     \hyperlink{Sacado__example_8cc_a71b2675e62203edc430e7ffc8a365193}{sacado\_test\_scalar} ();
+1162 
+1163     std::cout << std::endl;
+1164 
+1165     \hyperlink{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}{sacado\_test\_2} ();
+1166 
+1167     std::cout << std::endl;
+1168 
+1169     \hyperlink{Sacado__example_8cc_ae45e1df0eec246dbb6f2c3d28a2a58e4}{sacado\_test\_3} ();
+1170 
+1171     std::cout << std::endl;
+1172 
+1173     \hyperlink{Sacado__example_8cc_ae63cc8526935cb0512668e83cfc7b929}{sacado\_test\_3B} ();
+1174 
+1175     std::cout << std::endl;
+1176 
+1177     \hyperlink{Sacado__example_8cc_a2f4def4563e31d720e07bc7d6363ebe2}{sacado\_test\_4}();
+1178 
+1179     std::cout << std::endl;
+1180 
+1181     \hyperlink{Sacado__example_8cc_a327dbbb4ea7fc9840c46d149843a44c2}{sacado\_test\_5}();
+1182 
+1183     std::cout << std::endl;
+1184 
+1185     \hyperlink{Sacado__example_8cc_a27450ab52a9d4250e3f5a5f2a3f8f317}{sacado\_test\_6}();
+1186 
+1187     std::cout << std::endl;
+1188 
+1189     \hyperlink{Sacado__example_8cc_a0b694459e5e15c1578d97e637faba8de}{sacado\_test\_7}();
+1190 
+1191     std::cout << std::endl;
+1192 
+1193     \hyperlink{Sacado__example_8cc_aa7108ff8393b98d66dfef50899d048d9}{sacado\_test\_8}();
+1194 
+1195     std::cout << std::endl;
+1196 
+1197     \hyperlink{Sacado__example_8cc_ae176f83fe1943e102fe325d4a14f097e}{sacado\_test\_9}();
+1198 
+1199     std::cout << std::endl;
+1200 
+1201     \hyperlink{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}{sacado\_test\_10}();
+1202 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}\label{Sacado__example_8cc_a70dbdff0078e09883ba02d2724a432b2}} 
 \index{Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}!sacado\+\_\+test\+\_\+10@{sacado\+\_\+test\+\_\+10}}
@@ -133,82 +133,82 @@ Referenced by main().
 
 
 \begin{DoxyCode}
-1074 \{
-1075     std::cout << \textcolor{stringliteral}{"Test 10:"} << std::endl;
-1076     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
-1077     \textcolor{comment}{// To measure the computation time of certain sections (see below)}
-1078     TimerOutput timer (std::cout, TimerOutput::summary, TimerOutput::cpu\_times);
-1079 
-1080     \textcolor{comment}{// The following declarations are usually input arguments. So you receive the strain tensor and the
-       constants out of doubles.}
-1081     SymmetricTensor<2,dim> eps\_d;
-1082     eps\_d[0][0] = 1;
-1083     eps\_d[1][1] = 2;
-1084     eps\_d[2][2] = 3;
-1085 
-1086     eps\_d[0][1] = 4;
-1087     eps\_d[0][2] = 5;
-1088     eps\_d[1][2] = 6;
-1089 
-1090     \textcolor{keywordtype}{double} kappa = 5;
-1091     \textcolor{keywordtype}{double} mu = 2;
+1087 \{
+1088     std::cout << \textcolor{stringliteral}{"Test 10:"} << std::endl;
+1089     \textcolor{keyword}{const} \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} dim=3;
+1090     \textcolor{comment}{// To measure the computation time of certain sections (see below)}
+1091     TimerOutput timer (std::cout, TimerOutput::summary, TimerOutput::cpu\_times);
 1092 
-1093     \textcolor{comment}{// Now we start working with Sacado: \(\backslash\)n}
-1094     \textcolor{comment}{// When we use the index notation to compute e.g. our stress we do not need to declare our constants
+1093     \textcolor{comment}{// The following declarations are usually input arguments. So you receive the strain tensor and the
+       constants out of doubles.}
+1094     SymmetricTensor<2,dim> eps\_d;
+1095     eps\_d[0][0] = 1;
+1096     eps\_d[1][1] = 2;
+1097     eps\_d[2][2] = 3;
+1098 
+1099     eps\_d[0][1] = 4;
+1100     eps\_d[0][2] = 5;
+1101     eps\_d[1][2] = 6;
+1102 
+1103     \textcolor{keywordtype}{double} kappa = 5;
+1104     \textcolor{keywordtype}{double} mu = 2;
+1105 
+1106     \textcolor{comment}{// Now we start working with Sacado: \(\backslash\)n}
+1107     \textcolor{comment}{// When we use the index notation to compute e.g. our stress we do not need to declare our constants
        (here kappa, mu) as}
-1095     \textcolor{comment}{// fad\_double.}
-1096 
-1097     \textcolor{comment}{// We declare our strain tensor as the special data type Sacado\_Wrapper::SymTensor from the file
-       "Sacado\_Wrapper.h"}
-1098     \textcolor{comment}{// where this data type was derived from the SymmetricTensor<2,dim,fad\_double>.}
-1099      \hyperlink{classSacado__Wrapper_1_1SymTensor}{Sacado\_Wrapper::SymTensor<dim>} eps;
-1100 
-1101     \textcolor{comment}{// Next we initialize our Sacado strain tensor with the values of the inputed double strain tensor:}
-1102      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_acbad579d5ead9e96ff46aa15d9b5aef4}{init}(eps\_d);
-1103 
-1104     \textcolor{comment}{// We define all the entries in the symmetric tensor \(\backslash\)a eps as the dofs. So we can later derive any
-       variable}
-1105     \textcolor{comment}{// with respect to the strain tensor \(\backslash\)a eps.}
-1106     \textcolor{comment}{// @note Keep the order first declare \(\backslash\)a eps, then initialise it and afterwards set it as dofs}
-1107 
-1108      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_aa9e0fcc9d4e0a4120bedb8ef9b8d7ecb}{set\_dofs}();
+1108     \textcolor{comment}{// fad\_double.}
 1109 
-1110     \textcolor{comment}{// Now we call the templated function via the Sacado data types to get the resulting stress tensor \(\backslash\)a
-       sigma. \(\backslash\)n}
-1111     \textcolor{comment}{// To give you an impression of how much longer computations with the Sacado data type take,}
-1112     \textcolor{comment}{// we also measure the time needed for the computation}
-1113      timer.enter\_subsection(\textcolor{stringliteral}{"Stress via fad\_double"});
-1114        SymmetricTensor<2,dim,fad\_double> sigma = \hyperlink{Sacado__example_8cc_ae6e87a9cc06bd452cb5a1bfec2245569}{stress\_strain\_relation} ( eps, kappa,
-       mu );
-1115      timer.leave\_subsection();
-1116      std::cout << \textcolor{stringliteral}{"Stress via fad\_double:"} << extract\_value\_from\_Sacado<dim> (sigma) << std::endl;
-1117 
-1118     \textcolor{comment}{// Finally we declare our desired tangent as the fourth order tensor \(\backslash\)a C\_Sacado and compute the
-       tangent via}
-1119     \textcolor{comment}{// the command \(\backslash\)a get\_tangent.}
-1120      SymmetricTensor<4,dim> C\_Sacado;
-1121      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ab97427c3b5cab279e58607cf431ab262}{get\_tangent}(C\_Sacado, sigma);
+1110     \textcolor{comment}{// We declare our strain tensor as the special data type Sacado\_Wrapper::SymTensor from the file
+       "Sacado\_Wrapper.h"}
+1111     \textcolor{comment}{// where this data type was derived from the SymmetricTensor<2,dim,fad\_double>.}
+1112      \hyperlink{classSacado__Wrapper_1_1SymTensor}{Sacado\_Wrapper::SymTensor<dim>} eps;
+1113 
+1114     \textcolor{comment}{// Next we initialize our Sacado strain tensor with the values of the inputed double strain tensor:}
+1115      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_acbad579d5ead9e96ff46aa15d9b5aef4}{init}(eps\_d);
+1116 
+1117     \textcolor{comment}{// We define all the entries in the symmetric tensor \(\backslash\)a eps as the dofs. So we can later derive any
+       variable}
+1118     \textcolor{comment}{// with respect to the strain tensor \(\backslash\)a eps.}
+1119     \textcolor{comment}{// @note Keep the order first declare \(\backslash\)a eps, then initialise it and afterwards set it as dofs}
+1120 
+1121      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_aa9e0fcc9d4e0a4120bedb8ef9b8d7ecb}{set\_dofs}();
 1122 
-1123     \textcolor{comment}{// For comparsion we can also compute the pure values of the stress tensor by calling}
-1124     \textcolor{comment}{// the templated function with the normal data type \(\backslash\)a double.}
-1125      timer.enter\_subsection(\textcolor{stringliteral}{"Stress via double"});
-1126        SymmetricTensor<2,dim,double> sigma\_d = \hyperlink{Sacado__example_8cc_ae6e87a9cc06bd452cb5a1bfec2245569}{stress\_strain\_relation} ( eps\_d, kappa,
+1123     \textcolor{comment}{// Now we call the templated function via the Sacado data types to get the resulting stress tensor \(\backslash\)a
+       sigma. \(\backslash\)n}
+1124     \textcolor{comment}{// To give you an impression of how much longer computations with the Sacado data type take,}
+1125     \textcolor{comment}{// we also measure the time needed for the computation}
+1126      timer.enter\_subsection(\textcolor{stringliteral}{"Stress via fad\_double"});
+1127        SymmetricTensor<2,dim,fad\_double> sigma = \hyperlink{Sacado__example_8cc_ae6e87a9cc06bd452cb5a1bfec2245569}{stress\_strain\_relation} ( eps, kappa,
        mu );
-1127      timer.leave\_subsection();
-1128      std::cout << \textcolor{stringliteral}{"Stress via double:    "} << sigma\_d << std::endl;
-1129 
-1130     \textcolor{comment}{// As you can see from the times shown in the command window after you ran the code.}
-1131     \textcolor{comment}{// The computation via the Sacado data types takes here around 4...6 times longer than}
-1132     \textcolor{comment}{// using the standard type \(\backslash\)a double. However, you have to keep in mind that Sacado}
-1133     \textcolor{comment}{// computes the tangent whilst computing the stress. Depending on how complicated and computationally
-       demanding the}
-1134     \textcolor{comment}{// analytical tangent is, Sacado can possibly compete.}
+1128      timer.leave\_subsection();
+1129      std::cout << \textcolor{stringliteral}{"Stress via fad\_double:"} << extract\_value\_from\_Sacado<dim> (sigma) << std::endl;
+1130 
+1131     \textcolor{comment}{// Finally we declare our desired tangent as the fourth order tensor \(\backslash\)a C\_Sacado and compute the
+       tangent via}
+1132     \textcolor{comment}{// the command \(\backslash\)a get\_tangent.}
+1133      SymmetricTensor<4,dim> C\_Sacado;
+1134      eps.\hyperlink{classSacado__Wrapper_1_1SymTensor_ab97427c3b5cab279e58607cf431ab262}{get\_tangent}(C\_Sacado, sigma);
 1135 
-1136     \textcolor{comment}{// @note}
-1137     \textcolor{comment}{// This also means that you should only use the Sacado data types when you are actually}
-1138     \textcolor{comment}{// interested in the derivatives. Else the computation is just too expensive.}
-1139 
-1140 \}
+1136     \textcolor{comment}{// For comparsion we can also compute the pure values of the stress tensor by calling}
+1137     \textcolor{comment}{// the templated function with the normal data type \(\backslash\)a double.}
+1138      timer.enter\_subsection(\textcolor{stringliteral}{"Stress via double"});
+1139        SymmetricTensor<2,dim,double> sigma\_d = \hyperlink{Sacado__example_8cc_ae6e87a9cc06bd452cb5a1bfec2245569}{stress\_strain\_relation} ( eps\_d, kappa,
+       mu );
+1140      timer.leave\_subsection();
+1141      std::cout << \textcolor{stringliteral}{"Stress via double:    "} << sigma\_d << std::endl;
+1142 
+1143     \textcolor{comment}{// As you can see from the times shown in the command window after you ran the code.}
+1144     \textcolor{comment}{// The computation via the Sacado data types takes here around 4...6 times longer than}
+1145     \textcolor{comment}{// using the standard type \(\backslash\)a double. However, you have to keep in mind that Sacado}
+1146     \textcolor{comment}{// computes the tangent whilst computing the stress. Depending on how complicated and computationally
+       demanding the}
+1147     \textcolor{comment}{// analytical tangent is, Sacado can possibly compete.}
+1148 
+1149     \textcolor{comment}{// @note}
+1150     \textcolor{comment}{// This also means that you should only use the Sacado data types when you are actually}
+1151     \textcolor{comment}{// interested in the derivatives. Else the computation is just too expensive.}
+1152 
+1153 \}
 \end{DoxyCode}
 \mbox{\Hypertarget{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}\label{Sacado__example_8cc_a8ef4ff1e9526ca8451cdcd1678366d2c}} 
 \index{Sacado\+\_\+example.\+cc@{Sacado\+\_\+example.\+cc}!sacado\+\_\+test\+\_\+2@{sacado\+\_\+test\+\_\+2}}
@@ -1426,17 +1426,17 @@ Referenced by sacado\+\_\+test\+\_\+10().
 
 
 \begin{DoxyCode}
-1057 \{
-1058     SymmetricTensor<2,dim,Number> sigma;
-1059 
-1060     SymmetricTensor<2,dim,Number> stdTensor\_I (( unit\_symmetric\_tensor<dim,Number>()) );
-1061 
-1062     \textcolor{comment}{// Our stress equation is now computed in index notation to simplify the use of the constants and}
-1063     \textcolor{comment}{// especially the use of the \(\backslash\)a deviator.}
-1064      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
-1065         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
-1066             sigma[i][j] = kappa * trace(eps) *  stdTensor\_I[i][j] + 2. * mu * deviator(eps)[i][j];
-1067 
-1068     \textcolor{keywordflow}{return} sigma;
-1069 \}
+1070 \{
+1071     SymmetricTensor<2,dim,Number> sigma;
+1072 
+1073     SymmetricTensor<2,dim,Number> stdTensor\_I (( unit\_symmetric\_tensor<dim,Number>()) );
+1074 
+1075     \textcolor{comment}{// Our stress equation is now computed in index notation to simplify the use of the constants and}
+1076     \textcolor{comment}{// especially the use of the \(\backslash\)a deviator.}
+1077      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+1078         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=0; j<dim; ++j )
+1079             sigma[i][j] = kappa * trace(eps) *  stdTensor\_I[i][j] + 2. * mu * deviator(eps)[i][j];
+1080 
+1081     \textcolor{keywordflow}{return} sigma;
+1082 \}
 \end{DoxyCode}
