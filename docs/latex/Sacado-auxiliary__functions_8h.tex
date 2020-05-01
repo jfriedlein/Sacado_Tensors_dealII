@@ -1,0 +1,80 @@
+\hypertarget{Sacado-auxiliary__functions_8h}{}\section{Sacado-\/auxiliary\+\_\+functions.h File Reference}
+\label{Sacado-auxiliary__functions_8h}\index{Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}}
+{\ttfamily \#include $<$deal.\+I\+I/base/symmetric\+\_\+tensor.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$Sacado.\+hpp$>$}\newline
+Include dependency graph for Sacado-\/auxiliary\+\_\+functions.h\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{Sacado-auxiliary__functions_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=222pt]{Sacado-auxiliary__functions_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} = Sacado\+::\+Fad\+::\+D\+Fad$<$ double $>$
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$int dim$>$ }\\Symmetric\+Tensor$<$ 2, dim, \hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} $>$ \hyperlink{Sacado-auxiliary__functions_8h_a05eaab6eac85b896a69c4fc2984628bc}{init\+\_\+\+Sacado} (const Symmetric\+Tensor$<$ 2, dim, double $>$ \&Sym\+Tensor)
+\item 
+{\footnotesize template$<$int dim$>$ }\\Symmetric\+Tensor$<$ 2, dim $>$ \hyperlink{Sacado-auxiliary__functions_8h_aad3b558b1d45add85343228c2a2146f6}{extract\+\_\+value\+\_\+from\+\_\+\+Sacado} (const Symmetric\+Tensor$<$ 2, dim, \hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} $>$ \&Sym\+Tensor\+\_\+\+Sacado)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}\label{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}} 
+\index{Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}!fad\+\_\+double@{fad\+\_\+double}}
+\index{fad\+\_\+double@{fad\+\_\+double}!Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}}
+\subsubsection{\texorpdfstring{fad\+\_\+double}{fad\_double}}
+{\footnotesize\ttfamily using \hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} =  Sacado\+::\+Fad\+::\+D\+Fad$<$double$>$}
+
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{Sacado-auxiliary__functions_8h_aad3b558b1d45add85343228c2a2146f6}\label{Sacado-auxiliary__functions_8h_aad3b558b1d45add85343228c2a2146f6}} 
+\index{Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}!extract\+\_\+value\+\_\+from\+\_\+\+Sacado@{extract\+\_\+value\+\_\+from\+\_\+\+Sacado}}
+\index{extract\+\_\+value\+\_\+from\+\_\+\+Sacado@{extract\+\_\+value\+\_\+from\+\_\+\+Sacado}!Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}}
+\subsubsection{\texorpdfstring{extract\+\_\+value\+\_\+from\+\_\+\+Sacado()}{extract\_value\_from\_Sacado()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+Symmetric\+Tensor$<$2,dim$>$ extract\+\_\+value\+\_\+from\+\_\+\+Sacado (\begin{DoxyParamCaption}\item[{const Symmetric\+Tensor$<$ 2, dim, \hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double} $>$ \&}]{Sym\+Tensor\+\_\+\+Sacado }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}
+24 \{
+25     SymmetricTensor<2,dim> SymTensor;
+26     \textcolor{comment}{// .val() extracts the \(\backslash\)a double value from the Sacado variable}
+27      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+28         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=i; j<dim; ++j )
+29             SymTensor[i][j] = SymTensor\_Sacado[i][j].val();
+30      
+31      \textcolor{keywordflow}{return} SymTensor;
+32 \}
+\end{DoxyCode}
+\mbox{\Hypertarget{Sacado-auxiliary__functions_8h_a05eaab6eac85b896a69c4fc2984628bc}\label{Sacado-auxiliary__functions_8h_a05eaab6eac85b896a69c4fc2984628bc}} 
+\index{Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}!init\+\_\+\+Sacado@{init\+\_\+\+Sacado}}
+\index{init\+\_\+\+Sacado@{init\+\_\+\+Sacado}!Sacado-\/auxiliary\+\_\+functions.\+h@{Sacado-\/auxiliary\+\_\+functions.\+h}}
+\subsubsection{\texorpdfstring{init\+\_\+\+Sacado()}{init\_Sacado()}}
+{\footnotesize\ttfamily template$<$int dim$>$ \\
+Symmetric\+Tensor$<$2,dim,\hyperlink{Sacado-auxiliary__functions_8h_a868b94676739e612d9c95940e70892a9}{fad\+\_\+double}$>$ init\+\_\+\+Sacado (\begin{DoxyParamCaption}\item[{const Symmetric\+Tensor$<$ 2, dim, double $>$ \&}]{Sym\+Tensor }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}
+13 \{
+14     SymmetricTensor<2,dim,fad\_double> SymTensor\_Sacado;
+15      \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} i=0; i<dim; ++i)
+16         \textcolor{keywordflow}{for} ( \textcolor{keywordtype}{unsigned} \textcolor{keywordtype}{int} j=i; j<dim; ++j )
+17             SymTensor\_Sacado[i][j] = SymTensor[i][j];
+18      
+19      \textcolor{keywordflow}{return} SymTensor\_Sacado;
+20 \}
+\end{DoxyCode}

@@ -31,6 +31,9 @@ and for second derivatives (requires different data type):
 Every variable that was declared as such a data type now contains besides the actual value \f$ c \f$, also its derivatives.
 
 @subsection subsec_overview Overview
+@todo Add the example 10 (templated functions) to the overview and some text on why to use it
+@todo add the example 9 (factor 0.5) to the background group
+
 This overview shall give you a first impression what to expect from each of the examples.
 The background/basics group gives you the promised look under the hood.
 Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
@@ -99,15 +102,22 @@ C++ headers (some basics, standard stuff)
 #include <cmath>
  
 \endcode
+TimerOutput: to measure the time spent in certain parts of the code
+\code
+#include <deal.II/base/timer.h>
+ 
+\endcode
 Sacado (from Trilinos, data types, operations, ...)
 \code
 #include <Sacado.hpp>
  
 #include "Sacado_Wrapper.h"
+#include "Sacado-auxiliary_functions.h"
+ 
  
  
 \endcode
-Those headers are related to data types and autodiff, but don't seem to be needed
+Those headers are related to data types and autodiff, but don't seem to be needed (nor make a difference)
 \code
 //#  include <deal.II/base/numbers.h>
 //#  include <deal.II/differentiation/ad/ad_number_traits.h>
@@ -484,9 +494,7 @@ We again define our strain tensor \a eps_d (*_d for standard double in contrast 
 	}
 \endcode
 @todo use boldsymbol for tensors
-\code
-	//
-\endcode
+ 
 To output the stress tensor we first have to compute it. We do this here via
 \f[ \sigma = \overset{4}{C_{analy}} : \varepsilon \f]
 The output exactly matched the result obtained with Sacado.
@@ -494,8 +502,8 @@ The output exactly matched the result obtained with Sacado.
 the tangent computed via Sacado is correct. When we compute the stress tensor with Sacado and for example mix up a + and - sign, this might not matter
 at all if the number that is added or subtracted is small. However, for the tangent this nasty sign can be very critical. Just keep in mind: the
 tangent has 81 components and the stress tensor just 9, so how does one want to verify 81 variables by comparing 9?
+ 
 \code
-	//
     std::cout << "sigma_analy: " << (C_analy*eps_d) << std::endl;
  
 \endcode
@@ -568,6 +576,7 @@ Next we initialize our Sacado strain tensor with the values of the inputed doubl
 We define all the entries in the symmetric tensor \a eps as the dofs. So we can later derive any variable
 with respect to the strain tensor \a eps.
 @note Keep the order first declare \a eps, then initialise it and afterwards set it as dofs
+ 
 \code
 	 eps.set_dofs();
  
@@ -720,6 +729,7 @@ Compute the analytical tangent:
 	  	  	  	+ phi_d * outer_product( eps_d, eps_d ) * 1./eps_d.norm();
 \endcode
 @note Be aware of the difference between \f[ eps_d \otimes \boldsymbol{1} \text{ and } \boldsymbol{1} \otimes eps_d \f]
+ 
 \code
 	  std::cout << "C_analy =" << C_analy << std::endl;
  
@@ -1371,7 +1381,116 @@ As a consequence, we use the factor 0.5 for all off-diagonal components of deriv
 symmetric tensors the factors 0.5 and 0.25 come into play.
  
 \code
-	//
+}
+ 
+ 
+template<int dim, typename Number>
+SymmetricTensor<2,dim,Number> stress_strain_relation ( const SymmetricTensor<2,dim,Number> &eps, const double &kappa, const double &mu )
+{
+	SymmetricTensor<2,dim,Number> sigma;
+ 
+	SymmetricTensor<2,dim,Number> stdTensor_I (( unit_symmetric_tensor<dim,Number>()) );
+ 
+\endcode
+Our stress equation is now computed in index notation to simplify the use of the constants and
+especially the use of the \a deviator.
+\code
+	 for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j )
+			sigma[i][j] = kappa * trace(eps) *  stdTensor_I[i][j] + 2. * mu * deviator(eps)[i][j];
+ 
+	return sigma;
+}
+ 
+ 
+\endcode
+@section Ex10 10. Example: Using the wrapper with templated functions
+\code
+void sacado_test_10 ()
+{
+	std::cout << "Test 10:" << std::endl;
+    const unsigned int dim=3;
+\endcode
+To measure the computation time of certain sections (see below)
+\code
+	TimerOutput timer (std::cout, TimerOutput::summary, TimerOutput::cpu_times);
+ 
+\endcode
+The following declarations are usually input arguments. So you receive the strain tensor and the constants out of doubles.
+\code
+    SymmetricTensor<2,dim> eps_d;
+	eps_d[0][0] = 1;
+	eps_d[1][1] = 2;
+	eps_d[2][2] = 3;
+ 
+	eps_d[0][1] = 4;
+	eps_d[0][2] = 5;
+	eps_d[1][2] = 6;
+ 
+	double kappa = 5;
+	double mu = 2;
+ 
+\endcode
+Now we start working with Sacado: \n
+When we use the index notation to compute e.g. our stress we do not need to declare our constants (here kappa, mu) as
+fad_double.
+ 
+We declare our strain tensor as the special data type Sacado_Wrapper::SymTensor from the file "Sacado_Wrapper.h"
+where this data type was derived from the SymmetricTensor<2,dim,fad_double>.
+\code
+	 Sacado_Wrapper::SymTensor<dim> eps;
+ 
+\endcode
+Next we initialize our Sacado strain tensor with the values of the inputed double strain tensor:
+\code
+	 eps.init(eps_d);
+ 
+\endcode
+We define all the entries in the symmetric tensor \a eps as the dofs. So we can later derive any variable
+with respect to the strain tensor \a eps.
+@note Keep the order first declare \a eps, then initialise it and afterwards set it as dofs
+ 
+\code
+	 eps.set_dofs();
+ 
+\endcode
+Now we call the templated function via the Sacado data types to get the resulting stress tensor \a sigma. \n
+To give you an impression of how much longer computations with the Sacado data type take,
+we also measure the time needed for the computation
+\code
+	 timer.enter_subsection("Stress via fad_double");
+	   SymmetricTensor<2,dim,fad_double> sigma = stress_strain_relation ( eps, kappa, mu );
+	 timer.leave_subsection();
+	 std::cout << "Stress via fad_double:" << extract_value_from_Sacado<dim> (sigma) << std::endl;
+ 
+\endcode
+Finally we declare our desired tangent as the fourth order tensor \a C_Sacado and compute the tangent via
+the command \a get_tangent.
+\code
+	 SymmetricTensor<4,dim> C_Sacado;
+	 eps.get_tangent(C_Sacado, sigma);
+ 
+\endcode
+For comparsion we can also compute the pure values of the stress tensor by calling
+the templated function with the normal data type \a double.
+\code
+	 timer.enter_subsection("Stress via double");
+	   SymmetricTensor<2,dim,double> sigma_d = stress_strain_relation ( eps_d, kappa, mu );
+	 timer.leave_subsection();
+	 std::cout << "Stress via double:    " << sigma_d << std::endl;
+ 
+\endcode
+As you can see from the times shown in the command window after you ran the code.
+The computation via the Sacado data types takes here around 4...6 times longer than
+using the standard type \a double. However, you have to keep in mind that Sacado
+computes the tangent whilst computing the stress. Depending on how complicated and computationally demanding the
+analytical tangent is, Sacado can possibly compete.
+ 
+@note
+This also means that you should only use the Sacado data types when you are actually
+interested in the derivatives. Else the computation is just too expensive.
+ 
+\code
 }
  
  
@@ -1417,6 +1536,10 @@ int main ()
     std::cout << std::endl;
  
     sacado_test_9();
+ 
+    std::cout << std::endl;
+ 
+    sacado_test_10();
 }
 \endcode
 

@@ -31,6 +31,9 @@ and for second derivatives (requires different data type):
 Every variable that was declared as such a data type now contains besides the actual value \f$ c \f$, also its derivatives.
 
 @subsection subsec_overview Overview
+@todo Add the example 10 (templated functions) to the overview and some text on why to use it
+@todo add the example 9 (factor 0.5) to the background group
+
 This overview shall give you a first impression what to expect from each of the examples.
 The background/basics group gives you the promised look under the hood.
 Whereas the application group shows you how you can use the Sacado_Wrapper to quickly compute tangents.
