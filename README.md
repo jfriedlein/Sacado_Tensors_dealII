@@ -71,7 +71,15 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 3. Copy one of the examples into your code for testing.
 4. Compile, run and play around with the code.
 
+## Remarks
+- Currently it is not possible to use "Vector<fad_double>" or similar Sacado data types. You would probably have to first create instances of "Vector" for the desired data type as described here https://www.dealii.org/current/doxygen/deal.II/Instantiations.html. To avoid this you can simply use "std::vector<fad_double>".
+
 ## ToDo:
+- maybe add the init to zero for the constructors of the SW data types
+- add a note on the "reset_its_deriv" and "reset_other_deriv" issue
+- add note on initialisation of value AND derivative via evolution equations with zero values
+- check whether we can temporarily add Sacado dofs to the variable to e.g. compute some intermediate derivative and then later on delete these derivatives.
+
 - find a more suitable name
 - enable LaTeX equations in the documentation hosted via GitHub
 - Rework the design and structure of the Wrapper

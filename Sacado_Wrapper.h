@@ -340,6 +340,9 @@ namespace Sacado_Wrapper
 
 		void set_dofs ( unsigned int nbr_total_dofs=n_dofs );
 
+		void reset_its_deriv ( );
+		void reset_other_deriv ( const SW_double<dim> &other_SW_double );
+
 		void get_tangent (SymmetricTensor<2,dim> &Tangent, SymmetricTensor<2,dim, fad_double> &sigma);
 
 		void get_tangent ( double &Tangent, fad_double &argument );
@@ -358,6 +361,21 @@ namespace Sacado_Wrapper
 	{
 		(*this).diff( this->start_index, nbr_total_dofs );
 	}
+
+
+	template<int dim>
+	void SW_double<dim>::reset_its_deriv ( )
+	{
+		double *derivs = &(this)->fastAccessDx(0);
+		derivs[this->start_index] = 1.;
+	}
+	template<int dim>
+	void SW_double<dim>::reset_other_deriv ( const SW_double<dim> &other_SW_double )
+	{
+		double *derivs = &(this)->fastAccessDx(0);
+		derivs[other_SW_double.start_index] = 0.;
+	}
+
 
 	template<int dim>
 	void SW_double<dim>::get_tangent (SymmetricTensor<2,dim> &Tangent, SymmetricTensor<2,dim, fad_double> &sigma)

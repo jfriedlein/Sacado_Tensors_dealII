@@ -33,11 +33,27 @@ SymmetricTensor<2,dim> extract_value_from_Sacado(const SymmetricTensor<2,dim,fad
 }
 
 
-template<int dim>
-Vector<fad_double> reinit(unsigned int a, bool b)
+template<int dim, typename Number>
+Number norm_squared(const SymmetricTensor<2,dim,Number> &SymTensor_Sacado)
 {
-	Vector<fad_double> abc (5);
-	 return abc;
+	Number squared_norm = 0.;
+	for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j ) // loop over all indices
+			squared_norm += SymTensor_Sacado[i][j] * SymTensor_Sacado[i][j];
+
+	 return squared_norm;
+}
+
+
+template<int dim, typename Number>
+Number norm_deviated(const SymmetricTensor<2,dim,Number> &SymTensor_Sacado)
+{
+	Number squared_norm = 0.;
+	for ( unsigned int i=0; i<dim; ++i)
+		for ( unsigned int j=0; j<dim; ++j ) // loop over all indices
+			squared_norm += SymTensor_Sacado[i][j] * SymTensor_Sacado[i][j];
+
+	 return std::sqrt(squared_norm + 1e-20);
 }
 
 #endif //Sacado_auxiliary_functions_H
