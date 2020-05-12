@@ -1,8 +1,0 @@
-Scanning dependencies of target Sacado_example
-[ 50%] Building CXX object CMakeFiles/Sacado_example.dir/Sacado_example.cc.o
-CMakeFiles/Sacado_example.dir/build.make:62: recipe for target 'CMakeFiles/Sacado_example.dir/Sacado_example.cc.o' failed
-make[2]: *** [CMakeFiles/Sacado_example.dir/Sacado_example.cc.o] Interrupt
-CMakeFiles/Makefile2:163: recipe for target 'CMakeFiles/Sacado_example.dir/all' failed
-make[1]: *** [CMakeFiles/Sacado_example.dir/all] Interrupt
-Makefile:83: recipe for target 'all' failed
-make: *** [all] Interrupt

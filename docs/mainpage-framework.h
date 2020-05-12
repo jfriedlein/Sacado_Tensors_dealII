@@ -67,6 +67,8 @@ You can use Sacado to compute general derivatives of functions (with or without 
 	https://software.sandia.gov/SESS/past_seminars/111307_Phipps.pdf
 - Basics and available autodiff libraries provided by deal.ii: \n
 	https://www.dealii.org/current/doxygen/deal.II/group__auto__symb__diff.html
+- Trilinos-Sacado Documentation: \n
+    https://docs.trilinos.org/latest-release/packages/sacado/doc/html/index.html
 - Template-based generic programming: \n
 	downloads.hindawi.com/journals/sp/2012/202071.pdf
 - Tutorial 33 by deal.ii: introduction to Sacado and implementation to assemble the residuum and compute its derivative \n

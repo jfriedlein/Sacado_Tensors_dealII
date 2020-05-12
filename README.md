@@ -12,7 +12,7 @@ The here shown code only implements functions (and finally the Wrapper) to pack 
 
 This approach might be useful when you want to compute e. g. the tangent modulus at quadrature points and keep everything in an enclosed material model function/file. An example: You developed or found a material model, lets say elasto-plasticity with some saturated hardening, and want to implement this model to compare it to another one. So you implement the equations and possibly subiterations on the material point level into your material model that gets the strain and the history variables as inputs. Now you would need to derive the tangents (e.g. d_stress/d_strain) to be able to assemble the tangent. However, the latter can take some effort especially for more complicated models or if the equations are still being developed as we speak. With the Sacado_Wrapper you implement the equations (e.g. stress equation) as you would normally do, change the data types (when you use templated functions here, that is done automatically) and set the dofs as shown in the documentation. In the end you call get_tangent() and there you have your tangent (quadratic convergence without effort). When you're satisfied with the material model, you can derive the tangent by hand and simply change the data types back and replace the get_tangent() call with your analytical tangent equation. To sum up, the Wrapper enables you keep the standard material model framework and still use the power (and beauty) of automatic differentation.
 
-It will probably be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 https://www.dealii.org/current/doxygen/deal.II/step_33.html with already implemented deal.ii-functionality.
+It will probably be significantly more efficient if possible to assemble the residuum and compute its derivatives as shown in, for instance, the deal.ii tutorial 33 https://www.dealii.org/current/doxygen/deal.II/step_33.html with already implemented deal.ii-functionality. Also keep in mind that by automatically computing the tangent from the residuum you don't have to derive the linearisation of the residuum by hand, which can be advantageous for complicated PDEs. When you use this Wrapper, you still have to derive the linearisation of the residuum by hand and fill it with the tangents from the material model.
 
 ## The Documentation
 The Doxygen documentation for the code can be found here https://jfriedlein.github.io/Sacado-Testing/html/index.html. It shows a few examples and describes how to use the Sacado_Wrapper.
@@ -79,6 +79,7 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 - add a note on the "reset_its_deriv" and "reset_other_deriv" issue
 - add note on initialisation of value AND derivative via evolution equations with zero values
 - check whether we can temporarily add Sacado dofs to the variable to e.g. compute some intermediate derivative and then later on delete these derivatives.
+- template the Sacado data type e.g. Sacado::Fad::DFad (most flexible), Sacado::Fad::SFad (most efficient)  [according to https://docs.trilinos.org/latest-release/packages/sacado/doc/html/index.html]
 
 - find a more suitable name
 - enable LaTeX equations in the documentation hosted via GitHub

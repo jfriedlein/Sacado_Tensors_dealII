@@ -88,6 +88,7 @@ namespace Sacado_Wrapper
 		void get_values ( SymmetricTensor<2,dim> &tensor_double );
 
 		SymmetricTensor<2,dim> get_value ();
+		SymmetricTensor<2,dim> val ( );
 	};
 
 
@@ -179,6 +180,14 @@ namespace Sacado_Wrapper
 
 	template<int dim>
 	SymmetricTensor<2,dim> SymTensor<dim>::get_value ()
+	{
+		SymmetricTensor<2,dim> tmp;
+		(*this).get_values(tmp);
+		return tmp;
+	}
+
+	template<int dim>
+	SymmetricTensor<2,dim> SymTensor<dim>::val()
 	{
 		SymmetricTensor<2,dim> tmp;
 		(*this).get_values(tmp);
