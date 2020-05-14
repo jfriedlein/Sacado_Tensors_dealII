@@ -80,6 +80,7 @@ The Doxygen documentation for the code can be found here https://jfriedlein.gith
 - add note on initialisation of value AND derivative via evolution equations with zero values
 - check whether we can temporarily add Sacado dofs to the variable to e.g. compute some intermediate derivative and then later on delete these derivatives.
 - template the Sacado data type e.g. Sacado::Fad::DFad (most flexible), Sacado::Fad::SFad (most efficient)  [according to https://docs.trilinos.org/latest-release/packages/sacado/doc/html/index.html]
+- instead of using Dofs SymTensor+double+double+double, check using SymTensor+std::vector<double>
 
 - find a more suitable name
 - enable LaTeX equations in the documentation hosted via GitHub
