@@ -81,10 +81,14 @@ namespace Sacado_Wrapper
 
 		void set_dofs( unsigned int nbr_total_dofs=n_dofs );
 
-		void get_tangent (SymmetricTensor<4,dim> &Tangent, SymmetricTensor<2,dim, fad_double> &sigma);
+		void get_tangent (SymmetricTensor<4,dim> &Tangent, SymmetricTensor<2,dim,fad_double> &sigma);
+
+		SymmetricTensor<4,dim> get_tangent(  SymmetricTensor<2,dim,fad_double> &sigma );
 
 		void get_tangent( SymmetricTensor<2,dim> &Tangent, fad_double &argument );
 		
+		SymmetricTensor<2,dim> get_tangent( fad_double &argument );
+
 		void get_values ( SymmetricTensor<2,dim> &tensor_double );
 
 		SymmetricTensor<2,dim> get_value ();
@@ -151,6 +155,14 @@ namespace Sacado_Wrapper
 	            }
 			}
 	}
+	template<int dim>
+	SymmetricTensor<4,dim> SymTensor<dim>::get_tangent( SymmetricTensor<2,dim,fad_double> &sigma )
+	{
+		SymmetricTensor<4,dim> Tangent;
+		this->get_tangent(Tangent, sigma);
+		return Tangent;
+	}
+
 
 	template<int dim>
 	void SymTensor<dim>::get_tangent( SymmetricTensor<2,dim> &Tangent, fad_double &argument )
@@ -168,7 +180,14 @@ namespace Sacado_Wrapper
             	Tangent[k][l] *= 0.5; // ToDo: check whether the 0.5* is necessary here too
 		}
 	}
-
+	// @todo these return types don't work, Why?
+	template<int dim>
+	SymmetricTensor<2,dim> SymTensor<dim>::get_tangent( fad_double &argument )
+	{
+		SymmetricTensor<2,dim> Tangent;
+		this->get_tangent(Tangent, argument);
+		return Tangent;
+	}
 
 	template<int dim>
 	void SymTensor<dim>::get_values ( SymmetricTensor<2,dim> &tensor_double )
@@ -355,6 +374,8 @@ namespace Sacado_Wrapper
 
 		void get_tangent (SymmetricTensor<2,dim> &Tangent, SymmetricTensor<2,dim, fad_double> &sigma);
 
+		SymmetricTensor<2,dim> get_tangent (SymmetricTensor<2,dim, fad_double> &sigma);
+
 		void get_tangent ( double &Tangent, fad_double &argument );
 		
 		void get_values ( double &return_double );
@@ -403,6 +424,15 @@ namespace Sacado_Wrapper
 				Tangent[i][j] = derivs[ this->start_index ]; // ToDo: check whether the 0.5* is necessary here too
 			}
 	}
+
+	template<int dim>
+	SymmetricTensor<2,dim> SW_double<dim>::get_tangent (SymmetricTensor<2,dim, fad_double> &sigma)
+	{
+		SymmetricTensor<2,dim> Tangent;
+		this->get_tangent(Tangent, sigma);
+		return Tangent;
+	}
+
 
 	template<int dim>
 	void SW_double<dim>::get_tangent ( double &Tangent, fad_double &argument )
