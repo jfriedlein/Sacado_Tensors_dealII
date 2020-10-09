@@ -49,9 +49,9 @@ void sacado_test_scalar ()
 	// Compare: y=x² -> (dy/dx)(\@x=1) = 2. We can only compute the derivative numerically at a certain point.
 	 a = 1;
 	 b = 2;
-
 	a.diff(0,2);  // Set a to be dof 0, in a 2-dof system.
 	b.diff(1,2);  // Set b to be dof 1, in a 2-dof system.
+
 	// Our equation here is very simply. But you can use nested equations and many standard mathematical operations, such as sqrt, pow, sin, ...
 	c = 2*a + std::cos(a*b);
 	double *derivs = &c.fastAccessDx(0); // Access the derivatives of
