@@ -5,6 +5,9 @@ Examples and functions to compute derivatives of tensor-valued equations with Sa
 Currently we create a new data type and define member functions, which is very user-friendly. For compatibily (tensor operations, switching from analytical to AutoDiff-tangent, ...) this code design will most likely be changed and be replaced for instance by separate functions. Moreover, new features will be introduced (use Sacado also locally in qp-level iterations for tangents, ...), so stay tuned. Nevertheless, the current setup is operational and in use.
 # !
 
+# todo
+check "https://docs.trilinos.org/dev/packages/sacado/doc/html/classSacado_1_1Fad_1_1Exp_1_1VectorDynamicStorage.html#aba98637efaeba8f93a9db9884968b364"
+
 ## The Aim
 The aim is to compute e. g. the tangent
 

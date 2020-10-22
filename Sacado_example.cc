@@ -23,7 +23,6 @@
 #include "Sacado-auxiliary_functions.h"
 
 
-
 // Those headers are related to data types and autodiff, but don't seem to be needed (nor make a difference)
 //#  include <deal.II/base/numbers.h>
 //#  include <deal.II/differentiation/ad/ad_number_traits.h>
@@ -723,7 +722,7 @@ void sacado_test_7 ()
 	 phi_fad.val() = fad_double(nbr_dofs, 6, phi); // set up the "outer" derivatives
 
 	 std::cout << "eps_fad=" << eps_fad << std::endl;
-	 std::cout << "phi_fad=" << phi_fad << std::endl;
+//	 std::cout << "phi_fad=" << phi_fad << std::endl;
 
 	// Compute eps² = eps_ij * eps_jk in index notation
 	 for ( unsigned int i=0; i<dim; ++i)
