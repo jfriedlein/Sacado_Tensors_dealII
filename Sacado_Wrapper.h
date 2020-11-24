@@ -152,6 +152,21 @@ namespace SacadoQP
 	{
 		return vec_double;
 	}
+	template<int dim>
+	Tensor<2,dim,double> get_value ( const Tensor<2,dim,fad_double> &tensor )
+	{
+		Tensor<2,dim,double> tensor_double;
+		for ( unsigned int i=0; i<dim; ++i)
+			for ( unsigned int j=0; j<dim; ++j )
+				tensor_double[i][j] = (tensor[i][j]).val();
+
+		return tensor_double;
+	}
+	template<int dim>
+	Tensor<2,dim,double> get_value ( const Tensor<2,dim,double> &tensor )
+	{
+		return tensor;
+	}
 
 
 	/*
