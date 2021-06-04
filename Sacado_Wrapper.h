@@ -172,11 +172,11 @@ namespace SacadoQP
 	/*
 	 * Set values for Sacado or standard double data types
 	 */
-	void set_value ( fad_double &faddouble, double &doubleData )
+	void set_value ( fad_double &faddouble, double doubleData )
 	{
 		faddouble.val()=doubleData;
 	}
-	void set_value ( double &faddouble, double &doubleData )
+	void set_value ( double &faddouble, double doubleData )
 	{
 		faddouble = doubleData;
 	}
@@ -228,7 +228,7 @@ namespace SacadoQP
 		 value *= variable_x*DoF_pos;
 	}
 
-	void set_deriv ( fad_double &variable_x, const unsigned int DoF_pos, const SymmetricTensor<2,3,double> &deriv_values )
+	void set_deriv ( fad_double &variable_x, /*const unsigned int DoF_pos,*/ const SymmetricTensor<2,3,double> &deriv_values )
 	{
 		double *derivs = &variable_x.fastAccessDx(0);
 		derivs[0] += deriv_values[0][0];
@@ -238,11 +238,11 @@ namespace SacadoQP
 		derivs[4] += deriv_values[0][2];
 		derivs[5] += deriv_values[1][2];
 	}
-	void set_deriv ( double &variable_x, const unsigned int DoF_pos, const SymmetricTensor<2,3,double> &deriv_values )
+	void set_deriv ( double &variable_x, /*const unsigned int DoF_pos,*/ const SymmetricTensor<2,3,double> &deriv_values )
 	{
 		AssertThrow(false,ExcMessage("When using data type fad_double, you cannot use this function."));
 		// Some useless code to get rid of "unused variable" warnings
-		 std::cout << variable_x*DoF_pos << std::endl;
+		 std::cout << variable_x << std::endl;
 		 std::cout << deriv_values << std::endl;
 	}
 

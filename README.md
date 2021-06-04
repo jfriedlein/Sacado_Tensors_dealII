@@ -2,7 +2,9 @@
 Examples and functions to compute derivatives of tensor-valued equations with Sacado
 
 # IMPORTANT
-Currently we create a new data type and define member functions, which is very user-friendly. For compatibily (tensor operations, switching from analytical to AutoDiff-tangent, ...) this code design will most likely be changed and be replaced for instance by separate functions. Moreover, new features will be introduced (use Sacado also locally in qp-level iterations for tangents, ...), so stay tuned. Nevertheless, the current setup is operational and in use.
+Check the repo "Automatic_differentiation_for_material_modelling-dealii"! This docu is out of order and we only use the some parts of the functions.
+
+In this version, in contrast "Automatic_differentiation_for_material_modelling-dealii", we create a new data type and define member functions, which is very user-friendly. For compatibily (tensor operations, switching from analytical to AutoDiff-tangent, ...) this code design will most likely be changed and be replaced for instance by separate functions. Moreover, new features will be introduced (use Sacado also locally in qp-level iterations for tangents, ...), so stay tuned. Nevertheless, the current setup is operational and in use.
 # !
 
 # todo
