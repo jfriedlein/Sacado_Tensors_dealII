@@ -93,6 +93,8 @@ namespace SacadoQP
 	{
 		return symtensor;
 	}
+
+
 	template<int dim>
 	SymmetricTensor<4,dim,double> get_value ( const SymmetricTensor<4,dim,fad_double> &symtensor )
 	{
@@ -110,6 +112,8 @@ namespace SacadoQP
 	{
 		return symtensor;
 	}
+
+
 	/*
 	 * Extract values from SymmetricTensor of Sacado or standard double data types
 	 */
@@ -127,6 +131,8 @@ namespace SacadoQP
 	{
 		return tensor;
 	}
+
+
 	/*
 	 * Extract values from Sacado or standard double data types
 	 */
@@ -138,6 +144,8 @@ namespace SacadoQP
 	{
 		return doubleData;
 	}
+
+
 	/*
 	 * Extract values from Sacado or standard double data types
 	 */
@@ -152,6 +160,8 @@ namespace SacadoQP
 	{
 		return vec_double;
 	}
+
+
 	template<int dim>
 	Tensor<2,dim,double> get_value ( const Tensor<2,dim,fad_double> &tensor )
 	{
@@ -166,6 +176,18 @@ namespace SacadoQP
 	Tensor<2,dim,double> get_value ( const Tensor<2,dim,double> &tensor )
 	{
 		return tensor;
+	}
+
+
+	template<int dim>
+	SymmetricTensor<2,dim,fad_double> get_AD ( const SymmetricTensor<2,dim,double> &symtensor )
+	{
+		return SymmetricTensor<2,dim,fad_double> (symtensor);
+	}
+	template<int dim>
+	SymmetricTensor<2,dim,fad_double> get_AD ( const SymmetricTensor<2,dim,fad_double> &symtensor )
+	{
+		return symtensor;
 	}
 
 
@@ -190,16 +212,145 @@ namespace SacadoQP
 	 */
 	double get_tangent ( const fad_double &function_f, const unsigned int DoF_pos )
 	{
-		const double *derivs = &function_f.fastAccessDx(0); // Access the derivatives of the (i,j)-th component of \a sigma
+		const double *derivs = &function_f.fastAccessDx(0); // Access the derivative of \a function_f wrt to the variable at \a DoF_pos
 		return derivs[DoF_pos];
+		//return function_f.dx(DoF_pos);
 	}
 	double get_tangent ( const double &function_f, const unsigned int DoF_pos )
 	{
 		double Tangent;
-		AssertThrow(false,ExcMessage("When using data type double, you cannot use Sacado for the tangents."));
+		AssertThrow(false,ExcMessage("get_tangent<< This function exists only for templating. "
+									 "When using data type double, you cannot use Sacado for the tangents."));
 		// Some useless code to get rid of "unused variable" warnings
 		 Tangent = function_f*DoF_pos;
 		return Tangent;
+	}
+
+	SymmetricTensor<4,3> get_tangent ( const SymmetricTensor<2,3,fad_double> ten_AD )
+	{
+		 std::map<unsigned int,std::pair<unsigned int,unsigned int>> std_map_indicies;
+		 {
+			 std::pair<unsigned int, unsigned int> tmp_pair;
+
+			 // 3D
+			 // @note Arrangement according to deal.II AD_helper
+			tmp_pair.first=0; tmp_pair.second=0;
+			std_map_indicies[0] = tmp_pair;
+
+			tmp_pair.first=0; tmp_pair.second=1;
+			std_map_indicies[3] = tmp_pair;
+
+			tmp_pair.first=0; tmp_pair.second=2;
+			std_map_indicies[4] = tmp_pair;
+
+			tmp_pair.first=1; tmp_pair.second=1;
+			std_map_indicies[1] = tmp_pair;
+
+			tmp_pair.first=1; tmp_pair.second=2;
+			std_map_indicies[5] = tmp_pair;
+
+			tmp_pair.first=2; tmp_pair.second=2;
+			std_map_indicies[2] = tmp_pair;
+		 }
+
+		 SymmetricTensor<4,3> ten_AD_d_H;
+		for ( unsigned int i=0; i<3; ++i)
+			for ( unsigned int j=0; j<3; ++j )
+			{
+				// @todo The following appears to miss some values?  Thus the "*.dx(x)" is used
+				//double *derivs = &ten_AD[i][j].fastAccessDx(0); // Access the derivatives of the (i,j)-th component of \a sigma
+				// We loop over all the dofs. To be able to use this independent of the chosen dimension \a dim, we use a ternary operator
+				// to decide whether we have to loop over 6 derivatives or just 3.
+				for( unsigned int x=0; x < 6; ++x )
+				{
+					double derivs = ten_AD[i][j].dx(x);
+
+					unsigned int k=std_map_indicies[x].first;
+					unsigned int l=std_map_indicies[x].second;
+
+					if(k!=l)/*Compare to Voigt notation since only SymmetricTensor instead of Tensor*/
+					{
+						ten_AD_d_H[i][j][k][l] = 0.5*derivs;//[x];
+						ten_AD_d_H[i][j][l][k] = 0.5*derivs;//[x];
+					}
+					else
+						ten_AD_d_H[i][j][k][l] = derivs;//[x];
+				}
+			}
+		return ten_AD_d_H;
+	 }
+	SymmetricTensor<4,3> get_tangent ( const SymmetricTensor<2,3,double> ten_AD )
+	{
+		// dummy
+        std::cout << "ten_AD=" << ten_AD << std::endl;
+        AssertThrow(false, ExcMessage("get_tangent<< This is a dummy function and must not be used. This function can only be called when using automatic differentiation."));
+		return SymmetricTensor<4,3> ();
+	}
+
+	SymmetricTensor<2,3> get_tangent ( const fad_double value_AD )
+	{
+		 std::map<unsigned int,std::pair<unsigned int,unsigned int>> std_map_indicies;
+		 {
+			 std::pair<unsigned int, unsigned int> tmp_pair;
+
+			 // 3D
+			 // @note Arrangement according to deal.II AD_helper
+			tmp_pair.first=0; tmp_pair.second=0;
+			std_map_indicies[0] = tmp_pair;
+
+			tmp_pair.first=0; tmp_pair.second=1;
+			std_map_indicies[3] = tmp_pair;
+
+			tmp_pair.first=0; tmp_pair.second=2;
+			std_map_indicies[4] = tmp_pair;
+
+			tmp_pair.first=1; tmp_pair.second=1;
+			std_map_indicies[1] = tmp_pair;
+
+			tmp_pair.first=1; tmp_pair.second=2;
+			std_map_indicies[5] = tmp_pair;
+
+			tmp_pair.first=2; tmp_pair.second=2;
+			std_map_indicies[2] = tmp_pair;
+		 }
+
+		 SymmetricTensor<2,3> Tangent;
+		for ( unsigned int x=0; x<6; ++x )
+		 {
+			unsigned int i=std_map_indicies[x].first;
+			unsigned int j=std_map_indicies[x].second;
+			if ( i!=j )
+				Tangent[i][j] = 0.5 * value_AD.dx(x);
+			else
+				Tangent[i][j] = value_AD.dx(x);
+		 }
+
+		return Tangent;
+	 }
+	SymmetricTensor<2,3> get_tangent ( const double value_AD )
+	{
+		// dummy
+        std::cout << "value_AD=" << value_AD << std::endl;
+        AssertThrow(false, ExcMessage("get_tangent<< This is a dummy function and must not be used. This function can only be called when using automatic differentiation."));
+		return SymmetricTensor<2,3> ();
+	}
+
+
+	SymmetricTensor<2,3> get_tangent ( const SymmetricTensor<2,3,fad_double> ten_AD, const unsigned int SacDoF )
+	{
+		SymmetricTensor<2,3> Tangent;
+		for ( unsigned int i=0; i<3; ++i)
+			for ( unsigned int j=0; j<3; ++j )
+				Tangent[i][j] = ten_AD[i][j].dx(SacDoF);
+
+		return Tangent;
+	 }
+	SymmetricTensor<2,3> get_tangent ( const SymmetricTensor<2,3,double> ten_AD, const unsigned int SacDoF )
+	{
+		// dummy
+        std::cout << "ten_AD=" << ten_AD << "; SacDoF=" << SacDoF << std::endl;
+        AssertThrow(false, ExcMessage("get_tangent<< This is a dummy function and must not be used. This function can only be called when using automatic differentiation."));
+		return SymmetricTensor<2,3> ();
 	}
 
 	/**
